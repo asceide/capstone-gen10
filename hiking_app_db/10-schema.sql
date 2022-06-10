@@ -2,7 +2,24 @@ drop database if exists hiking_app;
 create database hiking_app;
 use hiking_app;
 
+-- User entity
+
+create table app_user (
+	app_user_id int primary key auto_increment,
+	email varchar(50) not null unique,
+	password_hash varchar(2048) not null,
+	first_name varchar(20) null,
+	last_name varchar(20) null,
+	city varchar(30) null,
+	state varchar(2) null
+);
+
 -- Models
+
+create table photos(
+	photo_id int primary key auto_increment,
+	photo_url varchar(500)
+);
 
 create table trail (
 	trail_id int primary key auto_increment,
@@ -12,13 +29,13 @@ create table trail (
 	trail_length int not null,
 	rating varchar(20) not null,
 	trail_map varchar(1024) null,
-	description varchar(4096) null
+	description varchar(4096) null,
+	app_user_id int not null,
+	constraint fk_app_user_app_user_id_trail
+		foreign key(app_user_id)
+		references app_user(app_user_id)
 );
 
-create table photos(
-	photo_id int primary key auto_increment,
-	photo_url varchar(500)
-);
 
 create table spot (
 	spot_id int primary key auto_increment,
@@ -28,9 +45,13 @@ create table spot (
 	gps_long double not null,
 	rating int not null,
 	description varchar(4096) null,
+	app_user_id int not null,
 	constraint fk_photos_photo_id
 		foreign key(photo_id)
-		references photos(photo_id)
+		references photos(photo_id),
+	constraint fk_app_user_app_user_id_spot
+		foreign key(app_user_id)
+		references app_user(app_user_id)
 );
 
 -- Many to Many table(s)
@@ -47,14 +68,3 @@ create table trail_spot(
 		references spot(spot_id)
 );
 
--- User entity
-
-create table app_user (
-	app_user_id int primary key auto_increment,
-	email varchar(50) not null unique,
-	password_hash varchar(2048) not null,
-	first_name varchar(20) null,
-	last_name varchar(20) null,
-	city varchar(30) null,
-	state varchar(2) null
-);
