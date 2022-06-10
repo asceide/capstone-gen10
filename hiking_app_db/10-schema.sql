@@ -11,7 +11,8 @@ create table app_user (
 	first_name varchar(20) null,
 	last_name varchar(20) null,
 	city varchar(30) null,
-	state varchar(2) null
+	state varchar(2) null,
+    enabled boolean not null default (1)
 );
 
 -- User Security
