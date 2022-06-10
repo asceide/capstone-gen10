@@ -1,0 +1,23 @@
+package hiking.repository.mappers;
+
+import hiking.models.Spot;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class SpotMapper implements RowMapper<Spot> {
+    @Override
+    public Spot mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Spot spot = new Spot();
+        spot.setSpotId(rs.getInt("spot_id"));
+        spot.setName(rs.getString("name"));
+        spot.setPhotoId(rs.getInt("photo_id"));
+        spot.setGpsLat(rs.getDouble("gps_lat"));
+        spot.setGpsLong(rs.getDouble("gps_long"));
+        spot.setRating(rs.getInt("rating"));
+        spot.setDescription(rs.getString("description"));
+        spot.setAppUserId(rs.getInt("app_user_id"));
+        return spot;
+    }
+}
