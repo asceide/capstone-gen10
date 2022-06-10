@@ -11,7 +11,7 @@ create table trail (
 	state varchar(2) not null,
 	trail_length int not null,
 	rating varchar(20) not null,
-	trail_map varchar(1024) not null,
+	trail_map varchar(1024) null,
 	description varchar(4096) null
 );
 
@@ -27,7 +27,6 @@ create table spot (
 	gps_lat double not null,
 	gps_long double not null,
 	rating int not null,
-	spot_map varchar(1024) not null,
 	description varchar(4096) null,
 	constraint fk_photos_photo_id
 		foreign key(photo_id)
