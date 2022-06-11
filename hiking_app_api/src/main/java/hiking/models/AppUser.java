@@ -1,7 +1,10 @@
 package hiking.models;
 
+import hiking.validation.NoDuplicateUser;
+
 import javax.validation.constraints.*;
 
+@NoDuplicateUser(message = "User already exists")
 public class AppUser {
 
     @Min(value = 0, message="ID must be 1 or greater when editing, 0 when adding")
