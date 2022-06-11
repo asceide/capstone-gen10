@@ -1,16 +1,37 @@
 package hiking.models;
 
-import java.util.List;
+import javax.validation.constraints.*;
 
 public class Spot {
 
+    @Min(value=0, message="Id must be greater than or equal to 0")
     private int spotId;
+
+    @NotNull(message="Name is required")
+    @NotBlank(message="Name cannot be blank")
+    @Size(max=100, message="Name cannot be longer than 100 characters")
     private String name;
+
+    @Min(value=0, message="Photo id must be greater than or equal to 0")
     private int photoId;
+
+    @DecimalMin(value="-90.0000000000", message="Latitude must be between -90.0 and 90.0")
+    @DecimalMax(value="90.0000000000", message="Latitude must be between -90.0 and 90.0")
     private double gpsLat;
+
+    @DecimalMin(value="-180.0000000000", message="Longitude must be between -180.0 and 180.0")
+    @DecimalMax(value="180.0000000000", message="Longitude must be between -180.0 and 180.0")
     private double gpsLong;
+
+    @Min(value=0, message="Rating must not be less than 0")
+    @Max(value=5, message="Rating must not be greater than 5")
     private int rating;
+
+    @NotBlank(message="Description cannot be blank")
+    @Size(max=1000, message="Description cannot be longer than 1000 characters")
     private String description;
+
+    @Min(value=0, message="User id must be greater than or equal to 0")
     private int appUserId;
 
     public int getSpotId() {
