@@ -6,10 +6,11 @@ import java.util.List;
 
 public interface AppUserRepository {
 
-    List<AppUser> findAllUsers();
+    List<String> findAllUsers();
     AppUser findByEmail(String email);
-    AppUser add(AppUser user);
+    AppUser create(AppUser user);
     boolean update(AppUser user);
     boolean delete(int id);
-
+    boolean disable(int id);
+    boolean enable(int id);
 }

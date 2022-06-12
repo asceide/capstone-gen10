@@ -1,4 +1,4 @@
-package hiking.models;
+package hiking.service;
 
 public enum EmailRegex {
     //Set the value of the Enum to the constant regex pattern
