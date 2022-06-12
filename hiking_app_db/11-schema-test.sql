@@ -8,11 +8,18 @@ create table app_user (
 	app_user_id int primary key auto_increment,
 	email varchar(50) not null unique,
 	password_hash varchar(2048) not null,
+    enabled boolean not null default (1)
+);
+
+create table app_user_info (
+	app_user_id int unique not null,
 	first_name varchar(20) null,
 	last_name varchar(20) null,
 	city varchar(30) null,
 	state varchar(2) null,
-    enabled boolean not null default (1)
+    constraint fk_app_user_info_app_user_id
+		foreign key (app_user_id)
+        references app_user (app_user_id)
 );
 
 -- User Security
@@ -103,12 +110,23 @@ delete from photos;
 alter table photos auto_increment=1;
 delete from app_user_role;
 alter table app_user_role auto_increment=1;
+delete from app_user_info;
 delete from app_user;
 alter table app_user auto_increment=1;
+delete from app_role;
+alter table app_role auto_increment=1;
 
-insert into app_user(email, password_hash, first_name, last_name, city, state) values
-    ("test@gmail.com", "austin", "Patrick", "Alarcon", "Austin", "TX"), ("test@dev-10.com", "minnesota", "John", "Doe", "Minneapolis", "MN"), 
-    ("test@apple.com", "apple", "Steve", "Jobs", "Cupertino", "CA");
+insert into app_role (role_name) values
+	('USER'), ('ADMIN');
+insert into app_user(email, password_hash) values
+    ("test@gmail.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), ("test@dev-10.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), 
+    ("test@apple.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa');
+    
+insert into app_user_info (app_user_id, first_name, last_name, city, state) values
+(1, "Patrick", "Alarcon", "Austin", "TX"), (2, "John", "Doe", "Minneapolis", "MN"),
+(3, "Steve", "Jobs", "Cupertino", "CA");
+    
+insert into app_user_role values (1,2), (2,1), (3,2);
 
 end //
 

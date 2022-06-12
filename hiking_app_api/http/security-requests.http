@@ -1,17 +1,12 @@
-POST http://localhost:8080/authenticate HTTP/1.1
+POST http://localhost:8080/create_account HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "password"
+  "username": "admin@gmail.com",
+  "password": "Nyc#1234",
+  "first_name": "Admin",
+  "last_name": "User",
+  "city": "New York",
+  "state": "NY"
 }
 
-###
-
-POST http://localhost:8080/authenticate HTTP/1.1
-Content-Type: application/json
-
-{
-  "username": "user",
-  "password": "password"
-}

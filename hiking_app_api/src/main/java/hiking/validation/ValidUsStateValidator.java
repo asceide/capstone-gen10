@@ -12,6 +12,8 @@ public class ValidUsStateValidator implements ConstraintValidator<ValidUsState, 
 
     @Override
     public void initialize(ValidUsState constraintAnnotation) {
+
+        //No need to initialize here
     }
 
     @Override

@@ -8,11 +8,18 @@ create table app_user (
 	app_user_id int primary key auto_increment,
 	email varchar(50) not null unique,
 	password_hash varchar(2048) not null,
+    enabled boolean not null default (1)
+);
+
+create table app_user_info (
+	app_user_id int unique not null,
 	first_name varchar(20) null,
 	last_name varchar(20) null,
 	city varchar(30) null,
 	state varchar(2) null,
-    enabled boolean not null default (1)
+    constraint fk_app_user_info_app_user_id
+		foreign key (app_user_id)
+        references app_user (app_user_id)
 );
 
 -- User Security
@@ -34,6 +41,9 @@ create table app_user_role(
 		foreign key (app_role_id) 
 		references app_role (app_role_id)
 );
+
+insert into app_role (role_name) values
+	('USER'), ('ADMIN');
 
 -- Models
 

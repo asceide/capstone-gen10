@@ -28,11 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Add JwtConverter as a dependency
     private final JwtConverter converter;
 
-    // PasswordEncoder is a required security Component.
-    @Autowired
-    private PasswordEncoder encoder;
-
-
     public SecurityConfig(JwtConverter converter) {
         this.converter = converter;
     }
@@ -55,25 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // antMatcher() order matters because they are evaluated in the order they are added
         http.authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/create_account").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/**").denyAll()
                 .and()// Deny all other requests
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter)) // Since Spring Security is mostly Spring MVC filters, we model our custom JWT authentication with filters. The filter intercepts the HTTP request early and determines authentication and authorization.
                 .sessionManagement()// The antMatchers apply their rules after the filter is complete.
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    /*
-        Passwords are hashed/encoded, never encrypted because there is no reverse algo for reversing an encoding
-        (Unlike with an encryption).
-        -- Hackers usually use rainbow table attacks to calculate a potential password hash.
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password(encoder.encode("password")).roles("USER")
-                .and()
-                .withUser("admin").password(encoder.encode("password")).roles("ADMIN");
     }
 
     /*

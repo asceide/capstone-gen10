@@ -1,7 +1,11 @@
 package hiking.controller;
 
+import hiking.models.AppUser;
+import hiking.security.AppUserService;
 import hiking.security.JwtConverter;
+import hiking.service.Result;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ValidationException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ConditionalOnWebApplication
@@ -24,10 +30,12 @@ public class AuthController {
     private final AuthenticationManager manager;
     // Spring DI will inject the JwtConverter bean into this field. Authorized credentials are used to generate JWT tokens to return to the front end or user.
     private final JwtConverter converter;
+    private final AppUserService userService;
 
-    public AuthController(AuthenticationManager manager, JwtConverter converter) {
+    public AuthController(AuthenticationManager manager, JwtConverter converter, AppUserService userService) {
         this.manager = manager;
         this.converter = converter;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
@@ -74,4 +82,5 @@ public class AuthController {
 
          return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
 }

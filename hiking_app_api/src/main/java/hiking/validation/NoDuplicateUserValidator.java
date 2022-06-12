@@ -19,13 +19,12 @@ public class NoDuplicateUserValidator implements ConstraintValidator<NoDuplicate
 
     @Override
     public boolean isValid(AppUser user, ConstraintValidatorContext context) {
-        if(user==null || user.getEmail()==null) {
+        if(user==null || user.getUsername()==null) {
             return true;
         }
 
-        HashSet<String> users = repository.findAllUsers().stream().map(usr ->
-                usr.getEmail().toLowerCase()).collect(Collectors.toCollection(HashSet::new));
+        HashSet<String> users = repository.findAllUsers().stream().map(String::toLowerCase).collect(Collectors.toCollection(HashSet::new));
 
-        return users.add(user.getEmail().toLowerCase());
+        return users.add(user.getUsername().toLowerCase());
     }
 }
