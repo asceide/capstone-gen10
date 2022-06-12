@@ -35,7 +35,7 @@ class AppUserJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindUserByEmail(){
-        AppUser actual = repository.findByEmail("test@gmail.com");
+        AppUser actual = repository.findByEmail("test@meta.com");
 
         assertNotNull(actual);
         assertTrue(actual.getFirst_name().equalsIgnoreCase("Patrick"));
@@ -53,6 +53,7 @@ class AppUserJdbcTemplateRepositoryTest {
     void shouldUpdate(){
         AppUser toUpdate = makeUser();
         toUpdate.setApp_user_id(1);
+        toUpdate.setEmail("test@meta.com");
 
         assertTrue(repository.update(toUpdate));
     }
@@ -60,19 +61,19 @@ class AppUserJdbcTemplateRepositoryTest {
     @Test
     void shouldNotUpdate(){
         AppUser toUpdate = makeUser();
-        toUpdate.setApp_user_id(4);
+        toUpdate.setApp_user_id(66);
 
         assertFalse(repository.update(toUpdate));
     }
 
     @Test
     void shouldDelete(){
-        assertTrue(repository.delete(1));
+        assertTrue(repository.delete(3));
     }
 
     @Test
     void shouldNotDelete(){
-        assertFalse(repository.delete(4));
+        assertFalse(repository.delete(66));
     }
 
     private AppUser makeUser(){
