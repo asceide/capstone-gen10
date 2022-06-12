@@ -83,4 +83,27 @@ public class AuthController {
          return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerAccount(@RequestBody Map<String, String> credentials) {
+        AppUser user = null;
+        Result <AppUser> result = new Result<>();
+
+        try {
+            String username = credentials.get("username");
+            String password = credentials.get("password");
+
+            result = userService.create(username, password);
+        } catch (DuplicateKeyException ex) {
+            return new ResponseEntity<>(List.of("The provided email aready exists"), HttpStatus.BAD_REQUEST);
+        }
+        if(!result.isSuccess()){
+            return new ResponseEntity<>(result.getMessages(),HttpStatus.NOT_ACCEPTABLE);
+        }
+        user = result.getPayload();
+
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("appUserId", user.getAppUserId());
+
+        return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
 }

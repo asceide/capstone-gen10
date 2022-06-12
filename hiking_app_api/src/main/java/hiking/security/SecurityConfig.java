@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // antMatcher() order matters because they are evaluated in the order they are added
         http.authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers("/create_account").permitAll()
+                .antMatchers("/register").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/**").denyAll()
                 .and()// Deny all other requests
