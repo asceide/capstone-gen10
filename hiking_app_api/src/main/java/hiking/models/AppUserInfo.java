@@ -23,14 +23,12 @@ public class AppUserInfo {
     @Size(min = 1, max = 20, message = "Last name must be between 1 and 50 characters if using")
     private String lastName;
 
-    @NotBlank
+
     @Size(min = 1, max = 30, message = "City must be between 1 and 30 characters if using")
     private String city;
 
     @ValidUsState
-    @NotBlank
-    @Min(value =2, message = "State must be the 2 character abbreviation")
-    @Max(value = 2, message = "State must be the 2 character abbreviation")
+    @Size(min = 2, max = 2, message = "State must be 2 characters if using")
     private String state;
 
     public AppUserInfo() {
@@ -83,5 +81,16 @@ public class AppUserInfo {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUserInfo{" +
+                "appUserId=" + appUserId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                '}';
     }
 }

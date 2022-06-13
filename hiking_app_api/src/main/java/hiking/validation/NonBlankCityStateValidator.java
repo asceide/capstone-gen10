@@ -17,9 +17,9 @@ public class NonBlankCityStateValidator implements ConstraintValidator<NonBlankC
             if(info== null || info.getCity()==null && info.getState()==null) {
                 return true;
             }
-            // If one of them is not null, then both must be not null
+            // If one of them is not null, then both must be not null and not blank
             if(info.getCity()!=null || info.getState()!=null) {
-                return info.getCity() != null && info.getState() != null;
+                return info.getCity() != null && info.getState() != null && !info.getCity().isBlank() && !info.getState().isBlank();
             }
 
             return false;
