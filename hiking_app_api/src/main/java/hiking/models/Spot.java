@@ -12,6 +12,7 @@ public class Spot {
     private int rating;
     private String description;
     private int appUserId;
+    private List<Trail> trails;
 
     public int getSpotId() {
         return spotId;
@@ -75,5 +76,13 @@ public class Spot {
 
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
+    }
+
+    public List<Trail> getTrails() {
+        return trails;
+    }
+
+    public void setTrails(List<Trail> trails) {
+        this.trails = trails;
     }
 }
