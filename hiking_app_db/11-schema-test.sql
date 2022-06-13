@@ -1,6 +1,6 @@
-drop database if exists hiking_app;
-create database hiking_app;
-use hiking_app;
+drop database if exists hiking_app_test;
+create database hiking_app_test;
+use hiking_app_test;
 
 -- User entity
 
@@ -41,9 +41,6 @@ create table app_user_role(
 		foreign key (app_role_id) 
 		references app_role (app_role_id)
 );
-
-insert into app_role (role_name) values
-	('USER'), ('ADMIN');
 
 -- Models
 
@@ -99,3 +96,38 @@ create table trail_spot(
 		references spot(spot_id)
 );
 
+delimiter //
+create procedure set_known_good_state()
+begin
+/* Tables that have foreign keys must be deleted first before deleting the table that contains the foreign key */
+delete from trail_spot;
+delete from app_user_role;
+delete from trail;
+alter table trail auto_increment=1;
+delete from spot;
+alter table spot auto_increment=1;
+delete from photos;
+alter table photos auto_increment=1;
+delete from app_user_role;
+alter table app_user_role auto_increment=1;
+delete from app_user_info;
+delete from app_user;
+alter table app_user auto_increment=1;
+delete from app_role;
+alter table app_role auto_increment=1;
+
+insert into app_role (role_name) values
+	('USER'), ('ADMIN');
+insert into app_user(email, password_hash) values
+    ("test@gmail.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), ("test@dev-10.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), 
+    ("test@apple.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa');
+    
+insert into app_user_info (app_user_id, first_name, last_name, city, state) values
+(1, "Patrick", "Alarcon", "Austin", "TX"), (2, "John", "Doe", "Minneapolis", "MN"),
+(3, "Steve", "Jobs", "Cupertino", "CA");
+    
+insert into app_user_role values (1,2), (2,1), (3,2);
+
+end //
+
+delimiter ;

@@ -1,8 +1,13 @@
 package hiking.models;
 
+import javax.validation.constraints.Min;
+
 public class TrailSpot {
 
+    @Min(value = 0, message = "Trail id must be greater than or equal to 0")
     private int trailId;
+
+    @Min(value = 0, message = "Spot id must be greater than or equal to 0")
     private int spotId;
 
 
