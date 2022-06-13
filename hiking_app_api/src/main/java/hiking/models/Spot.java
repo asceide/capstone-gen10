@@ -34,6 +34,9 @@ public class Spot {
 
     @Min(value=0, message="User id must be greater than or equal to 0")
     private int appUserId;
+
+    @Min(value=0, message="Spot must have at least one rating")
+    private int ratingCount;
     private List<Trail> trails;
 
     public int getSpotId() {
@@ -107,4 +110,8 @@ public class Spot {
     public void setTrails(List<Trail> trails) {
         this.trails = trails;
     }
+
+    public int getRatingCount() {return ratingCount;}
+
+    public void setRatingCount(int ratingCount) {this.ratingCount = ratingCount;}
 }

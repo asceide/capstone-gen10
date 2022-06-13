@@ -17,6 +17,7 @@ public class SpotMapper implements RowMapper<Spot> {
         spot.setRating(rs.getInt("rating"));
         spot.setDescription(rs.getString("description"));
         spot.setAppUserId(rs.getInt("app_user_id"));
+        spot.setRatingCount(rs.getInt("rating_count"));
         return spot;
     }
 }

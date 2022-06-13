@@ -29,6 +29,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
                 "gps_lat, " +
                 "gps_long, " +
                 "rating, " +
+                "rating_count, " +
                 "description, " +
                 "app_user_id " +
                 "from spot;";
@@ -47,6 +48,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
                 "gps_lat, " +
                 "gps_long, " +
                 "rating, " +
+                "rating_count, " +
                 "description, " +
                 "app_user_id " +
                 "from spot " +
@@ -65,8 +67,8 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     @Override
     public Spot add(Spot spot) {
 
-        final String sql = "insert into spot (name, gps_lat, gps_long, rating, description, app_user_id) " +
-                "values (?,?,?,?,?,?);";
+        final String sql = "insert into spot (name, gps_lat, gps_long, rating, rating_count, description, app_user_id) " +
+                "values (?,?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -75,8 +77,9 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
             statement.setDouble(2, spot.getGpsLat());
             statement.setDouble(3, spot.getGpsLong());
             statement.setInt(4, spot.getRating());
-            statement.setString(5, spot.getDescription());
-            statement.setInt(6, spot.getAppUserId());
+            statement.setInt(5, spot.getRatingCount());
+            statement.setString(6, spot.getDescription());
+            statement.setInt(7, spot.getAppUserId());
             return statement;
         }, keyHolder);
 
@@ -97,6 +100,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
                 "gps_lat = ?, " +
                 "gps_long = ?, " +
                 "rating = ?, " +
+                "rating_count = ?, " +
                 "description = ?, " +
                 "app_user_id = ? " +
                 "where spot_id = ?;";
@@ -106,6 +110,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
                 spot.getGpsLat(),
                 spot.getGpsLong(),
                 spot.getRating(),
+                spot.getRatingCount(),
                 spot.getDescription(),
                 spot.getAppUserId(),
                 spot.getSpotId());
