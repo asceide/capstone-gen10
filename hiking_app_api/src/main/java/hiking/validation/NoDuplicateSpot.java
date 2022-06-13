@@ -12,7 +12,7 @@ import static java.lang.annotation.ElementType.TYPE;
 
 @Target({TYPE,ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = NoDuplicateUserValidator.class)
+//@Constraint(validatedBy = NoDuplicateUserValidator.class)
 @Documented
 public @interface NoDuplicateSpot {
     String message() default "Spot already exists";

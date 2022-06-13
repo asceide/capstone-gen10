@@ -51,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/api/spot").permitAll()
+                .antMatchers("/api/spot/*").permitAll()
+                .antMatchers("/api/spot/*/rate").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/**").denyAll()
                 .and()// Deny all other requests

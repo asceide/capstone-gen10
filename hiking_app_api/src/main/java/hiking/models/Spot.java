@@ -1,6 +1,8 @@
 package hiking.models;
 
 import javax.validation.constraints.*;
+import java.util.List;
+import java.util.Objects;
 
 public class Spot {
 
@@ -12,8 +14,8 @@ public class Spot {
     @Size(max=100, message="Name cannot be longer than 100 characters")
     private String name;
 
-    @Min(value=0, message="Photo id must be greater than or equal to 0")
-    private int photoId;
+//    @Min(value=0, message="Photo id must be greater than or equal to 0")
+//    private int photoId;
 
     @DecimalMin(value="-90.0000000000", message="Latitude must be between -90.0 and 90.0")
     @DecimalMax(value="90.0000000000", message="Latitude must be between -90.0 and 90.0")
@@ -34,6 +36,11 @@ public class Spot {
     @Min(value=0, message="User id must be greater than or equal to 0")
     private int appUserId;
 
+    @Min(value=0, message="Spot must have at least one rating")
+    private int ratingCount;
+
+    private List<Trail> trails;
+
     public int getSpotId() {
         return spotId;
     }
@@ -50,13 +57,13 @@ public class Spot {
         this.name = name;
     }
 
-    public int getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
-    }
+//    public int getPhotoId() {
+//        return photoId;
+//    }
+//
+//    public void setPhotoId(int photoId) {
+//        this.photoId = photoId;
+//    }
 
     public double getGpsLat() {
         return gpsLat;
@@ -97,4 +104,31 @@ public class Spot {
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
     }
+
+    public List<Trail> getTrails() {
+        return trails;
+    }
+
+    public void setTrails(List<Trail> trails) {
+        this.trails = trails;
+    }
+
+    public int getRatingCount() {return ratingCount;}
+
+    public void setRatingCount(int ratingCount) {this.ratingCount = ratingCount;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spot spot = (Spot) o;
+        return spotId == spot.spotId && Double.compare(spot.gpsLat, gpsLat) == 0 && Double.compare(spot.gpsLong, gpsLong) == 0 && rating == spot.rating && appUserId == spot.appUserId && ratingCount == spot.ratingCount && Objects.equals(name, spot.name) && Objects.equals(description, spot.description) && Objects.equals(trails, spot.trails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spotId, name, gpsLat, gpsLong, rating, description, appUserId, ratingCount, trails);
+    }
+
+
 }
