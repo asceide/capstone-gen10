@@ -44,10 +44,7 @@ create table app_user_role(
 
 -- Models
 
-create table photos(
-	photo_id int primary key auto_increment,
-	photo_url varchar(500)
-);
+
 
 create table trail (
 	trail_id int primary key auto_increment,
@@ -65,21 +62,27 @@ create table trail (
 );
 
 
-create table spot (
+create table spot(
 	spot_id int primary key auto_increment,
 	`name` varchar(50) null,
-	photo_id int null,
 	gps_lat double not null,
 	gps_long double not null,
 	rating int not null,
+    rating_count int not null,
 	description varchar(4096) null,
 	app_user_id int not null,
-	constraint fk_photos_photo_id
-		foreign key(photo_id)
-		references photos(photo_id),
 	constraint fk_app_user_app_user_id_spot
 		foreign key(app_user_id)
 		references app_user(app_user_id)
+);
+
+create table photo (
+	photo_id int primary key auto_increment,
+	photo_url varchar(500),
+    spot_id int not null,
+    constraint fk_photo_spot_id
+		foreign key (spot_id)
+        references spot(spot_id)
 );
 
 -- Many to Many table(s)
@@ -104,10 +107,10 @@ delete from trail_spot;
 delete from app_user_role;
 delete from trail;
 alter table trail auto_increment=1;
+delete from photo;
+alter table photo auto_increment=1;
 delete from spot;
 alter table spot auto_increment=1;
-delete from photos;
-alter table photos auto_increment=1;
 delete from app_user_role;
 alter table app_user_role auto_increment=1;
 delete from app_user_info;
@@ -127,6 +130,18 @@ insert into app_user_info (app_user_id, first_name, last_name, city, state) valu
 (3, "Steve", "Jobs", "Cupertino", "CA");
     
 insert into app_user_role values (1,2), (2,1), (3,2);
+
+insert into spot (name, gps_lat, gps_long, rating, description, app_user_id, rating_count) 
+	values ("Super cool test spot", 75.675, 80.945, 4, "A great spot to test the database with", 2, 5),
+			("Second awesome test spot", 45.378, 26.942, 3, "Another spot that can test the repo", 3, 7),
+            ("Test3", 64.236, 89.2346, 2, "One more test spot", 1, 9);
+
+insert into photo (photo_url, spot_id) values ("somefakeurl", 1), ("testurl", 1), ("anothertestphoto", 2), ("onemoretest", 2);
+
+insert into trail (name, city, state, trail_length, rating, app_user_id)
+	values ("Fun trail", "Minneapolis", "MN", 4, "Intermediate", 2), ("Cool test trail", "San Francisco", "CA", 2, "Beginner", 3);
+    
+insert into trail_spot (trail_id, spot_id) values (1, 1), (2, 1), (2, 2), (1,3);
 
 end //
 
