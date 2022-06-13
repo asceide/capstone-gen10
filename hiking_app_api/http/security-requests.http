@@ -6,3 +6,7 @@ Content-Type: application/json
   "password": "Nyc#1234"
 }
 
+###
+
+GET http://localhost:8080/api/user/1 HTTP/1.1
+Content-Type: application/json
