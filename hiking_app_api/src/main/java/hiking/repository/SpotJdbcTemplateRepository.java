@@ -26,7 +26,6 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     public List<Spot> findAll() {
         final String sql = "select spot_id, " +
                 "name, " +
-                "photo_id, " +
                 "gps_lat, " +
                 "gps_long, " +
                 "rating, " +
@@ -45,7 +44,6 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     public Spot findById(int spotId) {
         final String sql = "select spot_id, " +
                 "name, " +
-                "photo_id, " +
                 "gps_lat, " +
                 "gps_long, " +
                 "rating, " +
@@ -67,19 +65,18 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     @Override
     public Spot add(Spot spot) {
 
-        final String sql = "insert into spot (name, photo_id, gps_lat, gps_long, rating, description, app_user_id) " +
-                "values (?,?,?,?,?,?,?);";
+        final String sql = "insert into spot (name, gps_lat, gps_long, rating, description, app_user_id) " +
+                "values (?,?,?,?,?,?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, spot.getName());
-            statement.setInt(2, spot.getPhotoId());
-            statement.setDouble(3, spot.getGpsLat());
-            statement.setDouble(4, spot.getGpsLong());
-            statement.setInt(5, spot.getRating());
-            statement.setString(6, spot.getDescription());
-            statement.setInt(7, spot.getAppUserId());
+            statement.setDouble(2, spot.getGpsLat());
+            statement.setDouble(3, spot.getGpsLong());
+            statement.setInt(4, spot.getRating());
+            statement.setString(5, spot.getDescription());
+            statement.setInt(6, spot.getAppUserId());
             return statement;
         }, keyHolder);
 
@@ -96,18 +93,16 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     public boolean update(Spot spot) {
 
         final String sql = "update spot set " +
-                "name = ? " +
-                "photo_id = ? " +
-                "gps_lat = ? " +
-                "gps_long = ? " +
-                "rating = ? " +
-                "description = ? " +
+                "name = ?, " +
+                "gps_lat = ?, " +
+                "gps_long = ?, " +
+                "rating = ?, " +
+                "description = ?, " +
                 "app_user_id = ? " +
                 "where spot_id = ?;";
 
         int rowsAffected = jdbcTemplate.update(sql,
                 spot.getName(),
-                spot.getPhotoId(),
                 spot.getGpsLat(),
                 spot.getGpsLong(),
                 spot.getRating(),

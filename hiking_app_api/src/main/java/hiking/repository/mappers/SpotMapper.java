@@ -12,7 +12,6 @@ public class SpotMapper implements RowMapper<Spot> {
         Spot spot = new Spot();
         spot.setSpotId(rs.getInt("spot_id"));
         spot.setName(rs.getString("name"));
-        spot.setPhotoId(rs.getInt("photo_id"));
         spot.setGpsLat(rs.getDouble("gps_lat"));
         spot.setGpsLong(rs.getDouble("gps_long"));
         spot.setRating(rs.getInt("rating"));

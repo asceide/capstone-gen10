@@ -9,6 +9,8 @@ import java.sql.SQLException;
 public class TrailMapper implements RowMapper<Trail> {
     @Override
     public Trail mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return null;
+        Trail trail = new Trail();
+        trail.setTrailId(rs.getInt("trail_id"));
+        return trail;
     }
 }

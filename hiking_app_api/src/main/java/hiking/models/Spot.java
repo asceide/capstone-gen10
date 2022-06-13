@@ -1,6 +1,7 @@
 package hiking.models;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 public class Spot {
 
@@ -12,8 +13,8 @@ public class Spot {
     @Size(max=100, message="Name cannot be longer than 100 characters")
     private String name;
 
-    @Min(value=0, message="Photo id must be greater than or equal to 0")
-    private int photoId;
+//    @Min(value=0, message="Photo id must be greater than or equal to 0")
+//    private int photoId;
 
     @DecimalMin(value="-90.0000000000", message="Latitude must be between -90.0 and 90.0")
     @DecimalMax(value="90.0000000000", message="Latitude must be between -90.0 and 90.0")
@@ -51,13 +52,13 @@ public class Spot {
         this.name = name;
     }
 
-    public int getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
-    }
+//    public int getPhotoId() {
+//        return photoId;
+//    }
+//
+//    public void setPhotoId(int photoId) {
+//        this.photoId = photoId;
+//    }
 
     public double getGpsLat() {
         return gpsLat;

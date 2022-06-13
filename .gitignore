@@ -1,3 +1,5 @@
 /hiking_app_api/.idea/
 
 .idea
+
+*/target/**
