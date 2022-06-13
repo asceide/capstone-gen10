@@ -2,12 +2,14 @@ package hiking.service;
 
 import hiking.models.Spot;
 import hiking.repository.SpotRepository;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class SpotService {
 
     private final SpotRepository repository;
@@ -52,7 +54,7 @@ public class SpotService {
         }
 
         if(!repository.update(spot)) {
-            String msg = String.format("Spot with id %s not found.", spot.getSpotId());
+            String msg = String.format("Spot with id %s not found", spot.getSpotId());
             result.addMessage(msg, ResultType.NOT_FOUND);
         }
 
@@ -73,7 +75,7 @@ public class SpotService {
     public Result<Spot> rate(int spotId, int rating) {
         Spot spot = repository.findById(spotId);
 
-        int total = spot.getRating() * spot.getRatingCount() + rating;
+        int total = (spot.getRating() * spot.getRatingCount()) + rating;
 
         int newCount = spot.getRatingCount() + 1;
 
@@ -82,7 +84,11 @@ public class SpotService {
         spot.setRating(newRating);
         spot.setRatingCount(newCount);
 
-        return update(spot);
+        Result<Spot> result = update(spot);
+
+        result.setPayload(spot);
+
+        return result;
     }
 
     private Result<Spot> validate(Spot spot) {

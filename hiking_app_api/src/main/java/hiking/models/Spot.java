@@ -2,6 +2,7 @@ package hiking.models;
 
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Objects;
 
 public class Spot {
 
@@ -37,6 +38,7 @@ public class Spot {
 
     @Min(value=0, message="Spot must have at least one rating")
     private int ratingCount;
+
     private List<Trail> trails;
 
     public int getSpotId() {
@@ -114,4 +116,19 @@ public class Spot {
     public int getRatingCount() {return ratingCount;}
 
     public void setRatingCount(int ratingCount) {this.ratingCount = ratingCount;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spot spot = (Spot) o;
+        return spotId == spot.spotId && Double.compare(spot.gpsLat, gpsLat) == 0 && Double.compare(spot.gpsLong, gpsLong) == 0 && rating == spot.rating && appUserId == spot.appUserId && ratingCount == spot.ratingCount && Objects.equals(name, spot.name) && Objects.equals(description, spot.description) && Objects.equals(trails, spot.trails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spotId, name, gpsLat, gpsLong, rating, description, appUserId, ratingCount, trails);
+    }
+
+
 }

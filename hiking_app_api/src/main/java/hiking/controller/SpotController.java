@@ -77,7 +77,7 @@ public class SpotController {
     }
 
     @PostMapping("/{spotId}/rate")
-    public ResponseEntity<Object> rate(@PathVariable int spotId, @RequestBody int rating) {
+    public ResponseEntity<Object> rate(@PathVariable int spotId, @RequestParam int rating) {
         if (spotId <= 0) {
             return new ResponseEntity<>(List.of("Spot id must be greater than 0"), HttpStatus.BAD_REQUEST);
         }
