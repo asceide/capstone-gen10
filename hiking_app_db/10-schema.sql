@@ -78,19 +78,32 @@ create table spot (
 		references app_user(app_user_id)
 );
 
-create table spot_photo (
+create table photo (
 	photo_id int primary key auto_increment,
-	photo_url varchar(500),
+    photo_url varchar(500)
+);
+
+create table spot_photo (
+	photo_id int not null,
     spot_id int not null,
+    constraint pk_spot_photo
+		primary key (photo_id, spot_id),
+    constraint fk_spot_photo_photo_id
+		foreign key (photo_id)
+        references photo(photo_id),
     constraint fk_spot_photo_spot_id
 		foreign key (spot_id)
         references spot(spot_id)
 );
 
 create table trail_photo (
-	photo_id int primary key auto_increment,
-	photo_url varchar(500),
+	photo_id int not null,
     trail_id int not null,
+    constraint pk_trail_photo
+		primary key (photo_id, trail_id),
+	constraint fk_trail_photo_photo_id
+		foreign key (photo_id)
+        references photo(photo_id),
     constraint fk_trail_photo_trail_id
 		foreign key (trail_id)
         references trail(trail_id)

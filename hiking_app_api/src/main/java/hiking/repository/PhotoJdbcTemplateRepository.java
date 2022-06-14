@@ -9,85 +9,121 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
 @Repository
-public class PhotoJdbcTemplateRepository {
+public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     public PhotoJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
 
+    @Override
     public List<SpotPhoto> findBySpotId(int spotId) {
-        final String sql = "select photo_id, spot_id, photo_url from spot_photo where spot_id = ?;";
+        final String sql = "select p.photo_id, sp.spot_id, p.photo_url " +
+                "from photo p " +
+                "inner join spot_photo sp on p.photo_id = sp.photo_id " +
+                "where spot_id = ?;";
 
         return jdbcTemplate.query(sql, new SpotPhotoMapper(), spotId);
     }
 
+    @Override
     public List<TrailPhoto> findByTrailId(int trailId) {
-        final String sql = "select photo_id, trail_id, photo_url from trail_photo where trail_id = ?;";
+        final String sql = "select p.photo_id, tp.trail_id, p.photo_url " +
+                "from photo p " +
+                "inner join trail_photo tp on p.photo_id = tp.photo_id " +
+                "where trail_id = ?;";
 
         return jdbcTemplate.query(sql, new TrailPhotoMapper(), trailId);
     }
 
-    public SpotPhoto addSpotPhoto(SpotPhoto photo) {
-        final String sql = "insert into spot_photo (photo_url, spot_id) values (?,?);";
+    @Override
+    @Transactional
+    public SpotPhoto addPhoto(SpotPhoto photo) {
+        final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, photo.getPhotoUrl());
-            statement.setInt(2, photo.getSpotId());
             return statement;
         }, keyHolder);
 
         if (rowsAffected > 0) {
             photo.setPhotoId(keyHolder.getKey().intValue());
+            jdbcTemplate.update("insert into spot_photo (photo_id, spot_id) values (?,?);",
+                                            photo.getPhotoId(), photo.getSpotId());
             return photo;
         }
 
         return null;
     }
 
-    public TrailPhoto addTrailPhoto(TrailPhoto photo) {
-        final String sql = "insert into trail_photo (photo_url, trail_id) values (?,?);";
+    @Override
+    @Transactional
+    public TrailPhoto addPhoto(TrailPhoto photo) {
+        final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, photo.getPhotoUrl());
-            statement.setInt(2, photo.getTrailId());
             return statement;
         }, keyHolder);
 
         if (rowsAffected > 0) {
             photo.setPhotoId(keyHolder.getKey().intValue());
+            jdbcTemplate.update("insert into trail_photo (photo_id, trail_id) values (?,?);",
+                    photo.getPhotoId(), photo.getTrailId());
             return photo;
         }
 
         return null;
     }
 
-    public boolean updateSpotPhoto(SpotPhoto photo) {
-        final String sql = "update spot_photo set photo_url = ?, spot_id = ? where photo_id = ?;";
+    @Override
+    @Transactional
+    public boolean updatePhoto(SpotPhoto photo) {
+        jdbcTemplate.update("delete from spot_photo where photo_id = ?;", photo.getPhotoId());
 
-        return jdbcTemplate.update(sql, photo.getPhotoUrl(), photo.getSpotId(), photo.getPhotoId()) > 0;
+        int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",
+                    photo.getPhotoUrl(), photo.getPhotoId());
+
+        if (rowsAffected > 0) {
+            return jdbcTemplate.update("insert into spot_photo (photo_id, spot_id) values (?,?);",
+                    photo.getPhotoId(), photo.getSpotId()) > 0;
+        }
+
+        return false;
     }
 
-    public boolean updateTrailPhoto(TrailPhoto photo) {
-        final String sql = "update trail_photo set photo_url = ?, trail_id = ? where photo_id = ?;";
+    @Override
+    @Transactional
+    public boolean updatePhoto(TrailPhoto photo) {
+        jdbcTemplate.update("delete from trail_photo where photo_id = ?;", photo.getPhotoId());
 
-        return jdbcTemplate.update(sql, photo.getPhotoUrl(), photo.getTrailId(), photo.getPhotoId()) > 0;
+        int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",
+                photo.getPhotoUrl(), photo.getPhotoId());
+
+        if (rowsAffected > 0) {
+            return jdbcTemplate.update("insert into trail_photo (photo_id, trail_id) values (?,?);",
+                    photo.getPhotoId(), photo.getTrailId()) > 0;
+        }
+
+        return false;
     }
 
-    public boolean deleteSpotPhoto(int photoId) {
-        return jdbcTemplate.update("delete from spot_photo where photo_id = ?;", photoId) > 0;
+    @Override
+    @Transactional
+    public boolean deleteById(int photoId) {
+        jdbcTemplate.update("delete from spot_photo where photo_id = ?;", photoId);
+        jdbcTemplate.update("delete from trail_photo where photo_id = ?;", photoId);
+        return jdbcTemplate.update("delete from photo where photo_id = ?;", photoId) > 0;
     }
 
-    public boolean deleteTrailPhoto(int photoId) {
-        return jdbcTemplate.update("delete from trail_photo where photo_id = ?;", photoId) > 0;
-    }
 }
