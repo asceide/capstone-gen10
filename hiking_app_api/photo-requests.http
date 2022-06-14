@@ -1,11 +1,11 @@
 GET http://localhost:8080/api/photo?spot-id=2 HTTP/1.1
 
 ###
-POST http://localhost:8080/api/photo?spot-id=15 HTTP/1.1
+POST http://localhost:8080/api/photo?spot-id=2 HTTP/1.1
 Content-Type: application/json
 
 {
-    "photo-url": "https://fakeimg.pl/350x200/?text=World&font=lobster"
+    "photoUrl": "https://fakeimg.pl/350x200/?text=World&font=lobster"
 }
 
 ###
@@ -20,3 +20,34 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/api/photo/11 HTTP/1.1
+
+### put in bad spot id, should be 404
+POST http://localhost:8080/api/photo?spot-id=25 HTTP/1.1
+Content-Type: application/json
+
+{
+    "photoUrl": "https://fakeimg.pl/350x200/?text=World&font=lobster"
+}
+
+### put in bad spot id, should be 404
+PUT http://localhost:8080/api/photo/13 HTTP/1.1
+Content-Type: application/json
+
+{
+    "photoId": "13",
+    "photoUrl": "https://fakeimg.pl/350x200/?text=Hello",
+    "spotId": "20"
+}
+
+### put in bad photo id, should be 404
+PUT http://localhost:8080/api/photo/13 HTTP/1.1
+Content-Type: application/json
+
+{
+    "photoId": "1500",
+    "photoUrl": "https://fakeimg.pl/350x200/?text=Hello",
+    "spotId": "2"
+}
+
+### put in bad photo id, should be 404
+DELETE http://localhost:8080/api/photo/750 HTTP/1.1

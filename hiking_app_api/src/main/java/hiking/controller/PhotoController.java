@@ -47,7 +47,7 @@ public class PhotoController {
     public ResponseEntity<Object> add(@RequestParam(value = "spot-id", required = false, defaultValue = "0") int spotId,
                                                @RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId,
                                                @RequestBody Map<String, String> map) {
-        String photoUrl = map.get("photo-url");
+        String photoUrl = map.get("photoUrl");
         if(spotId != 0) {
             SpotPhoto photo = new SpotPhoto();
             photo.setSpotId(spotId);
