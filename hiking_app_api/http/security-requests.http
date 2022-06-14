@@ -15,3 +15,25 @@ Content-Type: application/json
   "username": "admin@tohoku.ac.jp",
   "password": "Nyc#1234"
 }
+
+
+###
+
+POST http://localhost:8080/refresh_token HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoaWtpbmctYXBwIiwic3ViIjoiYWRtaW5AdG9ob2t1LmFjLmpwIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiZXhwIjoxNjU1MjQ2MTA4fQ.FkknCt64RiYoz90dc6eW6sTzMWVz_6hRWOp_EAPs0KA
+
+{
+  "username": "admin@tohoku.ac.jp",
+  "password": "Nyc#1234"
+}
+
+###
+
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "admin@tohoku.co.jp",
+    "password": "Nyc#1234"
+}
