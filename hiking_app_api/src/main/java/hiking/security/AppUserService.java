@@ -2,7 +2,6 @@ package hiking.security;
 
 import hiking.models.AppUser;
 import hiking.repository.AppUserRepository;
-import hiking.service.EmailRegex;
 import hiking.service.Result;
 import hiking.service.ResultType;
 import org.springframework.security.core.userdetails.UserDetails;

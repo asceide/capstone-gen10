@@ -94,15 +94,16 @@ public class AuthController {
 
             result = userService.create(username, password);
         } catch (DuplicateKeyException ex) {
-            return new ResponseEntity<>(List.of("The provided email aready exists"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(List.of("The provided email already exists"), HttpStatus.BAD_REQUEST);
         }
         if(!result.isSuccess()){
-            return new ResponseEntity<>(result.getMessages(),HttpStatus.NOT_ACCEPTABLE);
+            return ErrorResponse.build(result);
         }
         user = result.getPayload();
 
-        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("appUserId", user.getAppUserId());
+        map.put("username", user.getUsername());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
