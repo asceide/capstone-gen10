@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/spot").permitAll()
                 .antMatchers("/api/spot/*").permitAll()
                 .antMatchers("/api/spot/*/rate").permitAll()
+                .antMatchers("/api/photo").permitAll()
+                .antMatchers("/api/photo/*").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/").permitAll() // Can only be done by authenticated users in the future
