@@ -1,7 +1,9 @@
 package hiking.service;
 
+import hiking.models.AppUser;
 import hiking.models.AppUserInfo;
 import hiking.repository.AppUserInfoRepository;
+import hiking.repository.AppUserJbdcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,23 +11,36 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Service
 public class AppUserInfoService {
 
     private final AppUserInfoRepository repository;
+
+    private final AppUserJbdcRepository userRepository;
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
 
-    public AppUserInfoService(@Autowired AppUserInfoRepository repository) {
+    public AppUserInfoService(@Autowired AppUserInfoRepository repository, AppUserJbdcRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     public AppUserInfo findByAppUserId(int appUserId) {
         return repository.findByAppUserId(appUserId);
     }
 
+    public AppUserInfo findByUsername(String username) {
+        AppUser user = userRepository.findByEmail(username);
+        if(user == null){
+            return null;
+        }
+
+        return repository.findByAppUserId(user.getAppUserId());
+    }
     public Result<AppUserInfo> add(AppUserInfo info){
         Result<AppUserInfo> result = new Result<>();
 

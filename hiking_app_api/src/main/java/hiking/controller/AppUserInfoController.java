@@ -1,5 +1,6 @@
 package hiking.controller;
 
+import hiking.models.AppUser;
 import hiking.models.AppUserInfo;
 import hiking.service.AppUserInfoService;
 import hiking.service.Result;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,6 +33,18 @@ public class AppUserInfoController {
         }
 
         return ResponseEntity.ok(info);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> loadByUserName(@RequestBody Map<String, String> user){
+        String username = user.get("username");
+        AppUserInfo userInfo = service.findByUsername(username);
+
+        if(user==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(userInfo);
     }
 
     @PostMapping("/")

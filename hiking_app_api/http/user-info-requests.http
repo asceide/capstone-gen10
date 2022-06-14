@@ -1,0 +1,21 @@
+@authurl = http://localhost:8080/api/user/
+
+@jwt = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoaWtpbmctYXBwIiwic3ViIjoiYWRtaW5AdG9ob2t1LmFjLmpwIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiZXhwIjoxNjU1MjQyMTk3fQ.JV8WDEkW74C4P2gKWtgyvYeSWVY8R8kMmWKUngK1Ybo
+
+###
+
+GET {{authurl}}/1 HTTP/1.1
+
+###
+
+GET {{authurl}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "test@tesla.com"
+}
+
+###
+
+POST {{authurl}} HTTP/1.1
+
