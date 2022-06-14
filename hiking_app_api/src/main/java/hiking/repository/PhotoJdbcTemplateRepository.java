@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public SpotPhoto addPhoto(SpotPhoto photo) {
+    public SpotPhoto addPhoto(SpotPhoto photo) throws Exception {
         final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -57,16 +59,17 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
         if (rowsAffected > 0) {
             photo.setPhotoId(keyHolder.getKey().intValue());
             jdbcTemplate.update("insert into spot_photo (photo_id, spot_id) values (?,?);",
-                                            photo.getPhotoId(), photo.getSpotId());
+                    photo.getPhotoId(), photo.getSpotId());
             return photo;
         }
+
 
         return null;
     }
 
     @Override
     @Transactional
-    public TrailPhoto addPhoto(TrailPhoto photo) {
+    public TrailPhoto addPhoto(TrailPhoto photo) throws Exception {
         final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -88,7 +91,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public boolean updatePhoto(SpotPhoto photo) {
+    public boolean updatePhoto(SpotPhoto photo) throws Exception {
         jdbcTemplate.update("delete from spot_photo where photo_id = ?;", photo.getPhotoId());
 
         int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",
@@ -104,7 +107,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public boolean updatePhoto(TrailPhoto photo) {
+    public boolean updatePhoto(TrailPhoto photo) throws Exception {
         jdbcTemplate.update("delete from trail_photo where photo_id = ?;", photo.getPhotoId());
 
         int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",

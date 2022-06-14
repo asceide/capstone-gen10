@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/spot").permitAll()
                 .antMatchers("/api/spot/*").permitAll()
                 .antMatchers("/api/spot/*/rate").permitAll()
+                .antMatchers("/api/photo").permitAll()
+                .antMatchers("/api/photo/*").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/**").denyAll()
                 .and()// Deny all other requests

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Set;
 
@@ -37,9 +39,16 @@ public class PhotoService {
             return result;
         }
 
-        SpotPhoto returned = repository.addPhoto(photo);
-        result.setPayload(returned);
-        return result;
+        try {
+            SpotPhoto returned = repository.addPhoto(photo);
+            result.setPayload(returned);
+            return result;
+        } catch (Exception ex) {
+            String msg = String.format("Spot with ID %s not found", photo.getSpotId());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+            return result;
+        }
+
     }
 
     public Result<Object> addPhoto(TrailPhoto photo) {
@@ -53,9 +62,16 @@ public class PhotoService {
             return result;
         }
 
-        TrailPhoto returned = repository.addPhoto(photo);
-        result.setPayload(returned);
-        return result;
+        try{
+            TrailPhoto returned = repository.addPhoto(photo);
+            result.setPayload(returned);
+            return result;
+        } catch (Exception ex) {
+            String msg = String.format("Trail with ID %s not found", photo.getTrailId());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+            return result;
+        }
+
     }
 
     public Result<Object> updatePhoto(SpotPhoto photo) {
@@ -69,11 +85,18 @@ public class PhotoService {
             return result;
         }
 
-        if(!repository.updatePhoto(photo)) {
-            String msg = String.format("Photo with ID %s not found", photo.getPhotoId());
+        try {
+            if(!repository.updatePhoto(photo)) {
+                String msg = String.format("Photo with ID %s not found", photo.getPhotoId());
+                result.addMessage(msg, ResultType.NOT_FOUND);
+            }
+            return result;
+        } catch (Exception ex) {
+            String msg = String.format("Spot with ID %s not found", photo.getSpotId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+            return result;
         }
-        return result;
+
     }
 
     public Result<Object> updatePhoto(TrailPhoto photo) {
@@ -87,15 +110,27 @@ public class PhotoService {
             return result;
         }
 
-        if(!repository.updatePhoto(photo)) {
-            String msg = String.format("Photo with ID %s not found", photo.getPhotoId());
+        try {
+            if(!repository.updatePhoto(photo)) {
+                String msg = String.format("Photo with ID %s not found", photo.getPhotoId());
+                result.addMessage(msg, ResultType.NOT_FOUND);
+            }
+            return result;
+        } catch (Exception ex) {
+            String msg = String.format("Trail with ID %s not found", photo.getTrailId());
             result.addMessage(msg, ResultType.NOT_FOUND);
+            return result;
         }
-        return result;
+
     }
 
     public Result<Object> deleteById(int photoId) {
         Result<Object> result = new Result<>();
+
+        if (photoId <= 0) {
+            result.addMessage("PhotoId is required for delete", ResultType.INVALID);
+            return result;
+        }
 
         if(!repository.deleteById(photoId)) {
             String msg = String.format("Photo with ID %s not found", photoId);

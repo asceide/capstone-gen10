@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +41,14 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldReturnEmptyListForMissing() {
+        List<SpotPhoto> photos = repository.findBySpotId(15);
+
+        assertNotNull(photos);
+        assertEquals(0, photos.size());
+    }
+
+    @Test
     void shouldFind2PhotosPerTrail() {
         List<TrailPhoto> photos1 = repository.findByTrailId(1);
         List<TrailPhoto> photos2 = repository.findByTrailId(2);
@@ -48,7 +58,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldAddSpotPhoto() {
+    void shouldAddSpotPhoto() throws Exception {
         List<SpotPhoto> before = repository.findBySpotId(1);
         SpotPhoto photo = new SpotPhoto();
         photo.setSpotId(1);
@@ -63,7 +73,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldAddTrailPhoto() {
+    void shouldAddTrailPhoto() throws Exception {
         List<TrailPhoto> before = repository.findByTrailId(1);
         TrailPhoto photo = new TrailPhoto();
         photo.setTrailId(1);
@@ -78,7 +88,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldUpdateSpotPhoto() {
+    void shouldUpdateSpotPhoto() throws Exception {
         SpotPhoto photo = new SpotPhoto();
         photo.setPhotoId(2);
         photo.setPhotoUrl("updatedPhotoUrl");
@@ -97,7 +107,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldUpdateTrailPhoto() {
+    void shouldUpdateTrailPhoto() throws Exception {
         TrailPhoto photo = new TrailPhoto();
         photo.setPhotoId(2);
         photo.setPhotoUrl("updatedPhotoUrl");

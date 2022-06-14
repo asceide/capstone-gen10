@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
 
     @Transactional
     @Override
-    public Spot add(Spot spot) {
+    public Spot add(Spot spot){
 
         final String sql = "insert into spot (name, gps_lat, gps_long, rating, rating_count, description, app_user_id) " +
                 "values (?,?,?,?,?,?,?);";

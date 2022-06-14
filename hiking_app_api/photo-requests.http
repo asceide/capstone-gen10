@@ -1,0 +1,22 @@
+GET http://localhost:8080/api/photo?spot-id=2 HTTP/1.1
+
+###
+POST http://localhost:8080/api/photo?spot-id=15 HTTP/1.1
+Content-Type: application/json
+
+{
+    "photo-url": "https://fakeimg.pl/350x200/?text=World&font=lobster"
+}
+
+###
+PUT http://localhost:8080/api/photo/13 HTTP/1.1
+Content-Type: application/json
+
+{
+    "photoId": "13",
+    "photoUrl": "https://fakeimg.pl/350x200/?text=Hello",
+    "spotId": "20"
+}
+
+###
+DELETE http://localhost:8080/api/photo/11 HTTP/1.1

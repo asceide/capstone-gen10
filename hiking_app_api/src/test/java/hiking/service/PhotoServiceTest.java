@@ -24,6 +24,18 @@ class PhotoServiceTest {
     PasswordEncoder encoder;
 
     @Test
+    void shouldRejectNullPhoto() {
+        SpotPhoto photo = new SpotPhoto();
+        System.out.println(photo);
+        photo = null;
+
+        Result<Object> result = service.addPhoto(photo);
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "Photo cannot be null");
+    }
+
+    @Test
     void shouldRejectBadUrl() {
         SpotPhoto photo = new SpotPhoto();
         photo.setPhotoId(1);
@@ -34,6 +46,13 @@ class PhotoServiceTest {
         assertEquals(ResultType.INVALID, result.getType());
         assertEquals(result.getMessages().stream().findFirst().orElse(null),
                 "Photo url must be a url");
+
+        photo.setPhotoUrl("");
+        result = service.addPhoto(photo);
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "Photo url is required");
+
     }
 
     @Test
@@ -65,7 +84,7 @@ class PhotoServiceTest {
 
 
     @Test
-    void shouldAddValid() {
+    void shouldAddValid() throws Exception {
         SpotPhoto photo = new SpotPhoto();
         photo.setPhotoUrl("https://somefakeurl.com");
         photo.setSpotId(1);
@@ -94,5 +113,74 @@ class PhotoServiceTest {
         assertEquals(ResultType.INVALID, result.getType());
         assertEquals(result.getMessages().stream().findFirst().orElse(null),
                 "Id must be greater than or equal to 0");
+    }
+
+    @Test
+    void shouldUpdateValid() throws Exception {
+        SpotPhoto photo = new SpotPhoto();
+        photo.setPhotoId(1);
+        photo.setPhotoUrl("https://somefakeurl.com");
+        photo.setSpotId(1);
+
+        when(repository.updatePhoto(photo)).thenReturn(true);
+
+        Result<Object> result = service.updatePhoto(photo);
+
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    void shouldBeNotFoundForMissingUpdate() throws Exception {
+        SpotPhoto photo = new SpotPhoto();
+        photo.setPhotoId(1);
+        photo.setPhotoUrl("https://somefakeurl.com");
+        photo.setSpotId(1);
+
+        when(repository.updatePhoto(photo)).thenReturn(false);
+
+        Result<Object> result = service.updatePhoto(photo);
+
+        assertEquals(ResultType.NOT_FOUND, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "Photo with ID 1 not found");
+    }
+
+    @Test
+    void shouldRejectZeroIdForUpdate() {
+        SpotPhoto photo = new SpotPhoto();
+        photo.setPhotoUrl("https://somefakeurl.com");
+        photo.setSpotId(1);
+
+        Result<Object> result = service.updatePhoto(photo);
+
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "ID is required for update");
+    }
+
+    @Test
+    void shouldDelete() {
+        when(repository.deleteById(1)).thenReturn(true);
+        Result<Object> result = service.deleteById(1);
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    void shouldBeNotFoundForMissingDelete() {
+        when(repository.deleteById(1)).thenReturn(false);
+        Result<Object> result = service.deleteById(1);
+
+        assertEquals(ResultType.NOT_FOUND, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "Photo with ID 1 not found");
+    }
+
+    @Test
+    void shouldRejectBadIdForDelete() {
+        Result<Object> result = service.deleteById(-5);
+
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals(result.getMessages().stream().findFirst().orElse(null),
+                "PhotoId is required for delete");
     }
 }
