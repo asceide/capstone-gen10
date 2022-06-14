@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.SQLException;
@@ -58,7 +59,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldAddSpotPhoto() throws Exception {
+    void shouldAddSpotPhoto() throws DataIntegrityViolationException {
         List<SpotPhoto> before = repository.findBySpotId(1);
         SpotPhoto photo = new SpotPhoto();
         photo.setSpotId(1);
@@ -73,7 +74,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldAddTrailPhoto() throws Exception {
+    void shouldAddTrailPhoto() throws DataIntegrityViolationException {
         List<TrailPhoto> before = repository.findByTrailId(1);
         TrailPhoto photo = new TrailPhoto();
         photo.setTrailId(1);
@@ -88,7 +89,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldUpdateSpotPhoto() throws Exception {
+    void shouldUpdateSpotPhoto() throws DataIntegrityViolationException {
         SpotPhoto photo = new SpotPhoto();
         photo.setPhotoId(2);
         photo.setPhotoUrl("updatedPhotoUrl");
@@ -107,7 +108,7 @@ class PhotoJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldUpdateTrailPhoto() throws Exception {
+    void shouldUpdateTrailPhoto() throws DataIntegrityViolationException {
         TrailPhoto photo = new TrailPhoto();
         photo.setPhotoId(2);
         photo.setPhotoUrl("updatedPhotoUrl");

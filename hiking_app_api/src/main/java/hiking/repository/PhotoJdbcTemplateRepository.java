@@ -1,10 +1,10 @@
 package hiking.repository;
 
 import hiking.models.SpotPhoto;
-import hiking.models.Trail;
 import hiking.models.TrailPhoto;
 import hiking.repository.mappers.SpotPhotoMapper;
 import hiking.repository.mappers.TrailPhotoMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public SpotPhoto addPhoto(SpotPhoto photo) throws Exception {
+    public SpotPhoto addPhoto(SpotPhoto photo) throws DataIntegrityViolationException {
         final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -69,7 +67,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public TrailPhoto addPhoto(TrailPhoto photo) throws Exception {
+    public TrailPhoto addPhoto(TrailPhoto photo) throws DataIntegrityViolationException {
         final String sql = "insert into photo (photo_url) values (?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -91,7 +89,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public boolean updatePhoto(SpotPhoto photo) throws Exception {
+    public boolean updatePhoto(SpotPhoto photo) throws DataIntegrityViolationException {
         jdbcTemplate.update("delete from spot_photo where photo_id = ?;", photo.getPhotoId());
 
         int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",
@@ -107,7 +105,7 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
 
     @Override
     @Transactional
-    public boolean updatePhoto(TrailPhoto photo) throws Exception {
+    public boolean updatePhoto(TrailPhoto photo) throws DataIntegrityViolationException {
         jdbcTemplate.update("delete from trail_photo where photo_id = ?;", photo.getPhotoId());
 
         int rowsAffected =  jdbcTemplate.update("update photo set photo_url = ? where photo_id = ?;",

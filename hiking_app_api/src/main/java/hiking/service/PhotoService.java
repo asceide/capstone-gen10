@@ -1,15 +1,13 @@
 package hiking.service;
 
-import hiking.models.Spot;
 import hiking.models.SpotPhoto;
 import hiking.models.TrailPhoto;
 import hiking.repository.PhotoRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Set;
 
@@ -43,11 +41,12 @@ public class PhotoService {
             SpotPhoto returned = repository.addPhoto(photo);
             result.setPayload(returned);
             return result;
-        } catch (Exception ex) {
+        } catch (DataIntegrityViolationException ex) {
             String msg = String.format("Spot with ID %s not found", photo.getSpotId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             return result;
         }
+
 
     }
 
@@ -66,7 +65,7 @@ public class PhotoService {
             TrailPhoto returned = repository.addPhoto(photo);
             result.setPayload(returned);
             return result;
-        } catch (Exception ex) {
+        } catch (DataIntegrityViolationException ex) {
             String msg = String.format("Trail with ID %s not found", photo.getTrailId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             return result;
@@ -91,7 +90,7 @@ public class PhotoService {
                 result.addMessage(msg, ResultType.NOT_FOUND);
             }
             return result;
-        } catch (Exception ex) {
+        } catch (DataIntegrityViolationException ex) {
             String msg = String.format("Spot with ID %s not found", photo.getSpotId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             return result;
@@ -116,7 +115,7 @@ public class PhotoService {
                 result.addMessage(msg, ResultType.NOT_FOUND);
             }
             return result;
-        } catch (Exception ex) {
+        } catch (DataIntegrityViolationException ex) {
             String msg = String.format("Trail with ID %s not found", photo.getTrailId());
             result.addMessage(msg, ResultType.NOT_FOUND);
             return result;
