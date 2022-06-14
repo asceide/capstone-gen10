@@ -6,7 +6,9 @@ package hiking.security;
  */
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtConverter {
+    @Value("${jwt.token.secret}")
+    private String key;
 
     // 1. Signing Key - Each time that this component is instantiated, a new key is generated.
     // For larger scaled that must be able to restart without interruption or are load balanced
@@ -27,7 +31,12 @@ public class JwtConverter {
     // It is never safe to instantiate JwtConverter directly, which generates a new key.
     // There can only be one instance of JwtConverter because a stable key is required for signing
     // and confirming the token
-    private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(this.key);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     // 2. Configurable constants - This is more likely to be stored as configuration
     private final String ISSUER = "hiking-app";
@@ -45,7 +54,7 @@ public class JwtConverter {
                 .setSubject(user.getUsername())
                 .claim("authorities", authorities)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
-                .signWith(key)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -58,7 +67,7 @@ public class JwtConverter {
             // 4. Use JJWT classes to read a token - the parser asserts an expectation for the issurer and expiration (which is automatic). Once we have the Jws<Claims> instance, read the username and roles.
             Jws<Claims> jws = Jwts.parserBuilder()
                     .requireIssuer(ISSUER)
-                    .setSigningKey(key)
+                    .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(token.substring(7));
 
