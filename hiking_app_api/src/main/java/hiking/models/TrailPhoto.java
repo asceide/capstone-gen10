@@ -1,11 +1,19 @@
 package hiking.models;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class TrailPhoto {
 
+    @Min(value=0, message="Id must be greater than or equal to 0")
     private int photoId;
+
+    @Pattern(message = "Photo url must be a url",
+            regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()!@:%_\\+.~#?&\\/\\/=]*)")
     private String photoUrl;
+
+    @Min(value=0, message="Id must be greater than or equal to 0")
     private int trailId;
 
     public int getPhotoId() {return photoId;}
