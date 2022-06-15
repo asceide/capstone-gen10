@@ -1,7 +1,9 @@
 package hiking.repository;
 
+import hiking.models.AppUserInfo;
 import hiking.models.Spot;
 import hiking.models.Trail;
+import hiking.repository.mappers.AppUserInfoMapper;
 import hiking.repository.mappers.SpotMapper;
 import hiking.repository.mappers.TrailMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,6 +40,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
         List<Spot> spots = jdbcTemplate.query(sql, new SpotMapper());
         for (Spot s : spots) {
             addTrails(s);
+            addUploader(s);
         }
         return spots;
     }
@@ -59,6 +62,7 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
 
         if (spot != null) {
             addTrails(spot);
+            addUploader(spot);
         }
 
         return spot;
@@ -156,5 +160,18 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
             jdbcTemplate.update("insert into trail_spot (trail_id, spot_id) values (?,?);",
                     t.getTrailId(), spot.getSpotId());
         }
+    }
+
+    private void addUploader(Spot spot) {
+        final String sql = "select app_user_id, " +
+                "first_name, " +
+                "last_name, " +
+                "city, " +
+                "state " +
+                "from app_user_info " +
+                "where app_user_id = ?;";
+        AppUserInfo user = jdbcTemplate.query(sql, new AppUserInfoMapper(), spot.getAppUserId())
+                .stream().findFirst().orElse(null);
+        spot.setUploader(user);
     }
 }

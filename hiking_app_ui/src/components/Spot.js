@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { findById } from "../services/spot";
 import { findBySpot } from "../services/photos";
+import { getUserInfo } from '../services/user';
 
 export default function Spot() {
 
@@ -32,9 +33,8 @@ export default function Spot() {
             .then(setPhotos)
             .catch(console.error);
     }, []);
+
     
-
-
     return (<div>
         <div className="container">
 
@@ -42,9 +42,15 @@ export default function Spot() {
                 <div className="col-4" style={{marginTop: 2, padding: 10,  border: "2px solid black"}}>
                     <h1>{spot.name}</h1>
                     <h2>{spot.description}</h2>
+                    <p>{spot.gpsLat} {spot.gpsLong}</p>
+                    <h3>User rating: {spot.rating}/5</h3>
+                    <p>Based on {spot.ratingCount} ratings</p>
+                    <p>Added by {spot.uploader?.firstName} from {spot.uploader?.city}, {spot.uploader?.state}</p>
                 </div>
                 <div className="col" style={{marginTop: 2, padding: 10}}>
-                    {photos[0] && <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp" class="w-100 shadow-1-strong rounded mb-4" />}
+                    {photos[0] && 
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp" 
+                                className="w-100 shadow-1-strong rounded mb-4" />}
                 </div>
             </div>
 
