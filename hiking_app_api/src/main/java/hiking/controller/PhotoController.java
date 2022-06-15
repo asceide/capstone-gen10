@@ -22,7 +22,7 @@ public class PhotoController {
 
     // use optional request parameters so there is one endpoint for both spots and trails
     @GetMapping
-    public Object findBySpotId(@RequestParam(value = "spot-id", required = false, defaultValue = "0") int spotId,
+    public ResponseEntity<Object> findBySpotId(@RequestParam(value = "spot-id", required = false, defaultValue = "0") int spotId,
                                 @RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId) {
 
         // default value is 0, which will never by a valid ID
@@ -33,7 +33,7 @@ public class PhotoController {
                 String msg = String.format("Spot #%s not found.", spotId);
                 return new ResponseEntity<>(List.of(msg), HttpStatus.NOT_FOUND);
             }
-            return photos;
+            return new ResponseEntity<>(photos, HttpStatus.OK);
         } else if (trailId != 0) {
             // get photos for trail if ID is provided
             List<TrailPhoto> photos = service.findByTrailId(trailId);
@@ -41,7 +41,7 @@ public class PhotoController {
                 String msg = String.format("Trail #%s not found.", trailId);
                 return new ResponseEntity<>(List.of(msg), HttpStatus.NOT_FOUND);
             }
-            return photos;
+            return new ResponseEntity<>(photos, HttpStatus.OK);
         } else {
             // no ids provided
             return new ResponseEntity<>(List.of("Spot or trail id must be provided"), HttpStatus.BAD_REQUEST);

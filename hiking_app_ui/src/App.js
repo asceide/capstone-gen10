@@ -5,6 +5,7 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import AuthContext from './context/AuthContext';
 import refresh from './services/authentication';
+import Spot from './components/Spot';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/spot/:spotId" element={<Spot />} />
         </Routes>
       </Router>
     </AuthContext.Provider>

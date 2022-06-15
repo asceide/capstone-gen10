@@ -42,6 +42,8 @@ public class PhotoJdbcTemplateRepository implements PhotoRepository {
         return jdbcTemplate.query(sql, new TrailPhotoMapper(), trailId);
     }
 
+    // if the spot or trail connected to the photo does not exist, there will be a SQL error
+    // add and update methods throw the DataIntegrityViolationException when this occurs
     @Override
     @Transactional
     public SpotPhoto addPhoto(SpotPhoto photo) throws DataIntegrityViolationException {
