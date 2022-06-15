@@ -1,14 +1,16 @@
 import {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import NavBar from './components/NavBar';
-import AuthContext from './context/AuthContext';
-import refresh from './services/authentication';
+import { AuthContext, UserContext } from './context';
+import { refresh } from './services/authentication';
+import { Home, Login, NavBar } from './components';
 
 function App() {
 
   const [user, setUser] = useState();
+
+  useEffect(() => {
+    refresh().then(setUser).catch(logout);
+  }, []);
 
   const logout = () => {
     setUser();
