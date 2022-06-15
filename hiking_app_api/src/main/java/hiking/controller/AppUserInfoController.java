@@ -1,8 +1,10 @@
 package hiking.controller;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import hiking.models.AppUserInfo;
 import hiking.service.AppUserInfoService;
 import hiking.service.Result;
+import org.json.JSONObject;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,14 +27,28 @@ public class AppUserInfoController {
     }
 
     @GetMapping("/{appUserId}")
-    public ResponseEntity<AppUserInfo> findByAppUserId(@PathVariable int appUserId){
+    public ResponseEntity<Object> findByAppUserId(@PathVariable int appUserId){
         AppUserInfo info = service.findByAppUserId(appUserId);
 
         if(info==null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(info);
+        Map<String, String> map = new HashMap<>();
+        map.put("firstName", info.getFirstName());
+        map.put("lastName", info.getLastName());
+        map.put("city", info.getCity());
+        map.put("state", info.getState());
+
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Object> loadByUserName(@RequestBody Map<String, String> user){
+        String username = user.get("username");
+        AppUserInfo userInfo = service.findByUsername(username);
+
+        return ResponseEntity.ok(userInfo);
     }
 
     @PostMapping("/")

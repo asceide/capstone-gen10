@@ -1,0 +1,79 @@
+@authurl = http://localhost:8080/api/user/
+
+@jwt = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoaWtpbmctYXBwIiwic3ViIjoiYWRtaW5AdG9ob2t1LmFjLmpwIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiZXhwIjoxNjU1MjQ2MzQ3fQ.mTHEVv1xoy9WxvLZUriZNvWuJZahIT6QsauhnyAnJJA
+
+###
+
+GET {{authurl}}/1 HTTP/1.1
+
+###
+
+GET {{authurl}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "test@tesla.com"
+}
+
+###
+
+POST {{authurl}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstName": "Patrick",
+  "lastName": "Alarcon",
+  "city": "New York",
+  "state": "NY"
+}
+
+###
+
+POST {{authurl}}/ HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "appUserId": 6,
+  "firstName": "Patrick",
+  "lastName": "Alarcon",
+  "city": "New York",
+  "state": "NY"
+}
+
+###
+
+GET {{authurl}}/6 HTTP/1.1
+
+###
+
+PUT {{authurl}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "appUserId": 6,
+  "firstName": "Patrick",
+  "lastName": "Alarcon",
+  "city": "Miami",
+  "state": "FL"
+}
+
+###
+
+GET {{authurl}}/6 HTTP/1.1
+
+###
+
+DELETE {{authurl}}/6 HTTP/1.1
+Authorization: Bearer {{jwt}}
+
+###
+
+DELETE {{authurl}}/2 HTTP/1.1
+Authorization: Bearer {{nonadmin}}
+
+

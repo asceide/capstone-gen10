@@ -20,6 +20,7 @@ class AppUserInfoServiceTest {
     @MockBean
     AppUserInfoJdbcRepository repository;
 
+
     @MockBean
     PasswordEncoder encoder;
 
@@ -31,6 +32,7 @@ class AppUserInfoServiceTest {
 
         assertNotNull(service.findByAppUserId(1));
     }
+
 
     @Test
     void shouldAdd(){

@@ -59,9 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/photo/*").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/user/").permitAll() // Can only be done by authenticated users in the future
-                .antMatchers(HttpMethod.PUT, "/api/user/").permitAll() // Can only be done by authenticated users in the future
-                .antMatchers(HttpMethod.DELETE, "/api/user/**").permitAll() // Can only be done by admins in the future
+                .antMatchers(HttpMethod.GET, "/api/user").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/").hasAnyRole("USER", "ADMIN") // Can only be done by authenticated users in the future
+                .antMatchers(HttpMethod.PUT, "/api/user/").hasAnyRole("USER", "ADMIN") // Can only be done by authenticated users in the future
+                .antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN") // Can only be done by admins in the future
                 .antMatchers("/**").denyAll()
                 .and()// Deny all other requests
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter)) // Since Spring Security is mostly Spring MVC filters, we model our custom JWT authentication with filters. The filter intercepts the HTTP request early and determines authentication and authorization.
