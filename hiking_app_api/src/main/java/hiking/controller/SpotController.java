@@ -107,6 +107,6 @@ public class SpotController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(result.getMessages(), HttpStatus.NOT_FOUND);
     }
 }

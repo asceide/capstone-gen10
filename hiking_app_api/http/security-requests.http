@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "username": "admin@tohoku.ac.jp",
-  "password": "Nyc#1234"
+  "password": "vsQmELCRmriTw0IsAFwi+aVQggAe3xOpolX8Y+qdS78Bejxalgz1h/Obv40b+dRstRQlmDR3Lpuv+Up0a3rhZBY12leoeAKMmlXugNaBEyRqZkRqLvKhULOn5oeTAQC0KQCwLcqTFzuBhuGJLU6EYrKjXdmRc6wxl9CNzvfW6agY+4tWOvfFlNMAWiBz5AnpEXh7UpR0RzD8zXU1tUYV7lj4bfwEimMt+cQ+FZJPSgsmxAMb5YnKAZSqim8jMIzjuaaf0Jpo8U8Q4u4kBg7NsLws6xfVCBID2bGz8d+k1rbZ8xoBQlha+t4D92l2FCTuCs47780PsNYuDhKnFrq/Zw=="
 }
 
 
@@ -21,11 +21,19 @@ Content-Type: application/json
 
 POST http://localhost:8080/refresh_token HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoaWtpbmctYXBwIiwic3ViIjoiYWRtaW5AdG9ob2t1LmFjLmpwIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiZXhwIjoxNjU1MjQ2MTA4fQ.FkknCt64RiYoz90dc6eW6sTzMWVz_6hRWOp_EAPs0KA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoaWtpbmctYXBwIiwic3ViIjoiYWRtaW5AdG9ob2t1LmFjLmpwIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiZXhwIjoxNjU1MzIzMDA0fQ.YK26guEAVVHLbL9yKoFwtYy45eDsLmEgKLAquB8DQBE
 
 {
-  "username": "admin@tohoku.ac.jp",
-  "password": "Nyc#1234"
+  "username": "admin@tohoku.ac.jp"}
+
+###
+
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "admin@tohoku.co.jp",
+    "password": "vsQmELCRmriTw0IsAFwi+aVQggAe3xOpolX8Y+qdS78Bejxalgz1h/Obv40b+dRstRQlmDR3Lpuv+Up0a3rhZBY12leoeAKMmlXugNaBEyRqZkRqLvKhULOn5oeTAQC0KQCwLcqTFzuBhuGJLU6EYrKjXdmRc6wxl9CNzvfW6agY+4tWOvfFlNMAWiBz5AnpEXh7UpR0RzD8zXU1tUYV7lj4bfwEimMt+cQ+FZJPSgsmxAMb5YnKAZSqim8jMIzjuaaf0Jpo8U8Q4u4kBg7NsLws6xfVCBID2bGz8d+k1rbZ8xoBQlha+t4D92l2FCTuCs47780PsNYuDhKnFrq/Zw=="
 }
 
 ###
@@ -35,5 +43,5 @@ Content-Type: application/json
 
 {
   "username": "admin@tohoku.co.jp",
-    "password": "Nyc#1234"
+  "password": "XqMk4/RGZTRV/shC25yklm5do8tJbsufWSre7ORIXIynSY0LqJ/+W2fiqiOEqEBrJIhxYxgFXMuVPFbizGcHB6mG3kXhacMtC3o6NzACZ+0DdeggAZmpkr0ZB9jne7UT6CnjZ2KMrZVuHbUP4qImEbWik6ct0Qdw61PFFfqtG2y/Dz8mydnOYV06BSLdcWDAh6aNa42OhmJOs23ssmz0vM3TdGobjfzUJ9jB8kbJjmVlcGhIYrEZvDfquHPMY0kgGh21UnoZ/MAl+qqbpnWWJTgMuKYERdOjehq9nJBuC7x592MjSjmok0kkHiFFGHyPfUx10gscdt+Ey1tMkN3U9g=="
 }
