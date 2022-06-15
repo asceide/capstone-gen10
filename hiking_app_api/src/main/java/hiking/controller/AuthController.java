@@ -2,6 +2,7 @@ package hiking.controller;
 
 import hiking.models.AppUser;
 import hiking.security.AppUserService;
+import hiking.security.Cryptography;
 import hiking.security.JwtConverter;
 import hiking.service.Result;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.ValidationException;
+import java.security.PrivateKey;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -32,18 +34,39 @@ public class AuthController {
     private final JwtConverter converter;
     private final AppUserService userService;
 
-    public AuthController(AuthenticationManager manager, JwtConverter converter, AppUserService userService) {
+    private final Cryptography cryptography;
+
+    public AuthController(AuthenticationManager manager, JwtConverter converter, AppUserService userService, Cryptography cryptography) {
         this.manager = manager;
         this.converter = converter;
         this.userService = userService;
+        this.cryptography = cryptography;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody Map<String, String> credentials) {
+        // The password will be encrypted with Base64 encoding  when receiving it, so we need to decode and then decrypt.
+        String password = null;
+        try{
+            // Decode the password and then decrypt it, set the unencrypted password to be sent for hashing.
+            password = decryptPassword(credentials.get("password"));
+        }catch (Exception e){
+            HashSet<String> errors = new HashSet<>();
+            errors.add("Could not load private key");
+           return new ResponseEntity<>(errors,HttpStatus.I_AM_A_TEAPOT);
+        }
+
+        if(password==null || password.isEmpty()) {
+            HashSet<String> errors = new HashSet<>();
+            errors.add("Password is empty");
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+
         // The 'UsernamePasswordAuthenticationToken' class is an Authentication implementation that
         // is designed for simple presentation of a username and password.
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                credentials.get("username"), credentials.get("password"));
+                credentials.get("username"), password);
         try{
             //The 'Authentication' interface represents the token for an authentication request
             // or for an autheticated principal once the request has been processed by the
@@ -106,5 +129,12 @@ public class AuthController {
         map.put("username", user.getUsername());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
+
+    // This method decrypts the password from the request.
+    private String decryptPassword(String password) throws Exception {
+        // load up the private key file and send it to be decrypted.
+        PrivateKey privateKey = cryptography.getPrivateKey("keys/privateKey");
+        return cryptography.decrypt(password, privateKey);
     }
 }
