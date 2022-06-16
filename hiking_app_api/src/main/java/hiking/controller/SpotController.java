@@ -22,7 +22,13 @@ public class SpotController {
     public SpotController(SpotService service) {this.service = service;}
 
     @GetMapping
-    public List<Spot> getSpots() {return service.findAll();}
+    public List<Spot> getSpots(@RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId) {
+        if (trailId != 0) {
+            return service.findByTrail(trailId);
+        }
+
+        return service.findAll();
+    }
 
     @GetMapping("/{spotId}")
     public ResponseEntity<Spot> getSpot(@PathVariable int spotId) {

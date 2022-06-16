@@ -46,6 +46,28 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     }
 
     @Override
+    public List<Spot> findByTrail(int trailId) {
+        final String sql = "select spot.spot_id, " +
+                "name, " +
+                "gps_lat, " +
+                "gps_long, " +
+                "rating, " +
+                "rating_count, " +
+                "description, " +
+                "app_user_id " +
+                "from spot " +
+                "inner join trail_spot on spot.spot_id = trail_spot.spot_id " +
+                "where trail_spot.trail_id = ?;";
+
+        List<Spot> spots = jdbcTemplate.query(sql, new SpotMapper(), trailId);
+        for (Spot s : spots) {
+            addTrails(s);
+            addUploader(s);
+        }
+        return spots;
+    }
+
+    @Override
     public Spot findById(int spotId) {
         final String sql = "select spot_id, " +
                 "name, " +

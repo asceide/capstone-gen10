@@ -38,6 +38,13 @@ class SpotJdbcTemplateRepositoryTest {
    }
 
    @Test
+   void shouldFindByTrail() {
+       List<Spot> spots = repository.findByTrail(2);
+
+       assertTrue(spots.size() >= 2);
+   }
+
+   @Test
    void shouldFindCoolSpot() {
        Spot actual = repository.findById(1);
        assertEquals("Super cool test spot", actual.getName());

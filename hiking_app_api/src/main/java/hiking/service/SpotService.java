@@ -22,6 +22,8 @@ public class SpotService {
 
     public List<Spot> findAll() {return repository.findAll();}
 
+    public List<Spot> findByTrail(int trailId) {return repository.findByTrail(trailId);}
+
     public Spot findById(int spotId) {return repository.findById(spotId);}
 
     public Result<Spot> add(Spot spot) {
