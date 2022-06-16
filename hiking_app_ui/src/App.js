@@ -2,20 +2,31 @@ import {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthContext, UserContext } from './context';
 import { refresh } from './services/authentication';
+import { findByEmail } from './services/users';
 import { Home, Login, NavBar } from './components';
+
+
 
 function App() {
 
   const [user, setUser] = useState();
+  const [userInfo, setUserInfo] = useState();
 
   useEffect(() => {
     refresh().then(setUser).catch(logout);
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      findByEmail(user.sub).then(setUserInfo);
+      
+    }
+  }, [user]);
+
   const logout = () => {
     setUser();
     localStorage.removeItem('jwt');
-  }
+  };
 
   const context = {
     user,
@@ -23,8 +34,17 @@ function App() {
     logout
   };
 
+  const userContext = {
+    appUserId: userInfo.appUserId,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+    city: userInfo.city,
+    state: userInfo.state,
+  };
+
   return (
     <AuthContext.Provider value={context}>
+      <UserContext.Provider value={userContext}>
       <Router>
         <NavBar />
         <Routes>
@@ -32,6 +52,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
+      </UserContext.Provider>
     </AuthContext.Provider>
   );
 }

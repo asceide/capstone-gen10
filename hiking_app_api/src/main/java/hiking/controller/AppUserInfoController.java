@@ -43,7 +43,7 @@ public class AppUserInfoController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/")
+    @PostMapping("/getinfo")
     public ResponseEntity<Object> loadByUserName(@RequestBody Map<String, String> user){
         String username = user.get("username");
         AppUserInfo userInfo = service.findByUsername(username);

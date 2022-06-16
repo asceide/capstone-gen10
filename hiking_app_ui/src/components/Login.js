@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { authenticate } from '../services/authentication';
+
 // To use with encryption.
 import { JSEncrypt } from 'jsencrypt';
 
@@ -15,6 +16,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const { login } = React.useContext(AuthContext);
+
 
     useEffect(() => {
         // We nab the public key from the file in the public folder. It is in a text format.
