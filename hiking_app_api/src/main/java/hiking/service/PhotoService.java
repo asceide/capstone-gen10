@@ -37,8 +37,6 @@ public class PhotoService {
             return result;
         }
 
-        // if the repo throws a DataIntegrityViolationException, it means the spot does not exist
-        // so we return not found
         try {
             SpotPhoto returned = repository.addPhoto(photo);
             result.setPayload(returned);

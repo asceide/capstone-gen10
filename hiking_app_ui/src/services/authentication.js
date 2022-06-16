@@ -1,13 +1,13 @@
 const url = process.env.REACT_APP_API_URL + 'authenticate';
-const refreshURL = process.env.REACT_APP_API_URL + 'refresh';
+const refreshURL = process.env.REACT_APP_API_URL + 'refresh_token';
 
 // In this function we create a user by using the jwt_token to gather some information.
 function makeUser(body) {
     const token = body.jwt_token; // We get the jwt_token from the body.
     const sections = token.split('.'); // We split the jwt_token into its respectives sections
-    const payload = atob(sections[1]); // And we grab
-    const user = JSON.parse(payload);
-    localStorage.setItem('jwt',token);
+    const payload = atob(sections[1]); // And we grab the second part from the jwt_token, which is the payload that contains the sub, iss, exp, etc.
+    const user = JSON.parse(payload); // We parse that payload into a JSON object and set it to the user
+    localStorage.setItem('jwt',token); // We set the token to localStorage so we can use it later.
     return user;
 }
 

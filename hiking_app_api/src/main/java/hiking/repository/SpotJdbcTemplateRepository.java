@@ -154,7 +154,6 @@ public class SpotJdbcTemplateRepository implements SpotRepository {
     @Override
     public boolean deleteById(int spotId) {
         jdbcTemplate.update("delete from trail_spot where spot_id = ?;", spotId);
-        jdbcTemplate.update("delete from spot_photo where spot_id = ?;", spotId);
         return jdbcTemplate.update("delete from spot where spot_id = ?;", spotId) > 0;
     }
 
