@@ -41,6 +41,8 @@ public class Spot {
 
     private List<Trail> trails;
 
+    private AppUserInfo uploader;
+
     public int getSpotId() {
         return spotId;
     }
@@ -116,6 +118,14 @@ public class Spot {
     public int getRatingCount() {return ratingCount;}
 
     public void setRatingCount(int ratingCount) {this.ratingCount = ratingCount;}
+
+    public AppUserInfo getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(AppUserInfo uploader) {
+        this.uploader = uploader;
+    }
 
     @Override
     public boolean equals(Object o) {
