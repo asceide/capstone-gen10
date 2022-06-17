@@ -54,7 +54,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/spot/:spotId" element={<Spot />} />
-          <Route path="/spot/photos/:spotId" element={<SpotPhotos />} />
+          <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
           <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
         </Routes>
       </Router>

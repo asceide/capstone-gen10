@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 export default function PhotoSubmit() {
 
     const bucketUrl = "https:hikinh-test-bucket.s3.us-east-1.amazonaws.com"
-    const [fileUrl, setFileUrl] = useState();
     const [message, setMessage] = useState();
     const [file, setFile] = useState();
 
@@ -16,21 +15,24 @@ export default function PhotoSubmit() {
 
 
     const handleSubmit = async (evt) => {
-        const imageName = Math.floor(Math.random() * 5000);
-        const uploadUrl = `${bucketUrl}/${imageName}`;
+        
         evt.preventDefault();
-        bucketUpload(uploadUrl, file)
-            .then(setFileUrl)
-            .catch(console.error)
-
+        const imageName = Math.floor(Math.random() * 5000);
+        const photoUrl = `${bucketUrl}/${imageName}`;
         const uploadedPhoto = {
-            spotId: {spotId},
-            photoUrl: {uploadUrl}
+            spotId,
+            photoUrl
         }
 
-        addPhoto(uploadedPhoto)
-            .then(navigate(`/spot/${spotId}`))
+        bucketUpload(photoUrl, file)
+            .then(addPhoto(`spot-id=${spotId}`, uploadedPhoto)
+                    .then(navigate(`/spot/${spotId}`))
+                    .catch(setMessage))
             .catch(setMessage)
+
+        
+
+        
     }
 
     const handleChange = (evt) => {
@@ -57,7 +59,6 @@ export default function PhotoSubmit() {
                 <h2>{message}</h2>
             </div>
 
-            <img src={fileUrl}></img>
         </div>
     )
 }

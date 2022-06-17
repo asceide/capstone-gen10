@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "api/spot/rate/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/spot/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/photo").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/photo").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/photo").permitAll()
                 .antMatchers(HttpMethod.PUT, "/api/photo/*").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/photo/*").hasRole("ADMIN")
                 .antMatchers("/refresh_token").authenticated()

@@ -52,8 +52,8 @@ public class PhotoController {
     // request parameters again so that either spot or trail photo are accepted
     @PostMapping
     public ResponseEntity<Object> add(@RequestParam(value = "spot-id", required = false, defaultValue = "0") int spotId,
-                                               @RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId,
-                                               @RequestBody Map<String, String> map) {
+                                      @RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId,
+                                      @RequestBody Map<String, String> map) {
 
         // get the photo url out of the json object
         String photoUrl = map.get("photoUrl");

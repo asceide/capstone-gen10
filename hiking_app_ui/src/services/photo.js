@@ -17,7 +17,7 @@ export async function findByTrail(trailId) {
     return Promise.reject();
 }
 
-export async function addPhoto(photo) {
+export async function addPhoto(param, photo) {
     const init = {
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ export async function addPhoto(photo) {
         body: JSON.stringify(photo)
     };
 
-    const response = await fetch(url, init);
+    const response = await fetch(`${url}?${param}`, init);
     if(response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
@@ -80,10 +80,10 @@ export async function bucketUpload(bucketUrl, photo) {
         body: photo
     }
 
-    const response = await fetch(url, init);
+    const response = await fetch(bucketUrl, init);
 
     if (!response.ok) {
-        throw new Error("Unable to upload to s3");
+        return Promise.reject(["Unable to upload to photo"]);
     }
 
 }
