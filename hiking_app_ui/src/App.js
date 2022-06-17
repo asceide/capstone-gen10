@@ -8,6 +8,7 @@ import Spot from './components/Spot';
 import SpotPhotos from './components/SpotPhotos';
 import Trails from "./components/Trails";
 import TrailDetails from "./components/TrailDetails";
+import PhotoSubmit from './components/SpotPhotoSubmit';
 
 
 
@@ -57,7 +58,8 @@ function App() {
           <Route path="/trails/:trailId" element={<TrailDetails/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/spot/:spotId" element={<Spot />} />
-          <Route path="/spot/photos/:spotId" element={<SpotPhotos />} />
+          <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
+          <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
         </Routes>
       </Router>
       </UserContext.Provider>

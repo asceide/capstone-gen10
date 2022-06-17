@@ -1,5 +1,6 @@
 const url = "http://localhost:8080/api/photo";
 
+
 export async function findBySpot(spotId) {
     const response = await fetch(`${url}?spot-id=${spotId}`);
     if(response.status === 200) {
@@ -16,7 +17,7 @@ export async function findByTrail(trailId) {
     return Promise.reject();
 }
 
-export async function addPhoto(photo) {
+export async function addPhoto(param, photo) {
     const init = {
         method: "POST",
         headers: {
@@ -26,7 +27,7 @@ export async function addPhoto(photo) {
         body: JSON.stringify(photo)
     };
 
-    const response = await fetch(url, init);
+    const response = await fetch(`${url}?${param}`, init);
     if(response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
@@ -67,4 +68,22 @@ export async function deletePhoto(photoId) {
     if (!response.ok) {
         throw new Error("Delete was not 204");
     }
+}
+
+export async function bucketUpload(bucketUrl, photo) {
+    
+    const init = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        body: photo
+    }
+
+    const response = await fetch(bucketUrl, init);
+
+    if (!response.ok) {
+        return Promise.reject(["Unable to upload to photo"]);
+    }
+
 }
