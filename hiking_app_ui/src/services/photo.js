@@ -16,12 +16,12 @@ export async function findByTrail(trailId) {
     return Promise.reject();
 }
 
-export async function addPhoto(photo, user) {
+export async function addPhoto(photo) {
     const init = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${user}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         },
         body: JSON.stringify(photo)
     };
@@ -35,12 +35,12 @@ export async function addPhoto(photo, user) {
     }
 }
 
-export async function updatePhoto(photo, user) {
+export async function updatePhoto(photo) {
     const init = {
         method: "PUT",
         headers: {
             "Content-Type": "application.json",
-            "Authorization": `Bearer ${user}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         },
         body: JSON.stringify(photo)
     };
@@ -54,12 +54,17 @@ export async function updatePhoto(photo, user) {
     }
 }
 
-export async function deletePhoto(photoId, user) {
+export async function deletePhoto(photoId) {
     const init = {
         method: "DELETE",
         headers: {
-            "Authorization": `Bearer ${user}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     };
 
+    const response = await fetch(`${url}/${photoId}`, init);
+
+    if (!response.ok) {
+        throw new Error("Delete was not 204");
+    }
 }

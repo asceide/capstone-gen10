@@ -1,7 +1,5 @@
 package hiking.repository.mappers;
 
-
-import hiking.models.Trail;
 import hiking.models.TrailPhoto;
 import org.springframework.jdbc.core.RowMapper;
 
