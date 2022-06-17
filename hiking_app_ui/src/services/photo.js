@@ -1,5 +1,6 @@
 const url = "http://localhost:8080/api/photo";
 
+
 export async function findBySpot(spotId) {
     const response = await fetch(`${url}?spot-id=${spotId}`);
     if(response.status === 200) {
@@ -67,4 +68,22 @@ export async function deletePhoto(photoId) {
     if (!response.ok) {
         throw new Error("Delete was not 204");
     }
+}
+
+export async function bucketUpload(bucketUrl, photo) {
+    
+    const init = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        body: photo
+    }
+
+    const response = await fetch(url, init);
+
+    if (!response.ok) {
+        throw new Error("Unable to upload to s3");
+    }
+
 }
