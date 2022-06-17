@@ -12,6 +12,7 @@ export default function NavBar() {
             <nav className="navbar navbar-dark bg-dark">
                 <div className="container">
                     <Link to="/" className="navbar-brand">Hiking App</Link>
+                    <Link to="/trails" className="btn btn-primary p-2 mx-3">Trails</Link> 
                     <div className="col d-flex justify-content-center">
                     {
                         user && userInfo? 
