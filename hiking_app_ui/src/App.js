@@ -6,7 +6,8 @@ import { findByEmail } from './services/users';
 import { Home, Login, NavBar } from './components';
 import Spot from './components/Spot';
 import SpotPhotos from './components/SpotPhotos';
-import PhotoSubmit from './components/SpotPhotoSubmit';
+import SpotPhotoSubmit from './components/SpotPhotoSubmit';
+import SpotForm from './components/SpotForm';
 
 
 
@@ -55,7 +56,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
+          <Route path="/spot/photo/submit/:spotId" element={<SpotPhotoSubmit />} />
+          <Route path="/spot/add/:trailId" element = {<SpotForm />} />
         </Routes>
       </Router>
       </UserContext.Provider>

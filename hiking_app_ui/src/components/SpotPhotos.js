@@ -25,7 +25,7 @@ export default function SpotPhotos() {
 
     return (<div className="container">
         <div className="row align-items-center">
-            <div className="col"  style={{"text-align": "center"}}>
+            <div className="col"  style={{textAlign: "center"}}>
                 <h1>{spot?.name}: Photos</h1>
             </div>
         </div>
