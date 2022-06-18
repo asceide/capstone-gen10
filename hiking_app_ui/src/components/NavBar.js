@@ -5,7 +5,7 @@ import UserContext from "../context/UserContext";
 
 export default function NavBar() {
     const { user, logout } = useContext(AuthContext);
-    const userInfo = useContext(UserContext);
+    const userData = useContext(UserContext).userInfo;
 
     return(
         <div>
@@ -15,8 +15,8 @@ export default function NavBar() {
                     <Link to="/trails" className="btn btn-primary p-2 mx-3">Trails</Link> 
                     <div className="col d-flex justify-content-center">
                     {
-                        user && userInfo? 
-                        <h3 className="text-white">Welcome {userInfo.firstName}</h3> : <></>
+                        user && userData? 
+                        <h3 className="text-white">Welcome {userData.firstName? userData.firstName: `User ${userData.appUserId}`}</h3> : <></>
                     }
                     </div>
                     <div className="col d-flex justify-content-end">

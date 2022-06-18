@@ -41,6 +41,15 @@ public class AppUserInfoService {
 
         return repository.findByAppUserId(user.getAppUserId());
     }
+
+    public int findUserIdByUsername(String username) {
+        AppUser user = userRepository.findByEmail(username);
+        if(user == null){
+            return 0;
+        }
+
+        return user.getAppUserId();
+    }
     public Result<AppUserInfo> add(AppUserInfo info){
         Result<AppUserInfo> result = new Result<>();
 

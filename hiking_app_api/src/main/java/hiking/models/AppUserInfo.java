@@ -2,12 +2,10 @@ package hiking.models;
 
 
 import hiking.validation.NonBlankCityState;
+import hiking.validation.NullOrNotBlankEmpty;
 import hiking.validation.ValidUsState;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @NonBlankCityState
 public class AppUserInfo {
@@ -15,18 +13,19 @@ public class AppUserInfo {
     @Min(value = 1, message = "User ID must be set when adding user info")
     private int appUserId;
 
-    @NotBlank(message = "First name must not be blank if using")
+    @NullOrNotBlankEmpty
     @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
     private String firstName;
 
-    @NotBlank(message = "Last name must not be blank if using")
+    @NullOrNotBlankEmpty
     @Size(min = 1, max = 20, message = "Last name must be between 1 and 50 characters if using")
     private String lastName;
 
-
+    @NullOrNotBlankEmpty
     @Size(min = 1, max = 30, message = "City must be between 1 and 30 characters if using")
     private String city;
 
+    @NullOrNotBlankEmpty
     @ValidUsState
     @Size(min = 2, max = 2, message = "State must be 2 characters if using")
     private String state;
