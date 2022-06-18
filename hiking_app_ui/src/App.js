@@ -5,6 +5,11 @@ import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
 import { Home, Login, NavBar, CreateAccount } from './components';
 import { encrypt as encryption } from './helpers/encryption';
+import Spot from './components/Spot';
+import SpotPhotos from './components/SpotPhotos';
+import Trails from "./components/Trails";
+import TrailDetails from "./components/TrailDetails";
+import PhotoSubmit from './components/SpotPhotoSubmit';
 
 
 
@@ -58,8 +63,13 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/trails" element={<Trails/>}/>
+          <Route path="/trails/:trailId" element={<TrailDetails/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/spot/:spotId" element={<Spot />} />
+          <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
+          <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
         </Routes>
       </Router>
       </UserContext.Provider>

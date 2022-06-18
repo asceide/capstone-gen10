@@ -22,7 +22,13 @@ public class SpotController {
     public SpotController(SpotService service) {this.service = service;}
 
     @GetMapping
-    public List<Spot> getSpots() {return service.findAll();}
+    public List<Spot> getSpots(@RequestParam(value = "trail-id", required = false, defaultValue = "0") int trailId) {
+        if (trailId != 0) {
+            return service.findByTrail(trailId);
+        }
+
+        return service.findAll();
+    }
 
     @GetMapping("/{spotId}")
     public ResponseEntity<Spot> getSpot(@PathVariable int spotId) {
@@ -76,7 +82,7 @@ public class SpotController {
         return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/{spotId}/rate")
+    @PostMapping("/rate/{spotId}")
     public ResponseEntity<Object> rate(@PathVariable int spotId, @RequestParam int rating) {
         if (spotId <= 0) {
             return new ResponseEntity<>(List.of("Spot id must be greater than 0"), HttpStatus.BAD_REQUEST);
