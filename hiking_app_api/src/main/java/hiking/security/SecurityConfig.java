@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/getinfo").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/id").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/").hasAnyRole("USER", "ADMIN") // Can only be done by authenticated users in the future
                 .antMatchers(HttpMethod.PUT, "/api/user/").hasAnyRole("USER", "ADMIN") // Can only be done by authenticated users in the future
                 .antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN") // Can only be done by admins in the future

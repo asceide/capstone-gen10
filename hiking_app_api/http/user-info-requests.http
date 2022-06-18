@@ -12,7 +12,16 @@ POST {{authurl}}/getinfo HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "test@tesla.com"
+  "username": "tess@gmail.com"
+}
+
+###
+
+POST {{authurl}}/id HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "tess@gmail.com"
 }
 
 ###
