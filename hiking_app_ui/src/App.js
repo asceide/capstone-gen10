@@ -13,6 +13,8 @@ import SpotForm from './components/SpotForm';
 
 function App() {
 
+;
+
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
 

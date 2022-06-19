@@ -1,20 +1,24 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import {Wrapper, Status} from "@googlemaps/react-wrapper";
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
+import Map from './Map';
+import {useLoadScript} from '@react-google-maps/api';
+
+const apiKey = "";
 
 export default function SpotForm() {
 
-    const ref = React.useRef(null);
-    const [map, setMap] = useState();
 
-    useEffect(() => {
-        if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, {}));
-        }
-    }, [ref, map])
 
     const { trailId } = useParams();
     const navigate = useNavigate();
+
+    const {isLoaded} = useLoadScript({
+        googleMapsApiKey: {apiKey},
+        libraries: ["places"],
+      })
+
+      if(!isLoaded) return <div>Loading...</div>
 
     return (
         <div className="container">
@@ -65,8 +69,11 @@ export default function SpotForm() {
 
                     </form>
                 </div>
-                <div className="col">
-
+                
+            </div>
+            <div className="row">
+            <div className="col">
+                    <Map />
                 </div>
             </div>
 
