@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Map from './Map';
 import {useLoadScript} from '@react-google-maps/api';
 import {findById as findTrail} from "../services/trail";
-import { findById as findSpot } from '../services/spot';
+import { findById as findSpot, findByTrail } from '../services/spot';
 
 export default function SpotForm() {
 
@@ -19,6 +19,7 @@ export default function SpotForm() {
         googleMapsApiKey: "",
         libraries: ["places"],
       })
+
 
       useEffect(() => {
         if(spotId) {
