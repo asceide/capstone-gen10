@@ -3,13 +3,9 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthContext, UserContext } from './context';
 import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
-import { Home, Login, NavBar, CreateAccount } from './components';
+import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, PhotoSubmit } from './components';
 import { encrypt as encryption } from './helpers/encryption';
-import Spot from './components/Spot';
-import SpotPhotos from './components/SpotPhotos';
-import Trails from "./components/Trails";
-import TrailDetails from "./components/TrailDetails";
-import PhotoSubmit from './components/SpotPhotoSubmit';
+import { set } from 'react-hook-form';
 
 
 
@@ -32,6 +28,7 @@ function App() {
     if (user) {
       findByEmail(user.sub).then(setUserInfo).catch("no info");
     }
+  
   }, [user]);
 
   useEffect(() => {
@@ -66,7 +63,8 @@ function App() {
           <Route path="/trails" element={<Trails/>}/>
           <Route path="/trails/:trailId" element={<TrailDetails/>}/>
           <Route path="/login" element={<Login />} />
-          <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/register" element={<CreateAccount />} />
+          <Route path="/user/edit" element={<EditUser />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
           <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
