@@ -89,7 +89,7 @@ export default function Spot() {
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
                     {photos[0] &&
                         <img src={photos[0].photoUrl}
-                            className="w-100 shadow-1-strong rounded mb-4" />}
+                            className="shadow-1-strong rounded mb-4" height="400" width="400" />}
                 </div>
             </div>
 

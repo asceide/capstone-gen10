@@ -7,6 +7,8 @@ import { Home, Login, NavBar, CreateAccount } from './components';
 import { encrypt as encryption } from './helpers/encryption';
 import Spot from './components/Spot';
 import SpotPhotos from './components/SpotPhotos';
+import SpotPhotoSubmit from './components/SpotPhotoSubmit';
+import SpotForm from './components/SpotForm';
 import Trails from "./components/Trails";
 import TrailDetails from "./components/TrailDetails";
 import PhotoSubmit from './components/SpotPhotoSubmit';
@@ -14,6 +16,8 @@ import PhotoSubmit from './components/SpotPhotoSubmit';
 
 
 function App() {
+
+;
 
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -69,7 +73,8 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
+          <Route path="/spot/photo/submit/:spotId" element={<SpotPhotoSubmit />} />
+          <Route path="/spot/add/:trailId" element = {<SpotForm />} />
         </Routes>
       </Router>
       </UserContext.Provider>

@@ -121,6 +121,7 @@ create table trail_spot(
 		references spot(spot_id)
 );
 
+
 delimiter //
 create procedure set_known_good_state()
 begin
@@ -165,15 +166,6 @@ insert into spot (name, gps_lat, gps_long, rating, description, app_user_id, rat
 insert into trail (name, city, state, trail_length, rating, app_user_id)
 	values ("Fun trail", "Minneapolis", "MN", 4, "Intermediate", 2), ("Cool test trail", "San Francisco", "CA", 2, "Beginner", 3);
             
-insert into photo (photo_url) values ("somefakeurl"), ("testurl"), ("anothertestphoto"), ("onemoretest"), ("deletethisspot"),
-									("sometrailurl"), ("testurltrail"), ("anothertesttrailphoto"), ("onemoretrailtest"), ("deletethistrail");
-
-insert into spot_photo (photo_id, spot_id) values (1, 1), (2, 1), (3, 2), (4, 2), (5,1);
-
-insert into trail_photo (photo_id, trail_id) values (6, 1), (1, 1), (8, 2), (9, 2), (10, 1);
-
-
-    
 insert into trail_spot (trail_id, spot_id) values (1, 1), (2, 1), (2, 2), (1,3);
 
 end //
