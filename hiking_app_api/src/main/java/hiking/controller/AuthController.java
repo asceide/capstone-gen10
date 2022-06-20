@@ -111,9 +111,25 @@ public class AuthController {
         AppUser user = null;
         Result <AppUser> result = new Result<>();
 
+        String password = null;
+        try{
+            // Decode the password and then decrypt it, set the unencrypted password to be sent for hashing.
+            password = decryptPassword(credentials.get("password"));
+        }catch(Exception e){
+            HashSet<String> errors = new HashSet<>();
+            errors.add("Could not load private key");
+            return new ResponseEntity<>(errors,HttpStatus.CHECKPOINT);
+        }
+
+        if(password==null || password.isEmpty()) {
+            HashSet<String> errors = new HashSet<>();
+            errors.add("Password is empty");
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+
         try {
             String username = credentials.get("username");
-            String password = credentials.get("password");
 
             result = userService.create(username, password);
         } catch (DuplicateKeyException ex) {

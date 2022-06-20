@@ -51,6 +51,14 @@ public class AppUserInfoController {
         return ResponseEntity.ok(userInfo);
     }
 
+    @PostMapping("/id")
+    public ResponseEntity<Object> loadByUserId(@RequestBody Map<String, String> user) {
+        String username = user.get("username");
+        int userId = service.findUserIdByUsername(username);
+
+        return ResponseEntity.ok(userId);
+    }
+
     @PostMapping("/")
     public ResponseEntity<Object> add(@Valid @RequestBody AppUserInfo info, BindingResult bindingResult) {
 
