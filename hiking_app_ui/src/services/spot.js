@@ -8,6 +8,14 @@ export async function findById(id) {
     return Promise.reject();
 }
 
+export async function findByTrail(trailId) {
+    const response = await fetch(`${url}?trail-id=${trailId}`);
+    if(response.status === 200) {
+        return response.json();
+    }
+    return Promise.reject();
+}
+
 export async function addSpot(spot) {
     const init = {
         method: "POST",

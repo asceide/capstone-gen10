@@ -75,6 +75,7 @@ function App() {
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
           <Route path="/spot/photo/submit/:spotId" element={<SpotPhotoSubmit />} />
           <Route path="/spot/add/:trailId" element = {<SpotForm />} />
+          <Route path="/spot/edit/:spotId" element = {<SpotForm />} />
         </Routes>
       </Router>
       </UserContext.Provider>

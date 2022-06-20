@@ -15,6 +15,31 @@ export default function Map() {
         clickableIcons: false
     }), []);
 
+
+    let mapString = "";
+
+    for(let x = 0; x < markers.length; x++) {
+        mapString = mapString + `${markers[x].lat},${markers[x].lng};`
+    }
+
+
+    
+    const stringArray = mapString.trim().split(";");
+    stringArray.pop();
+
+    let newMarkers = [];
+
+    for(let i = 0; i < stringArray.length; i++) {
+        const coords = stringArray[i].split(",");
+        const newMark = {
+            lat: parseFloat(coords[0]),
+            lng: parseFloat(coords[1])
+        }
+        newMarkers.push(newMark);
+    }
+
+
+
     const onLoad = useCallback(map => (mapRef.current = map), []);
 
     const onMapClicked = (clickEvent) => {

@@ -3,22 +3,41 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Map from './Map';
 import {useLoadScript} from '@react-google-maps/api';
-
-const apiKey = "";
+import {findById as findTrail} from "../services/trail";
+import { findById as findSpot } from '../services/spot';
 
 export default function SpotForm() {
 
 
 
-    const { trailId } = useParams();
+    const { trailId, spotId } = useParams();
     const navigate = useNavigate();
+    const [trail, setTrail] = useState();
+    const [spot, setSpot] = useState();
 
     const {isLoaded} = useLoadScript({
-        googleMapsApiKey: {apiKey},
+        googleMapsApiKey: "",
         libraries: ["places"],
       })
 
+      useEffect(() => {
+        if(spotId) {
+            findSpot(spotId)
+                .then(setSpot)
+                .then(findTrail(spot?.trails[0]?.trailId).then(setTrail))
+                .catch(navigate("/"))
+        } else {
+            findTrail(trailId)
+            .then(setTrail)
+            .catch()
+        }
+        }, []);
+
+        
+
       if(!isLoaded) return <div>Loading...</div>
+
+
 
     return (
         <div className="container">
