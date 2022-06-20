@@ -121,27 +121,6 @@ create table trail_spot(
 		references spot(spot_id)
 );
 
-insert into app_role (role_name) values
-	('USER'), ('ADMIN');
-insert into app_user(email, password_hash) values
-    ("test@gmail.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), ("test@dev-10.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa'), 
-    ("test@apple.com", '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa');
-    
-insert into app_user_info (app_user_id, first_name, last_name, city, state) values
-(1, "Patrick", "Alarcon", "Austin", "TX"), (2, "John", "Doe", "Minneapolis", "MN"),
-(3, "Steve", "Jobs", "Cupertino", "CA");
-    
-insert into app_user_role values (1,2), (2,1), (3,2);
-
-insert into spot (name, gps_lat, gps_long, rating, description, app_user_id, rating_count) 
-	values ("Super cool test spot", 75.675, 80.945, 4, "A great spot to test the database with", 2, 5),
-			("Second awesome test spot", 45.378, 26.942, 3, "Another spot that can test the repo", 3, 7),
-            ("Test3", 64.236, 89.2346, 2, "One more test spot", 1, 9);
-            
-insert into trail (name, city, state, trail_length, rating, app_user_id)
-	values ("Fun trail", "Minneapolis", "MN", 4, "Intermediate", 2), ("Cool test trail", "San Francisco", "CA", 2, "Beginner", 3);
-            
-insert into trail_spot (trail_id, spot_id) values (1, 1), (2, 1), (2, 2), (1,3);
 
 delimiter //
 create procedure set_known_good_state()
