@@ -12,8 +12,8 @@ POST http://localhost:8080/authenticate HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "juser@example.com",
-  "password": "inxEe7NWN3pr+V6xtMG6GSGH/AkYy2CN1iLrqkWHbXHxi5fLtXQ+InDzXXbJAJoVV0bRhafpvHYM9bAOmkGA3xM13tvqemLBMw/hmF+ZfJFebVU8Bdyh63yBeCtSkVU4rACRxFTOF1cvsA+w+IWuhGJ2aCMnQTENdzqSOgQmh6CL2fw5LZ5CCseKv+i2nbV9fl+bgPUP0d+nHer5tvQFGuNacwbAPEVSrXLqdwFQdVi19Nh0BPpytpDCsdn27Qk4Ccwd5OsaH9rBPoE0Q6Ud/dKgI1MEuwsmZgRaQbieFjbR9HQusAYYFiOUQpb+eGT3MpWua8w3nNBSFgkf7hDeZQ=="
+  "username": "",
+  "password": ""
 }
 
 
