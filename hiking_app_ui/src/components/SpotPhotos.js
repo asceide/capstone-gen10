@@ -3,7 +3,7 @@ import { findById } from "../services/spot";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { AuthContext } from "../context";
-import SpotPhotoSubmit from "./SpotPhotoSubmit";
+import PhotoSubmit from "./PhotoSubmit";
 
 
 export default function SpotPhotos() {
@@ -67,7 +67,7 @@ export default function SpotPhotos() {
         </div>
         <div className="row">
             {photoForm && 
-            <SpotPhotoSubmit spotId={spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
+            <PhotoSubmit spotId={spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
             }
             
         </div>

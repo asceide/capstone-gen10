@@ -2,7 +2,7 @@ import { useState } from "react";
 import { bucketUpload, addPhoto } from "../services/photo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-export default function SpotPhotoSubmit({spotId, toggleForm, photos, setPhotos}) {
+export default function PhotoSubmit({spotId=0, trailId=0, toggleForm, photos, setPhotos}) {
 
     const bucketUrl = "https://hiking-app-photos.s3.amazonaws.com"
     const [message, setMessage] = useState();
@@ -19,12 +19,13 @@ export default function SpotPhotoSubmit({spotId, toggleForm, photos, setPhotos})
         evt.preventDefault();
         const imageName = file.name;
         const photoUrl = `${bucketUrl}/${imageName}`;
-        const uploadedPhoto = {
-            spotId,
-            photoUrl
-        }
-
-        await bucketUpload(photoUrl, file)
+        let uploadedPhoto;
+        if(spotId) {
+            uploadedPhoto = {
+                spotId,
+                photoUrl
+            }
+            await bucketUpload(photoUrl, file)
             .then(toggleForm())
             .then(newPhotos = newPhotos.concat([{
                 photoUrl: photoUrl
@@ -33,6 +34,23 @@ export default function SpotPhotoSubmit({spotId, toggleForm, photos, setPhotos})
             .catch(setMessage)
         addPhoto(`spot-id=${spotId}`, uploadedPhoto)
             .catch(setMessage);
+        } else if (trailId) {
+            uploadedPhoto = {
+                trailId,
+                photoUrl
+            }
+            await bucketUpload(photoUrl, file)
+            .then(toggleForm())
+            .then(newPhotos = newPhotos.concat([{
+                photoUrl: photoUrl
+            }]))
+            .then(setPhotos(newPhotos))
+            .catch(setMessage)
+        addPhoto(`trail-id=${trailId}`, uploadedPhoto)
+            .catch(setMessage);
+        }
+
+        
         
 
         
@@ -46,10 +64,16 @@ export default function SpotPhotoSubmit({spotId, toggleForm, photos, setPhotos})
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                {spotId ? <div className="form-group">
+                    <label htmlFor="spotId">Spot #: </label> 
+                     <input type="text" id="spotId" name="spotId" value={spotId} readOnly></input>
+                </div> :
                 <div className="form-group">
-                <label htmlFor="spotId">Spot #: </label>
-                    <input type="text" id="spotId" name="spotId" value={spotId} readOnly></input>
+                    <label htmlFor="trailId">Trail #: </label>
+                    <input type="text" id="trailId" name="trailId" value={trailId} readOnly></input>
                 </div>
+                }
+
                 <div className="form-group" style={{margin: 3}}>
                     <label htmlFor="file">Select photo to upload</label>
                     <input type="file" id="file" name="file" accept="image/*" 

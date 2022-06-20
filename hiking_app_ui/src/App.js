@@ -7,11 +7,9 @@ import { Home, Login, NavBar, CreateAccount } from './components';
 import { encrypt as encryption } from './helpers/encryption';
 import Spot from './components/Spot';
 import SpotPhotos from './components/SpotPhotos';
-import SpotPhotoSubmit from './components/SpotPhotoSubmit';
 import SpotForm from './components/SpotForm';
 import Trails from "./components/Trails";
 import TrailDetails from "./components/TrailDetails";
-import PhotoSubmit from './components/SpotPhotoSubmit';
 
 
 

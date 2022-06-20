@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { findById, rateSpot, findByTrail } from "../services/spot";
 import { findBySpot } from "../services/photo";
 import { AuthContext } from '../context';
-import SpotPhotoSubmit from './SpotPhotoSubmit';
+import PhotoSubmit from './PhotoSubmit';
 
 export default function Spot() {
 
@@ -120,7 +120,7 @@ export default function Spot() {
                 <div className="col-5"></div>
                 {(user && photoForm) ?
                     <div className="row" style={{ marginTop: 2 }}>
-                        <SpotPhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
+                        <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
                     </div> :
                     <div className="col-5">
                         <button className="btn btn-outline-dark" onClick={toggleForm}>Add photo</button>

@@ -16,7 +16,7 @@ export default function SpotForm() {
     const [spot, setSpot] = useState();
 
     const {isLoaded} = useLoadScript({
-        googleMapsApiKey: "AIzaSyAKcQw_DWzVPwvAN88QRSgKSn0IXiFGrNo",
+        googleMapsApiKey: "",
         libraries: ["places"],
       })
 
