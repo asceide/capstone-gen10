@@ -51,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // antMatcher() order matters because they are evaluated in the order they are added
         http.authorizeRequests()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/refresh_token").authenticated()
+                // ***** DONT TOUCH THE ABOVE *******/
                 .antMatchers(HttpMethod.GET, "/api/spot").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/spot").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/spot/*").permitAll()
@@ -61,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/photo").permitAll()
                 .antMatchers(HttpMethod.PUT, "/api/photo/*").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/photo/*").hasRole("ADMIN")
-                .antMatchers("/refresh_token").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/getinfo").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/id").permitAll()
