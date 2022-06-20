@@ -2,34 +2,37 @@ import { useState } from "react";
 import { bucketUpload, addPhoto } from "../services/photo";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-export default function SpotPhotoSubmit() {
+export default function SpotPhotoSubmit({spotId, toggleForm, photos, setPhotos}) {
 
-    const bucketUrl = "https:hikinh-test-bucket.s3.us-east-1.amazonaws.com"
+    const bucketUrl = "https://hiking-app-photos.s3.amazonaws.com"
     const [message, setMessage] = useState();
     const [file, setFile] = useState();
 
 
-
-    const {spotId} = useParams();
     const navigate = useNavigate();
 
 
     const handleSubmit = async (evt) => {
+
+        let newPhotos = [...photos];
         
         evt.preventDefault();
-        const imageName = Math.floor(Math.random() * 5000);
+        const imageName = file.name;
         const photoUrl = `${bucketUrl}/${imageName}`;
         const uploadedPhoto = {
             spotId,
             photoUrl
         }
 
-        bucketUpload(photoUrl, file)
-            .then(addPhoto(`spot-id=${spotId}`, uploadedPhoto)
-                    .then(navigate(`/spot/${spotId}`))
-                    .catch(setMessage))
+        await bucketUpload(photoUrl, file)
+            .then(toggleForm())
+            .then(newPhotos = newPhotos.concat([{
+                photoUrl: photoUrl
+            }]))
+            .then(setPhotos(newPhotos))
             .catch(setMessage)
-
+        addPhoto(`spot-id=${spotId}`, uploadedPhoto)
+            .catch(setMessage);
         
 
         
@@ -54,6 +57,7 @@ export default function SpotPhotoSubmit() {
                 </div>
                 
                 <button type="submit" className="btn btn-outline-dark" style={{margin: 3}}>Add photo</button>
+                <button className="btn btn-outline-danger" style={{margin: 3}} onClick={toggleForm}>Cancel</button>
             </form>
             <div>
                 <h2>{message}</h2>
