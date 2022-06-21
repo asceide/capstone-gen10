@@ -22,7 +22,9 @@ export default function CreateAccount(){
     const [ errInfo, setErrInfo] = useState([]);
 
     const navigate = useNavigate();
-    const onSubmit = (data) => {
+    const onSubmit = (data, evt) => {
+        evt.preventDefault();
+
         // Cleaning up the data - If the string is blank, then set it to null.
         if(data.firstName ===""){
             data.firstName=null;
