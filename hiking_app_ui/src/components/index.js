@@ -8,3 +8,4 @@ export { default as Spot } from './Spot';
 export { default as SpotPhotos } from './SpotPhotos';
 export { default as PhotoSubmit } from './SpotPhotoSubmit';
 export { default as EditUser } from './EditUser';
+export { default as SpotForm } from './SpotForm';

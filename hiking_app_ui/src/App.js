@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthContext, UserContext } from './context';
 import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
-import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, PhotoSubmit } from './components';
+import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, PhotoSubmit, SpotForm } from './components';
 import { encrypt as encryption } from './helpers/encryption';
 
 
 
 function App() {
+
+;
 
   const [user, setUser] = useState();
   const [userInfo, setUserInfo] = useState();
@@ -67,8 +69,8 @@ function App() {
           <Route path="/user/edit" element={<EditUser />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          <Route path="/spot/photo/submit/:spotId" element={<PhotoSubmit />} />
-        </Routes>
+          <Route path="/spot/add/:trailId" element = {<SpotForm />} />
+          </Routes>
       </Router>
       </UserContext.Provider>
     </AuthContext.Provider>
