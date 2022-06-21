@@ -4,9 +4,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
@@ -25,8 +24,16 @@ public class Cryptography {
 
     // This method is used to load up the private key from the file.
     public PrivateKey getPrivateKey(String filename) throws Exception{
-        // Reads the bytes of the private key.
-        byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+        // To be used to locate the resource (private key)
+        ClassLoader loader = getClass().getClassLoader();
+
+        // Read the bytes
+        byte[] keyBytes;
+        // This works in either case of a jar file or a normal file. The class loader will look for a resource all the way up to
+        // the System class loader path. So here, we find the privatekey file and then load its bytes into to be decrypted.
+        try(InputStream in = loader.getResourceAsStream(filename)) {
+            keyBytes = in.readAllBytes();
+        }
         // Private keys are encoded via PKCS.8 while Public keys are encoded via X.509.
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         // Creates a key factory to generate a private key from the spec
