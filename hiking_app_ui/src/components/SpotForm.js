@@ -38,6 +38,7 @@ export default function SpotForm() {
                 .then(i => setUserId(i));
             findTrail(trailId)
                 .then(t => setTrail(t))
+                .then(spot.trails = [trail])
                 .catch()
         }, [trailId, user?.sub]);
 
@@ -53,11 +54,8 @@ export default function SpotForm() {
 
     const handleChange = (evt) => {
         const newSpot = {...spot};
-        console.log(userId);
         newSpot[evt.target.name] = evt.target.value;
         newSpot.appUserId = userId;
-        const trails = [trail];
-        newSpot.trails = trails;
         console.log(spot);
         setSpot(newSpot);
     }
@@ -66,13 +64,8 @@ export default function SpotForm() {
         evt.preventDefault();
        
         await addSpot(spot)
-            .then(setSpot)
-            .then()
+            .then(resp => navigate(`/spot/${resp.spotId}`))
             .catch(console.error)  
-        if(spot.spotId !== 0) {
-            navigate(`/trail/${trailId}`)
-        }    
-
     }
 
 
