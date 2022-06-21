@@ -50,7 +50,13 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, email, password, true, List.of("USER"));
+        AppUser appUser;
+
+        if(repository.findAllUsers().isEmpty() || repository.findAllUsers() == null){
+             appUser = new AppUser(0, email, password, true, List.of("USER", "ADMIN"));
+        }else{
+             appUser = new AppUser(0, email, password, true, List.of("USER"));
+        }
         Set<ConstraintViolation<AppUser>> violations = validator.validate(appUser);
         if(!violations.isEmpty()){
             for(ConstraintViolation<AppUser> violation : violations){

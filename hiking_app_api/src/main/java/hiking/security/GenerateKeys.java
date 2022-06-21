@@ -1,20 +1,22 @@
 package hiking.security;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.*;
+import java.net.JarURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.*;
 import java.security.*;
 import java.security.interfaces.RSAKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /*
     This class should only run if there isn't a private key present in the keys folder.
@@ -24,6 +26,15 @@ import java.util.List;
     Of course, everything would be done with environmental variables in that case.
     But this is just a demo of the idea behind it.
  */
+
+/*
+    What we would want to do in the future would be to access and create  private and public keys via downloading/uploading
+    Objects to S3 or any storage.
+
+    Because we packaging in Jars, and we would have to find the file outside of the classpath because you cannot write to a jar (and it is
+    not reccommended to do so anyways)
+ */
+@Deprecated
 public class GenerateKeys {
 
     // To be used to generate the keys.
@@ -89,7 +100,7 @@ public class GenerateKeys {
     public static void makeFiles(String path) throws NoSuchAlgorithmException {
         // To generate the keys, in the same class!
         GenerateKeys keys;
-        // Of course, there are always exceptions...
+//         Of course, there are always exceptions...
         try{
             // Generate new keys with a key length of 2048.
             keys = new GenerateKeys(2048);
@@ -107,10 +118,13 @@ public class GenerateKeys {
             if(!Files.exists(of)){
                 keys.writeToFile(path+"/privateKey", keys.getPrivateKey().getEncoded());
             }
-        }catch(NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }catch(IOException e) {
-            e.printStackTrace();
+
+        }catch(Exception e){
+            ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         }
+        // To be used to see if a file exists alongside the classpath (Works for jars and normal FS)
+
+
+
     }
 }

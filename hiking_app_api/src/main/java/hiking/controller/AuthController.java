@@ -6,6 +6,9 @@ import hiking.security.Cryptography;
 import hiking.security.JwtConverter;
 import hiking.service.Result;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -150,7 +155,9 @@ public class AuthController {
     // This method decrypts the password from the request.
     private String decryptPassword(String password) throws Exception {
         // load up the private key file and send it to be decrypted.
-        PrivateKey privateKey = cryptography.getPrivateKey("keys/privateKey");
+        String path="keys/privateKey";
+
+        PrivateKey privateKey = cryptography.getPrivateKey(path);
         return cryptography.decrypt(password, privateKey);
     }
 }

@@ -1,0 +1,15 @@
+# Git
+.git
+
+# IntelliJ
+.idea
+.iml
+
+# HTTP requests
+http/*
+
+# Maven Output
+target
+
+
+Dockerfile*
