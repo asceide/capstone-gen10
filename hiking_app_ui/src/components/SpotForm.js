@@ -9,6 +9,7 @@ import { AuthContext } from '../context';
 import { getId } from '../services/users';
 
 export default function SpotForm() {
+
     const {trailId} = useParams();
     const navigate = useNavigate();
     const [trail, setTrail] = useState();
@@ -60,11 +61,12 @@ export default function SpotForm() {
         setSpot(newSpot);
     }
 
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
        
         await addSpot(spot)
-            .then(resp => navigate(`/spot/${resp.spotId}`))
+            .then((resp) => {navigate(`/spot/${resp.spotId}`);})
             .catch(console.error)  
     }
 
