@@ -5,7 +5,7 @@ import Map from './Map';
 import {useLoadScript} from '@react-google-maps/api';
 import {findById as findTrail} from "../services/trail";
 import {addSpot} from '../services/spot';
-import { UserContext, AuthContext } from '../context';
+import { AuthContext } from '../context';
 import { getId } from '../services/users';
 
 export default function SpotForm() {
@@ -15,7 +15,6 @@ export default function SpotForm() {
     const [userId, setUserId] = useState();
     const {user} = useContext(AuthContext);
     const [spot, setSpot] = useState({
-        appUserId: 4,
         spotId: 0,
         name: "",
         gpsLat: 0,
@@ -40,7 +39,7 @@ export default function SpotForm() {
             findTrail(trailId)
                 .then(t => setTrail(t))
                 .catch()
-        }, []);
+        }, [trailId, user?.sub]);
 
 
     const onMapClicked = (evt) => {
@@ -76,9 +75,6 @@ export default function SpotForm() {
 
     }
 
-    const sendRequests = async () => {
-
-    }
 
       if(!isLoaded) return <div>Loading...</div>
 
@@ -122,20 +118,21 @@ export default function SpotForm() {
                         <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
                     </form>
                 </div>
+                <div className="col" style={{ textAlign: "center" }}>
+                <h3>Select spot location on map:</h3>
+                    <Map mapString={trail?.trailMap} onMapClicked={onMapClicked} spotMarker={spotMarker} />
+                </div>
+            
                 
             </div>
             <div className="row">
                 <div className="col" style={{ textAlign: "center" }}>
-                    <h3>Select spot location on map:</h3>
+                    
                 </div>
                 
             </div>
-            <div className="row" style={{ margin: 3 }}>
-            <div className="col">
-                    <Map mapString={trail?.trailMap} onMapClicked={onMapClicked} spotMarker={spotMarker} />
-                </div>
+            <div className="row" style={{ margin: 3 }}> 
             </div>
-
 
 
         </div>

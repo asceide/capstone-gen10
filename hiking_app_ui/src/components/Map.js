@@ -9,7 +9,7 @@ import {
 export default function Map({mapString, onMapClicked, spotMarker}) {
     const [markers, setMarkers] = useState([]);
     const mapRef = useRef();
-    let center = useMemo(() => ({lat: 43, lng: -80}), []);
+    let center = useMemo(() => ({lat: 39.8283, lng: -98.5795}), []);
     const options = useMemo(() => ( {
         disableDefaultUI: true,
         clickableIcons: false
@@ -38,14 +38,38 @@ export default function Map({mapString, onMapClicked, spotMarker}) {
                 newMarkers.push(newMark);
             }
             setMarkers(newMarkers);
-            center = markers[0];
+            
         }
-    }, []);
+    }, [mapString]);
 
     
 
     return <div className="container">
         <div className="map">
+            {markers ? <GoogleMap 
+                zoom={10} 
+                center={markers[0]} 
+                mapContainerClassName="map-container"
+                options={options}
+                onLoad={onLoad}
+                onClick={onMapClicked}
+            >
+                {markers?.map((coords, index) => {
+                    return <Marker key={index} position={coords} />
+                })}
+                {markers.length > 1 && 
+                    <Polyline
+                    path={markers}
+                    strokeColor='0000ff'
+                    strokeOpacity={0.8}
+                    strokeWeight={6} />
+                }
+
+                {spotMarker && <Marker position={spotMarker} icon="https://hiking-app-photos.s3.amazonaws.com/darkgreen_MarkerS.png" />}
+                
+                
+            </GoogleMap> 
+            :
             <GoogleMap 
                 zoom={10} 
                 center={center} 
@@ -68,7 +92,8 @@ export default function Map({mapString, onMapClicked, spotMarker}) {
                 {spotMarker && <Marker position={spotMarker} icon="https://hiking-app-photos.s3.amazonaws.com/darkgreen_MarkerS.png" />}
                 
                 
-            </GoogleMap>
+            </GoogleMap>}
+            
         </div>
     </div>
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { findById, rateSpot, findByTrail } from "../services/spot";
+import { findById, rateSpot, updateSpot } from "../services/spot";
 import { findBySpot } from "../services/photo";
 import { AuthContext } from '../context';
 import PhotoSubmit from './PhotoSubmit';
@@ -27,12 +27,11 @@ export default function Spot() {
 
     const [photoForm, setPhotoForm] = useState(false);
 
-    const [uploaded, setUploaded] = useState(false);
-
     const { user } = useContext(AuthContext);
 
     const [photos, setPhotos] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const[updatedSpot, setUpdatedSpot] = useState();
 
     const navigate = useNavigate();
 
@@ -46,17 +45,23 @@ export default function Spot() {
         findBySpot(spotId)
             .then(setPhotos)
             .catch(console.error);
-    }, []);
+    }, [spotId]);
 
     const toggleRate = () => {
         setRateMode(!rateMode);
     }
 
-    const handleChange = (evt) => {
+    const handleRatingChange = (evt) => {
         setRating(evt.target.value);
     }
 
-    const handleSubmit = (evt) => {
+    const handleEditChange = (evt) => {
+        const newSpot = {...updatedSpot};
+        newSpot[evt.target.name] = evt.target.value;
+        setUpdatedSpot(newSpot);
+    }
+
+    const handleRateSubmit = (evt) => {
         evt.preventDefault();
         rateSpot(spotId, rating)
             .then(setSpot)
@@ -70,8 +75,19 @@ export default function Spot() {
     }
 
     const toggleEdit = () => {
+        setUpdatedSpot({...spot});
         setEditMode(!editMode);
     }
+
+    const hanldeEditSubmit = async (evt) => {
+        evt.preventDefault();
+        await updateSpot(updatedSpot)
+                .then(setSpot(updatedSpot))
+                .then(setEditMode(false))
+                .catch(setMessage);
+
+    }
+
     return (<div>
         <div className="container">
 
@@ -86,11 +102,11 @@ export default function Spot() {
                     <p>Based on {spot.ratingCount} ratings</p>
                     {user &&
                         <div>{rateMode ?
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleRateSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="rating" style={{ marginRight: 1 }}>Rating:</label>
                                     <input type="number" id="rating" name="rating"
-                                        min="1" max="5" value={rating} onChange={handleChange} />
+                                        min="1" max="5" value={rating} onChange={handleRatingChange} />
                                     <small id="ratingInfo" className="form-text text-muted">Out of 5</small>
                                 </div>
                                 <button type="submit" className="btn btn-outline-dark">Submit rating</button>
@@ -103,8 +119,8 @@ export default function Spot() {
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
                     {photos[0] &&
                         <img src={photos[0].photoUrl}
-                            className="shadow-1-strong rounded mb-4" height="400" width="460" 
-                            alt={`Main photo for spot ${spotId}`} />}
+                            className="shadow-1-strong rounded mb-4" height="400" width="100%" 
+                            alt={`Spot ${spotId}`} />}
                 </div>
             </div>
 
@@ -114,7 +130,7 @@ export default function Spot() {
                         <div key={i.photoUrl} className="col">
                             <img src={i.photoUrl} className="shadow-1-strong rounded mb-4" 
                             height="200" width="200" 
-                            alt={`Additional photo for spot ${spotId}`}/>
+                            alt={`Spot ${spotId} details`}/>
                         </div>
                     )
                 })}
@@ -158,9 +174,34 @@ export default function Spot() {
 
         </div>
 
-        <div className="row">
-            {editMode && <div></div>}
-        </div>
+            {editMode && <div className="row">
+                <div className="col-4"></div>
+            <div className="col-4">
+                <form onSubmit={hanldeEditSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Spot Name</label>
+                        <input className="form-control" type="text" id="name"
+                                name="name" value={updatedSpot.name} onChange={handleEditChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="description">Description</label>
+                        <input className="form-control" type="text" id="description"
+                                name="description" value={updatedSpot.description} onChange={handleEditChange}required />
+                    </div>
+                    <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
+                    <button className="btn btn-outline-danger" style={{margin: 3}} onClick={toggleEdit}>Cancel</button>
+                </form>
+
+                <div>
+                    <small>*To rate spot or add photo, use buttons above*</small>
+                    <p>{message}</p>
+                </div>
+
+                
+
+            </div>
+            </div>}
+
 
         
 
