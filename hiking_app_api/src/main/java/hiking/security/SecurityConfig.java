@@ -52,6 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/refresh_token").authenticated()
+                // ***** DONT TOUCH THE ABOVE *******/
                 .antMatchers(HttpMethod.GET, "/api/spot").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/spot").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/spot/*").permitAll()
@@ -72,7 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/trail").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/trail/*").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/trail/*").hasRole("ADMIN")
-                .antMatchers("/refresh_token").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/getinfo").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user/id").permitAll()
