@@ -5,7 +5,6 @@ import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
 import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, PhotoSubmit } from './components';
 import { encrypt as encryption } from './helpers/encryption';
-import { set } from 'react-hook-form';
 
 
 
@@ -50,7 +49,8 @@ function App() {
   };
 
   const userContext = {
-    userInfo
+    userInfo,
+    update: setUserInfo
   }
 
   return (

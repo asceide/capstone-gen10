@@ -67,7 +67,7 @@ export async function create(user, pkey, encryption){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newUser)
-        }
+        };
 
 
 
@@ -88,7 +88,7 @@ export async function addUserInfo(user){
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`
         },
         body: JSON.stringify(user)
-    }
+    };
 
     const registerInfoResponse = fetch(api_url, registerInfo);
 
@@ -96,6 +96,28 @@ export async function addUserInfo(user){
         const errors = registerInfoResponse.json();
         return Promise.reject(errors);
     }
+}
+
+export async function editUserInfo(user){
+    
+        const registerInfo = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+            },
+            body: JSON.stringify(user)
+        };
+
+        const updateInfoResponse = fetch(api_url, registerInfo);
+
+        if(updateInfoResponse.status ===400) {
+            const errors = updateInfoResponse.json();
+            return Promise.reject(errors);
+        }
+
+        return updateInfoResponse.json();
 
 
 }
