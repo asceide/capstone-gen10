@@ -71,7 +71,7 @@ function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          <Route path="/spot/add/:trailId" element = {<SpotForm />} />
+          <Route path="/spot/add/:trailId" element = {user ? <SpotForm /> : <Login />} />
           </Routes>
       </Router>
       </UserContext.Provider>
