@@ -53,7 +53,7 @@ export default function SpotPhotos() {
                 return (
                 <div key={i.photoId} className="col" style={{marginTop: 2, marginBottom: 2}}>
                     <div className="float-center">
-                        <img src={i.photoUrl} width="350" height="300" />
+                        <img src={i.photoUrl} width="350" height="300" alt={`Photo of spot ${spotId}`}/>
                     </div>
                     
                 </div>)

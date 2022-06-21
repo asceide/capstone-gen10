@@ -32,6 +32,7 @@ export default function Spot() {
     const { user } = useContext(AuthContext);
 
     const [photos, setPhotos] = useState([]);
+    const [editMode, setEditMode] = useState(false);
 
     const navigate = useNavigate();
 
@@ -68,6 +69,9 @@ export default function Spot() {
         setPhotoForm(!photoForm);
     }
 
+    const toggleEdit = () => {
+        setEditMode(!editMode);
+    }
     return (<div>
         <div className="container">
 
@@ -99,7 +103,8 @@ export default function Spot() {
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
                     {photos[0] &&
                         <img src={photos[0].photoUrl}
-                            className="shadow-1-strong rounded mb-4" height="400" width="460" />}
+                            className="shadow-1-strong rounded mb-4" height="400" width="460" 
+                            alt={`Main photo for spot ${spotId}`} />}
                 </div>
             </div>
 
@@ -107,7 +112,9 @@ export default function Spot() {
                 {photos.filter((i, x) => x > 0 && x < 5).map(i => {
                     return (
                         <div key={i.photoUrl} className="col">
-                            <img src={i.photoUrl} className="shadow-1-strong rounded mb-4" height="200" width="200" />
+                            <img src={i.photoUrl} className="shadow-1-strong rounded mb-4" 
+                            height="200" width="200" 
+                            alt={`Additional photo for spot ${spotId}`}/>
                         </div>
                     )
                 })}
@@ -117,7 +124,11 @@ export default function Spot() {
 
 
             <div className="row" style={{ marginTop: 2 }}>
-                <div className="col-5"></div>
+                <div className="col-5">
+                    <div className="float-left">
+                            <button className="btn btn-outline-secondary" onClick={toggleEdit}>Edit spot</button>
+                    </div>  
+                </div>
                 {(user && photoForm) ?
                     <div className="row" style={{ marginTop: 2 }}>
                         <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
@@ -146,6 +157,12 @@ export default function Spot() {
                 </div>}
 
         </div>
+
+        <div className="row">
+            {editMode && <div></div>}
+        </div>
+
+        
 
     </div>);
 }

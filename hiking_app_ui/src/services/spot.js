@@ -27,6 +27,9 @@ export async function addSpot(spot) {
     }
 
     const response = await fetch(url, init);
+    if(response.status === 201) {
+        return response.json();
+    }
     if(response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
