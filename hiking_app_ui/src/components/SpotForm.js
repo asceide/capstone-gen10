@@ -38,7 +38,6 @@ export default function SpotForm() {
                 .then(i => setUserId(i));
             findTrail(trailId)
                 .then(t => setTrail(t))
-                .then(spot.trails = [trail])
                 .catch()
         }, [trailId, user?.sub]);
 
@@ -49,6 +48,7 @@ export default function SpotForm() {
         const newSpot = {...spot};
         newSpot.gpsLat = evt.latLng.lat();
         newSpot.gpsLong = evt.latLng.lng();
+        newSpot.trails = [trail];
         setSpot(newSpot);
     }
 

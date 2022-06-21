@@ -3,17 +3,13 @@ import { findById } from "../services/spot";
 import { findBySpot } from "../services/photo";
 
 
-export default function SpotMini({spotId}) {
+export default function SpotMini({spot}) {
 
-    const [spot, setSpot] = useState();
     const [photos, setPhotos] = useState([]);
 
 
     useEffect(() => {
-        findById(spotId)
-            .then(setSpot)
-            .catch(console.error);
-        findBySpot(spotId)
+        findBySpot(spot.spotId)
             .then(setPhotos)
             .catch(console.error);
     }, [spotId])
