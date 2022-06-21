@@ -5,7 +5,7 @@ const register_url = process.env.REACT_APP_API_URL + 'register';
 export async function findByEmail(email){
     if(email){
         let contents = {
-            "username": email
+            username: email
         }
         const init = {
             method: 'POST',

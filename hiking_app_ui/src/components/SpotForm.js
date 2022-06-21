@@ -12,7 +12,7 @@ export default function SpotForm() {
     const {trailId} = useParams();
     const navigate = useNavigate();
     const [trail, setTrail] = useState();
-    const [appUserId, setAppUserId] = useState();
+    const [userId, setUserId] = useState();
     const {user} = useContext(AuthContext);
     const [spot, setSpot] = useState({
         appUserId: 4,
@@ -36,14 +36,15 @@ export default function SpotForm() {
 
       useEffect(() => {
             getId(user?.sub)
-                .then(setAppUserId);
+                .then(i => setUserId(i));
             findTrail(trailId)
-                .then(setTrail)
+                .then(t => setTrail(t))
                 .catch()
         }, []);
 
 
     const onMapClicked = (evt) => {
+        
         setSpotMarker({lat: evt?.latLng.lat(), lng: evt?.latLng.lng()});
         const newSpot = {...spot};
         newSpot.gpsLat = evt.latLng.lat();
@@ -53,11 +54,12 @@ export default function SpotForm() {
 
     const handleChange = (evt) => {
         const newSpot = {...spot};
-        console.log(spot);
+        console.log(userId);
         newSpot[evt.target.name] = evt.target.value;
-        newSpot.appUserId = appUserId;
+        newSpot.appUserId = userId;
         const trails = [trail];
         newSpot.trails = trails;
+        console.log(spot);
         setSpot(newSpot);
     }
 
