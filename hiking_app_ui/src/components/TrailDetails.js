@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from '../context';
 import { deleteTrail, findById } from "../services/trail";
 import { findByTrail } from "../services/spot";
+import {findByTrail as findPhotos} from "../services/photo";
+import SpotMini from './SpotMini';
+import PhotoSubmit from './PhotoSubmit';
 
 
 
 function TrailDetails() {
 
-    const search = useLocation().search;
-   //– const trailId = new URLSearchParams(search).get('trailId');
-
     const navigate = useNavigate();
     const { trailId } = useParams();
+    const {user} = useContext(AuthContext);
+
+    const [photos, setPhotos] = useState([]);
+    const [photoForm, setPhotoForm] = useState(false);
 
 
     const [trail, setTrail] = useState({
@@ -58,29 +62,40 @@ function TrailDetails() {
         findByTrail(trailId)
             .then(setSpots)
             .catch(() => navigate("/"));
-
+        findPhotos(trailId)
+            .then(setPhotos)
+            .catch(console.error);    
     }, []);
+
+    const togglePhotoForm = () => {
+        setPhotoForm(!photoForm);
+    }
 
     
     
     return(<div className="container">
         <br></br>
-        <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/spot/add/${trailId}`)}>Add Spot</button>
-        <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/trails/edit/${trailId}`)}>Edit Trail </button>
-        <button type="button" class="btn btn-outline-danger ml-1" onClick={handleDelete}>Delete Trail</button>
+        {user && <div> 
+            <button type="button" class="btn btn-outline-info ml-1 mb-2" onClick={() => navigate(`/spot/add/${trailId}`)}>Add Spot</button>
+            <button type="button" class="btn btn-outline-info ml-1 mb-2" onClick={() => navigate(`/trails/edit/${trailId}`)}>Edit Trail </button>
+            <button className="btn btn-outline-dark ml-1 mb-2" onClick={togglePhotoForm}>Add Photo</button>
+            <button type="button" class="btn btn-outline-danger ml-1 mb-2" onClick={handleDelete}>Delete Trail</button>
+            {photoForm && <PhotoSubmit trailId={trail.trailId} toggleForm={togglePhotoForm} photos={photos} setPhotos={setPhotos}/>} 
+        </div>}
+        
         
     <h2 className="text-center">{trail.name}</h2> 
     <hr></hr>
 
     <div className="text-center">
-  <img src="https://picsum.photos/800/400" class="rounded" alt="Responsive image"/>
+  <img src={photos[0]?.photoUrl} width="400" height="450" class="rounded" alt="Responsive image"/>
     </div>
     <h3 style={{marginLeft:180}} >{trail.city}, {trail.state}</h3>
 
     <br></br>
 
     <h5 style={{marginLeft:180}}>Difficulty - {trail.rating} </h5> 
-    <h5 style={{marginLeft:180}}>Lenght - {trail.trailLength} miles </h5> 
+    <h5 style={{marginLeft:180}}>Length - {trail.trailLength} miles </h5> 
     <br></br>
     <h3 style={{marginLeft:180}}>Description:</h3>
     <h5 style={{marginLeft:180}}>{trail.description} </h5>
@@ -92,40 +107,18 @@ function TrailDetails() {
     <hr></hr>
     <br></br>
    
-         <div className="mt-2">
-
-             
+         <div className="row g-1">   
         
-         {
-             
+         {   
          spots.map(a => {
            return(
-          
-
-            
-
-            <div className="row border mt-md-4" onClick={() => navigate(`/spot/${a.spotId}`)}>
-            <div className="col-auto ">
-            <div className="card-header"> </div>
-
-            <img className="card-img-left" src="https://picsum.photos/300/200"   /> 
-            </div>
-            <div className="col">
-            <div className="card-body">
-            <h4 className="card-title">{a.name}</h4>
-            <h3>{a.rating}</h3>
-         
-            </div>
-            </div>
-            </div>
-  
-
-           )
-         })
+            <div className="col border mt-md-4" onClick={() => navigate(`/spot/${a.spotId}`)}>
+                <SpotMini spot={a} />
+            </div>)})
          }
          
          </div>
-         </div> );
+         </div> 
 
 
          </div> );

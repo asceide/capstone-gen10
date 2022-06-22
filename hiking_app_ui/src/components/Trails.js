@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import TrailMini from './TrailMini';
 
 function Trails() {
     const [trails, setTrails] = useState([]);
-    const [editIndex, setEditIndex] = useState();
-    const [formData, setFormData] = useState({
-        trailId:0,
-        name:"",
-        city:"",
-        state:"",
-        trailLength:"",
-        rating:"",
-        trailMap:"",
-        description:"",
-        appUserId:2
-    });
 
     useEffect(()=>{
         //make a get all request
@@ -27,7 +16,6 @@ function Trails() {
     }, [] );
 
      const navigate = useNavigate();
-    // const displayTrail = () => navigate('/trailDetails');
 
     
     return(<div className="container">
@@ -44,23 +32,8 @@ function Trails() {
              
          trails.map(a => {
            return(
-          
-
-            
-
-            <div className="row border mt-md-4" onClick={() => navigate(`/trails/${a.trailId}`)}>
-            <div className="col-auto ">
-            <div className="card-header"> </div>
-
-            <img className="card-img-left" src="https://picsum.photos/300/200"   /> 
-            </div>
-            <div className="col">
-            <div className="card-body">
-            <h4 className="card-title">{a.name}</h4>
-            <h3>{a.city} {a.state}</h3>
-         
-            </div>
-            </div>
+            <div> 
+                <TrailMini key={a?.trailId} trail={a} /> 
             </div>
   
 

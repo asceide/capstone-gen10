@@ -160,12 +160,16 @@ export default function TrailForm() {
                         <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>   
                     </form>
                     <button className="btn btn-outline-dark" onClick={handleClear}>Clear Map</button>
-                </div>
+                    </div>
+                {!trailId &&
                 <div className="col" style={{ textAlign: "center" }}>
                 <h3>Map the trail:</h3>
                 <small>Click the map to add markers</small>
                     <TrailMap onMapClicked={onMapClicked} trailMarkers={trailMarkers} />
                 </div>
+            }
+                
+                
             
                 
             </div>
