@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function PhotoSubmit({ spotId = 0, trailId = 0, toggleForm, photos, setPhotos }) {
 
-    const bucketUrl = "https://hiking-app-photos.s3.amazonaws.com"
+    const bucketUrl = window.BUCKET_URL? window.BUCKET_URL : process.env.REACT_APP_BUCKET_URL;
     const [message, setMessage] = useState();
     const [file, setFile] = useState();
 
