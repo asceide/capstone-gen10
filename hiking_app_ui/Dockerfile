@@ -11,9 +11,9 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /home/app/build /usr/share/nginx/html
 
 # Copy the initialization scrip to the Nginx init scripts directory
-COPY 92-set-environment-vars.sh /docker-entrypoint.default
+COPY 85-set-environment-vars.sh /docker-entrypoint.d
 # Make it executable
-RUN chmod +x /docker-entrypoint.d/92-set-environment-vars.sh
+RUN chmod +x /docker-entrypoint.d/85-set-environment-vars.sh
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -24,6 +24,8 @@ export async function authenticate(credentials) {
         body : JSON.stringify(credentials) // converts the credentials to a JSON string
     }
 
+
+
     const response = await fetch (url, init); // Creates a fetch request using the authenticate URL and the request object represented by init
 
     if (response.ok) { // If the response is 0k/200, then we return make a user and return it (see Login.js)

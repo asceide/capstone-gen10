@@ -37,9 +37,9 @@ export default function TrailForm() {
 
     const [trailMarkers, setTrailMarkers] = useState([]);
 
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "",
-    })
+    const {isLoaded} = useLoadScript({
+        googleMapsApiKey: window.MAPS_API_KEY? window.MAPS_API_KEY : process.env.REACT_APP_MAPS_API_KEY,
+      })
 
 
     useEffect(() => {
