@@ -13,15 +13,10 @@ export default function EditUser(){
     const { user } = useContext(AuthContext);
     const [ err, setErr] = useState(false);
     const [errInfo, setErrInfo] = useState([])
-    const [info, setInfo ] = useState({});
     const [showSpinner, setShowSpinner] = useState(false);
     const { register, handleSubmit, getValues, formState: { errors }} = useForm({mode: 'onChange'});
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setInfo(userInfo);
-    }
-    , [userInfo]);
 
     useEffect( () => {
         if(!user){
@@ -57,9 +52,9 @@ export default function EditUser(){
                 setErrInfo([]);
                 update(newData);
                 navigate('/');
-            }).catch(() => {
+            }).catch((err) => {
                 setErr(true);
-                setErrInfo(["There was an error editing your information."]);
+                setErrInfo(...errInfo, ["There was an error editing your information."]);
             })
         }
     }
@@ -93,7 +88,7 @@ export default function EditUser(){
                     errors.state && <FormHelperText>Please enter a city</FormHelperText>
                 }
                 <InputLabel htmlFor="state">State</InputLabel>
-                <Select id="state" name="state" defaultValue={userInfo.state} {...register("state", {validate: (value) => {
+                <Select id="state" name="state" defaultValue={userInfo.state? userInfo.state : ''} {...register("state", {validate: (value) => {
                     if(value){
                         if(!getValues("city")){
                             return false;
@@ -106,7 +101,7 @@ export default function EditUser(){
                 }})}>{
                     states?.map( state => {
                         return (
-                            <MenuItem key={state.key} value={state.value} >
+                            <MenuItem key={state.key+'e'} value={state.value} >
                                 {state.text}
                             </MenuItem>
                         );
@@ -133,7 +128,7 @@ export default function EditUser(){
             }
             <div>
                 {err && errInfo.map(errin => {
-                    return <p>{errin}</p>
+                    return <p key={errInfo.indexOf(errin)+1}>{errin}</p>
                 })}
             </div>
         </div>

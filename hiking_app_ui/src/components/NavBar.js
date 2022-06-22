@@ -1,52 +1,93 @@
-import { useContext, useState } from "react";
+import { useContext, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import UserContext from "../context/UserContext";
-import { Avatar, Stack, Menu, MenuItem } from "@mui/material";
+import { Avatar, Menu, MenuItem, Tooltip, IconButton, ListItemIcon } from "@mui/material";
+import { Logout } from "@mui/icons-material"
+import { stringAvatar } from "../helpers/stringcolors";
 
-function stringToColor(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let colour = "#";
-  for (let i = 0; i < 3; i++) {
-    let value = (hash >> (i * 8)) & 0xff;
-    colour += ("00" + value.toString(16)).substr(-2);
-  }
-  return colour;
-}
 
-function stringAvatar(name){
-    return {
-        sx: {
-            bgcolor: stringToColor(name),
-        },
-        children: name.charAt(0)
-    };
-}
 export default function NavBar() {
     const { user, logout } = useContext(AuthContext);
     const {userInfo} = useContext(UserContext);
-    // To show and hide the menu
-    const [showMenu, setShowMenu] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    const open = Boolean(showMenu);
+
+    const open = Boolean(anchorEl);
 
     const handleClick = (evt) => {
-        setShowMenu(evt.currentTarget);
+        setAnchorEl(evt.currentTarget);
     }
 
     const handleClose = () => {
-        setShowMenu(null);
+        setAnchorEl(null);
     }
 
     const menu = () => {
         return (
             <>
-                <Menu>
-
-                </Menu>
+            <Fragment>
+                    <Tooltip title = "User Account">
+                        <IconButton 
+                            onClick={handleClick}
+                            size="small"
+                            sx={{ml: 3}}
+                            aria-controls={open? 'account-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open? 'true' : undefined}>{
+                            accountIcon()
+                        }
+                        </IconButton>
+                    </Tooltip>
+                </Fragment>
+                <Menu
+                    id="account-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: 'visible',
+                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          mt: 1.5,
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 20,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                        <MenuItem
+                            component={Link} to="/user/edit">
+                            {accountIcon()}Profile
+                        </MenuItem>
+                        <MenuItem
+                            onClick={logout}>
+                            <ListItemIcon>
+                                <Logout fontSize="small" />
+                            </ListItemIcon>
+                            Logout
+                        </MenuItem>
+                    </Menu>
+                    
             </>
         );
     }
@@ -54,7 +95,7 @@ export default function NavBar() {
     const accountIcon = () => {
         return (
             <>{
-                (user && userInfo)?  <Avatar{...stringAvatar(userInfo.firstName? userInfo.firstName : user.sub)} /> : <Avatar sx = {{bgcolor: '#fff'}}>U</Avatar>
+                userInfo? <Avatar{...stringAvatar(userInfo.firstName? userInfo.firstName : user.sub)} /> : <Avatar sx = {{bgcolor: '#fff'}}>U</Avatar>
             }</>
         )
     }
@@ -72,13 +113,7 @@ export default function NavBar() {
                     }
                     </div>
                     <div className="col d-flex justify-content-end">
-                        <Stack direction="row" spacing={2}>
-                            {
-                               accountIcon()
-                            }
-                        </Stack>
-                        {user ? <button className="btn btn-outline-danger" onClick={logout}>Logout</button> 
-                        : <Link to="/login" className="btn btn-outline-primary">Login</Link>}
+                        {user ? menu() : <Link to="/login" className="btn btn-outline-primary">Login</Link>}
                     </div>
                 </div>
             </nav>
