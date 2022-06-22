@@ -113,11 +113,7 @@ export default function SpotForm() {
 
                         <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
                     </form>
-                    {errs.length > 0 && <div className="alert alert-danger mt-2">
-                <ul>
-                    {errs.map(err => <li key={err}>{err}</li>)}
-                </ul>
-            </div>}
+                    
                 </div>
                 <div className="col" style={{ textAlign: "center" }}>
                 <h3>Select spot location on map:</h3>

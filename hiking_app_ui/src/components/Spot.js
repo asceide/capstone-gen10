@@ -45,7 +45,7 @@ export default function Spot() {
         findBySpot(spotId)
             .then(setPhotos)
             .catch(err => setErrs([err]));
-    }, [spotId]);
+    }, [spotId, navigate]);
 
     const toggleRate = () => {
         setRateMode(!rateMode);

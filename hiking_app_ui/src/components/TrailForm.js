@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useEffect, useState, useContext } from 'react';
-import Map from './Map';
+import TrailMap from './TrailMap';
 import {useLoadScript} from '@react-google-maps/api';
 import {findById as findTrail} from "../services/trail";
 import {addTrail, updateTrail} from '../services/trail';
@@ -11,8 +11,7 @@ import { getId } from '../services/users';
 export default function TrailForm() {
 
     const {trailId} = useParams();
-    debugger;
-    const title = (trailId != undefined) ? 'Edit Trail':'Add Trail';
+    const title = (trailId !== undefined) ? 'Edit Trail':'Add Trail';
    
     
     const navigate = useNavigate();
@@ -36,7 +35,7 @@ export default function TrailForm() {
 
      const values = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
 
-    const [trailMarker, setTrailMarker] = useState();
+    const [trailMarkers, setTrailMarkers] = useState([]);
 
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: "",
@@ -46,7 +45,7 @@ export default function TrailForm() {
       useEffect(() => {
             getId(user?.sub)
                 .then(i => setUserId(i));
-                if (trailId != undefined) {
+                if (trailId !== undefined) {
             findTrail(trailId)
                 .then(t => setTrail(t))
                 
@@ -55,28 +54,41 @@ export default function TrailForm() {
         }, [trailId, user?.sub]);
 
 
-    // const onMapClicked = (evt) => {
-        
-    //     setSpotMarker({lat: evt?.latLng.lat(), lng: evt?.latLng.lng()});
-    //     const newSpot = {...spot};
-    //     newSpot.gpsLat = evt.latLng.lat();
-    //     newSpot.gpsLong = evt.latLng.lng();
-    //     newSpot.trails = [trail];
-    //     setSpot(newSpot);
-    // }
+    const onMapClicked = (evt) => {
+        const updatedMarkers = [...trailMarkers];
+        updatedMarkers.push({lat: evt.latLng.lat(), lng: evt.latLng.lng()});
+        setTrailMarkers(updatedMarkers);
+        makeMapString(updatedMarkers);   
+    }
 
     const handleChange = (evt) => {
         const newTrail = {...trail};
         newTrail[evt.target.name] = evt.target.value;
         newTrail.appUserId = userId;
-        console.log(trail);
         setTrail(newTrail);
+    }
+
+    const handleClear = () => {
+        setTrailMarkers([]);
+    }
+
+    const makeMapString = (markers) => {
+        const newTrail = {...trail};
+        if(markers.length > 0) {
+            let mapString = "";
+            for (let i = 0; i < markers.length; i++) {
+                mapString = mapString + markers[i].lat + "," + markers[i].lng + ";";
+            }
+            newTrail.trailMap = mapString;
+            setTrail(newTrail);
+        }
     }
 
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        if(trailId != undefined) {
+        makeMapString(trailMarkers);
+        if(trailId !== undefined) {
           await updateTrail(trail)
           .then((resp) => {navigate(`/trails`);})
           .catch(console.error)
@@ -145,13 +157,15 @@ export default function TrailForm() {
                         
                     
 
-                        <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
+                        <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>   
                     </form>
+                    <button className="btn btn-outline-dark" onClick={handleClear}>Clear Map</button>
                 </div>
-                {/* <div className="col" style={{ textAlign: "center" }}>
-                <h3>Select spot location on map:</h3>
-                    <Map mapString={trail?.trailMap} onMapClicked={onMapClicked} spotMarker={spotMarker} />
-                </div> */}
+                <div className="col" style={{ textAlign: "center" }}>
+                <h3>Map the trail:</h3>
+                <small>Click the map to add markers</small>
+                    <TrailMap onMapClicked={onMapClicked} trailMarkers={trailMarkers} />
+                </div>
             
                 
             </div>

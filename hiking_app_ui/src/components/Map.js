@@ -40,6 +40,7 @@ export default function Map({mapString, onMapClicked, spotMarker}) {
             setMarkers(newMarkers);
             
         }
+        
     }, [mapString]);
 
     

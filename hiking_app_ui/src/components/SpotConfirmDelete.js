@@ -40,7 +40,7 @@ export default function SpotConfirmDelete() {
                 </ul>
             </div>}
             <div>
-                <button className="btn btn-danger">Yes, Delete</button>
+                <button className="btn btn-danger" onClick={handleDelete}>Yes, Delete</button>
                 <Link to="/" className="btn btn-outline-dark">Cancel</Link>
             </div>
         </div>

@@ -74,7 +74,9 @@ function App() {
           <Route path="/user/edit" element={<EditUser />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          <Route path="/spot/add/:trailId" element={user ? <SpotForm /> : <Login />} />
+          
+          {/* <Route path="/spot/add/:trailId" element={user ? <SpotForm /> : <Login />} /> */}
+          <Route path="/spot/add/:trailId" element={<SpotForm />} />
           <Route path="/spot/delete/:spotId" element={user?.authorities === "ADMIN" ? <SpotConfirmDelete />: <Home />} />
           <Route path="*" element={<NotFound />} />
           </Routes>
