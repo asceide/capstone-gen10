@@ -25,7 +25,7 @@ export default function PhotoSubmit({ spotId = 0, trailId = 0, toggleForm, photo
                 spotId,
                 photoUrl
             }
-            
+
             await bucketUpload(photoUrl, file)
                 .then(toggleForm())
                 .then(newPhotos = newPhotos.concat([{

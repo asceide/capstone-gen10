@@ -3,7 +3,7 @@ import { findById } from "../services/spot";
 import { findBySpot } from "../services/photo";
 
 
-export default function SpotMini({spot}) {
+export default function SpotMini({ spot }) {
 
     const [photos, setPhotos] = useState([]);
 
@@ -16,7 +16,7 @@ export default function SpotMini({spot}) {
 
     return (
         <div className="card">
-            <img src={photos[0]?.photoUrl} className="card-img-top" height="250" width="250" alt={`spot ${spot?.spotId}`}/>
+            <img src={photos[0]?.photoUrl} className="card-img-top" height="250" width="250" alt={`spot ${spot?.spotId}`} />
             <div className="card-body">
                 <h5 className="card-title">{spot?.name}</h5>
                 <p>Rated {spot?.rating} /5 by {spot?.ratingCount} users</p>

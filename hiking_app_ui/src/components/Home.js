@@ -23,8 +23,6 @@ export default function Home() {
 
     const onSubmit = (data, evt) => {
         evt.preventDefault();
-
-        console.log(data.state)
         setFiltered(trails.filter(i => i.state === data.state));
         setSearched(true);
     };

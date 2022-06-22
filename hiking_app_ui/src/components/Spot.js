@@ -31,7 +31,7 @@ export default function Spot() {
 
     const [photos, setPhotos] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const[updatedSpot, setUpdatedSpot] = useState();
+    const [updatedSpot, setUpdatedSpot] = useState();
 
     const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ export default function Spot() {
     }
 
     const handleEditChange = (evt) => {
-        const newSpot = {...updatedSpot};
+        const newSpot = { ...updatedSpot };
         newSpot[evt.target.name] = evt.target.value;
         setUpdatedSpot(newSpot);
     }
@@ -75,16 +75,16 @@ export default function Spot() {
     }
 
     const toggleEdit = () => {
-        setUpdatedSpot({...spot});
+        setUpdatedSpot({ ...spot });
         setEditMode(!editMode);
     }
 
     const hanldeEditSubmit = async (evt) => {
         evt.preventDefault();
         await updateSpot(updatedSpot)
-                .then(setSpot(updatedSpot))
-                .then(setEditMode(false))
-                .catch(err => setErrs([err]));
+            .then(setSpot(updatedSpot))
+            .then(setEditMode(false))
+            .catch(err => setErrs([err]));
 
     }
 
@@ -119,7 +119,7 @@ export default function Spot() {
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
                     {photos[0] &&
                         <img src={photos[0]?.photoUrl}
-                            className="shadow-1-strong rounded mb-4" height="400" width="100%" 
+                            className="shadow-1-strong rounded mb-4" height="400" width="100%"
                             alt={`Spot ${spotId}`} />}
                 </div>
             </div>
@@ -128,9 +128,9 @@ export default function Spot() {
                 {photos.filter((i, x) => x > 0 && x < 5).map(i => {
                     return (
                         <div key={i.photoUrl} className="col">
-                            <img src={i.photoUrl} className="shadow-1-strong rounded mb-4" 
-                            height="200" width="200" 
-                            alt={`Spot ${spotId} details`}/>
+                            <img src={i.photoUrl} className="shadow-1-strong rounded mb-4"
+                                height="200" width="200"
+                                alt={`Spot ${spotId} details`} />
                         </div>
                     )
                 })}
@@ -141,17 +141,20 @@ export default function Spot() {
 
             <div className="row" style={{ marginTop: 2 }}>
                 <div className="col-5">
-                    <div className="float-left">
-                            <button className="btn btn-outline-secondary" onClick={toggleEdit}>Edit spot</button>
-                    </div>  
-                </div>
-                {(user && photoForm) ?
-                    <div className="row" style={{ marginTop: 2 }}>
-                        <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
-                    </div> :
-                    <div className="col-5">
-                        <button className="btn btn-outline-dark" onClick={toggleForm}>Add photo</button>
+                    {user && <div className="float-left">
+                        <button className="btn btn-outline-secondary" onClick={toggleEdit}>Edit spot</button>
                     </div>}
+                    
+                </div>
+                {user && <div>{
+                    photoForm ? <div className="row" style={{ marginTop: 2 }}>
+                    <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
+                </div> :
+                <div className="col-5">
+                    <button className="btn btn-outline-dark" onClick={toggleForm}>Add photo</button>
+                </div>
+                } </div>
+                    }
 
                 {photos.length > 5 &&
                     <div className="col">
@@ -174,33 +177,33 @@ export default function Spot() {
 
         </div>
 
-            {editMode && <div className="row">
-                <div className="col-4"></div>
+        {editMode && <div className="row">
+            <div className="col-4"></div>
             <div className="col-4">
                 <form onSubmit={hanldeEditSubmit}>
                     <div className="form-group">
                         <label htmlFor="name">Spot Name</label>
                         <input className="form-control" type="text" id="name"
-                                name="name" value={updatedSpot.name} onChange={handleEditChange} required />
+                            name="name" value={updatedSpot.name} onChange={handleEditChange} required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Description</label>
                         <input className="form-control" type="text" id="description"
-                                name="description" value={updatedSpot.description} onChange={handleEditChange}required />
+                            name="description" value={updatedSpot.description} onChange={handleEditChange} required />
                     </div>
                     <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
-                    <button className="btn btn-outline-danger" style={{margin: 3}} onClick={toggleEdit}>Cancel</button>
+                    <button className="btn btn-outline-danger" style={{ margin: 3 }} onClick={toggleEdit}>Cancel</button>
                 </form>
 
                 <div>
                     <small>*To rate spot or add photo, use buttons above*</small>
-                    
+
                 </div>
 
-                
+
 
             </div>
-            </div>}
+        </div>}
 
 
     </div>);

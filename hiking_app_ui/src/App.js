@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthContext, UserContext } from './context';
 import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
-import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, PhotoSubmit, SpotForm } from './components';
+import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, SpotForm } from './components';
 import { encrypt as encryption } from './helpers/encryption';
 import SpotConfirmDelete from './components/SpotConfirmDelete';
 import NotFound from './components/NotFound';
@@ -74,9 +74,7 @@ function App() {
           <Route path="/user/edit" element={<EditUser />} />
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
-          
-          {/* <Route path="/spot/add/:trailId" element={user ? <SpotForm /> : <Login />} /> */}
-          <Route path="/spot/add/:trailId" element={<SpotForm />} />
+          <Route path="/spot/add/:trailId" element={user ? <SpotForm /> : <Login />} />
           <Route path="/spot/delete/:spotId" element={user?.authorities === "ADMIN" ? <SpotConfirmDelete />: <Home />} />
           <Route path="*" element={<NotFound />} />
           </Routes>

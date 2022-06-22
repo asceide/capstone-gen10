@@ -5,48 +5,47 @@ import TrailMini from './TrailMini';
 function Trails() {
     const [trails, setTrails] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         //make a get all request
         fetch("http://localhost:8080/api/trail")
-        .then(resp=>resp.json())
-        .then(data=> {
-   
-            setTrails(data); 
-        })
-    }, [] );
+            .then(resp => resp.json())
+            .then(data => {
 
-     const navigate = useNavigate();
+                setTrails(data);
+            })
+    }, []);
 
-    
-    return(<div className="container">
-    <h2 className="text-center">Trails</h2> 
-    <hr></hr>
-    <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/trails/add`)}>Add Trail </button>
-    <br></br>
-   
-         <div className="mt-2">
+    const navigate = useNavigate();
 
-             
-        
-         {
-             
-         trails.map(a => {
-           return(
-            <div> 
-                <TrailMini key={a?.trailId} trail={a} /> 
-            </div>
-  
 
-           )
-         })
-         }
-         
-         </div>
-         </div> );
-    
+    return (<div className="container">
+        <h2 className="text-center">Trails</h2>
+        <hr></hr>
+        <button type="button" className="btn btn-outline-info ml-1" onClick={() => navigate(`/trails/add`)}>Add Trail </button>
+        <br></br>
+
+        <div className="mt-2">
+
+
+
+            {
+
+                trails.map(a => {
+                    return (
+                        <div>
+                            <TrailMini key={a?.trailId} trail={a} />
+                        </div>
+
+
+                    )
+                })
+            }
+
+        </div>
+    </div>);
+
 
 
 }
- export default Trails;
+export default Trails;
 
- 

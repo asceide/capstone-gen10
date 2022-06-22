@@ -12,7 +12,7 @@ export async function findById(id) {
 
 export async function findByTrail(trailId) {
     const response = await fetch(`${url}?trail-id=${trailId}`);
-    if(response.status === 200) {
+    if (response.status === 200) {
         return response.json();
     }
     return Promise.reject();
@@ -29,10 +29,10 @@ export async function addSpot(spot) {
     }
 
     const response = await fetch(url, init);
-    if(response.status === 201) {
+    if (response.status === 201) {
         return response.json();
     }
-    if(response.status === 400) {
+    if (response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
     } else if (!response.ok) {
@@ -51,7 +51,7 @@ export async function updateSpot(spot) {
     }
 
     const response = await fetch(`${url}/${spot.spotId}`, init);
-    if(response.status === 400) {
+    if (response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
     } else if (!response.ok) {
@@ -82,7 +82,7 @@ export async function rateSpot(spotId, rating) {
     };
 
     const response = await fetch(`${url}/rate/${spotId}?rating=${rating}`, init);
-    if(response.status === 200) {
+    if (response.status === 200) {
         return response.json();
     };
     return Promise.reject();
