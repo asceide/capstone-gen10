@@ -2,31 +2,35 @@ import { useContext, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import UserContext from "../context/UserContext";
-import { Avatar, Menu, MenuItem, Tooltip, IconButton, ListItemIcon } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Menu, MenuItem, Toolbar, Tooltip, IconButton, ListItemIcon, Typography } from "@mui/material";
 import { Logout } from "@mui/icons-material"
 import { stringAvatar } from "../helpers/stringcolors";
 
 
 export default function NavBar() {
+    
     const { user, logout } = useContext(AuthContext);
     const {userInfo} = useContext(UserContext);
     const [anchorEl, setAnchorEl] = useState(null);
 
-
+    // To check if a menu is open or closed
     const open = Boolean(anchorEl);
 
+    // On a click, set the anchor and show the menu
     const handleClick = (evt) => {
         setAnchorEl(evt.currentTarget);
     }
 
+    // On close, set the anchor to null. Also closes the menu, imagine that
     const handleClose = () => {
         setAnchorEl(null);
     }
 
+
     const menu = () => {
         return (
             <>
-            <Fragment>
+            <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title = "User Account">
                         <IconButton 
                             onClick={handleClick}
@@ -39,7 +43,7 @@ export default function NavBar() {
                         }
                         </IconButton>
                     </Tooltip>
-                </Fragment>
+                </Box>
                 <Menu
                     id="account-menu"
                     anchorEl={anchorEl}
@@ -100,23 +104,28 @@ export default function NavBar() {
         )
     }
 
+    const navbar = () => {
+        return (
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static" style={{ background: '#bcbcbc'}}>
+                    <Toolbar>
+                        <Typography variant="h6" color="#38761d" sx={{ flexGrow: 1 }} component={Link} to="/trails">
+                            Trails
+                        </Typography>
+                        <Typography variant="h6" color="#38761d" sx={{ flexGrow: 1 }} component={Link} to="/">
+                            Hiking App
+                        </Typography>{
+                            user? menu() : <><Link to="/login"><Button color="success">Login</Button></Link><Link to="/register"><Button color="success">Register</Button></Link></>
+                        }
+                    </Toolbar>
+                </AppBar>
+            </Box>
+        )
+    }
+
     return(
         <div>
-            <nav className="navbar navbar-dark bg-dark">
-                <div className="container">
-                    <Link to="/" className="navbar-brand">Hiking App</Link>
-                    <Link to="/trails" className="btn btn-primary p-2 mx-3">Trails</Link> 
-                    <div className="col d-flex justify-content-center">
-                    {
-                        (user && userInfo)? 
-                        <h3 className="text-white">Welcome {userInfo.firstName? userInfo.firstName: `User ${userInfo.appUserId}`}</h3> : <></>
-                    }
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                        {user ? menu() : <Link to="/login" className="btn btn-outline-primary">Login</Link>}
-                    </div>
-                </div>
-            </nav>
+            {navbar()}
         </div>
     )
 
