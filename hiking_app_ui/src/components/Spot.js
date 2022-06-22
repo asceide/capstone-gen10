@@ -21,7 +21,7 @@ export default function Spot() {
 
     const [rateMode, setRateMode] = useState(false);
 
-    const [message, setMessage] = useState();
+    const [errs, setErrs] = useState();
 
     const [rating, setRating] = useState(1);
 
@@ -44,7 +44,7 @@ export default function Spot() {
 
         findBySpot(spotId)
             .then(setPhotos)
-            .catch(console.error);
+            .catch(err => setErrs([err]));
     }, [spotId]);
 
     const toggleRate = () => {
@@ -65,7 +65,7 @@ export default function Spot() {
         evt.preventDefault();
         rateSpot(spotId, rating)
             .then(setSpot)
-            .catch(setMessage("Unable to rate spot. Please try again."));
+            .catch(setErrs["Unable to rate spot, please try again"]);
 
         toggleRate();
     }
@@ -84,7 +84,7 @@ export default function Spot() {
         await updateSpot(updatedSpot)
                 .then(setSpot(updatedSpot))
                 .then(setEditMode(false))
-                .catch(setMessage);
+                .catch(err => setErrs([err]));
 
     }
 
@@ -167,7 +167,7 @@ export default function Spot() {
                     <div className="col-10"></div>
                     <div className="col">
                         <div className="float-right">
-                            <buton className="btn btn-danger">Delete Spot</buton>
+                            <Link to={`/spot/delete/${spot.spotId}`} className="btn btn-danger">Delete Spot</Link>
                         </div>
                     </div>
                 </div>}
@@ -194,7 +194,7 @@ export default function Spot() {
 
                 <div>
                     <small>*To rate spot or add photo, use buttons above*</small>
-                    <p>{message}</p>
+                    
                 </div>
 
                 
@@ -202,8 +202,12 @@ export default function Spot() {
             </div>
             </div>}
 
+            {errs.length > 0 && <div className="alert alert-danger mt-2">
+                        <ul>
+                            {errs.map(err => <li key={err}>{err}</li>)}
+                        </ul>
+                    </div>}
 
-        
 
     </div>);
 }

@@ -10,6 +10,7 @@ import { getId } from '../services/users';
 
 export default function SpotForm() {
 
+    const [errs, setErrs] = useState([]);
     const {trailId} = useParams();
     const navigate = useNavigate();
     const [trail, setTrail] = useState();
@@ -39,7 +40,7 @@ export default function SpotForm() {
                 .then(i => setUserId(i));
             findTrail(trailId)
                 .then(t => setTrail(t))
-                .catch()
+                .catch(err => setErrs([err]))
         }, [trailId, user?.sub]);
 
 
@@ -67,7 +68,7 @@ export default function SpotForm() {
        
         await addSpot(spot)
             .then((resp) => {navigate(`/spot/${resp.spotId}`);})
-            .catch(console.error)  
+            .catch(err => setErrs([err]))  
     }
 
 
@@ -112,6 +113,11 @@ export default function SpotForm() {
 
                         <button type="submit" className="btn btn-outline-dark" style={{ margin: 3 }}>Submit</button>
                     </form>
+                    {errs.length > 0 && <div className="alert alert-danger mt-2">
+                <ul>
+                    {errs.map(err => <li key={err}>{err}</li>)}
+                </ul>
+            </div>}
                 </div>
                 <div className="col" style={{ textAlign: "center" }}>
                 <h3>Select spot location on map:</h3>
