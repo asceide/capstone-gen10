@@ -7,6 +7,7 @@ import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails,
 import { encrypt as encryption } from './helpers/encryption';
 import SpotConfirmDelete from './components/SpotConfirmDelete';
 import NotFound from './components/NotFound';
+import TrailForm from "./components/TrailForm";
 
 
 
@@ -66,6 +67,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/trails" element={<Trails/>}/>
           <Route path="/trails/:trailId" element={<TrailDetails/>}/>
+          <Route path="/trails/add" element = {<TrailForm />} />
+          <Route path="/trails/edit/:trailId" element = {<TrailForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<CreateAccount />} />
           <Route path="/user/edit" element={<EditUser />} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from '../context';
-import { findById } from "../services/trail";
+import { deleteTrail, findById } from "../services/trail";
 import { findByTrail } from "../services/spot";
 
 
@@ -40,6 +40,13 @@ function TrailDetails() {
         
     });
 
+    const handleDelete = async (evt) => {
+        evt.preventDefault();
+        await deleteTrail(trailId)
+        .then((resp) => {navigate(`/trails`);})
+        .catch(console.error)
+    }
+
     useEffect(() => {
         findById(trailId)
             .then(setTrail)
@@ -59,8 +66,8 @@ function TrailDetails() {
     return(<div className="container">
         <br></br>
         <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/spot/add/${trailId}`)}>Add Spot</button>
-        <button type="button" class="btn btn-outline-info ml-1">Edit Trail </button>
-        <button type="button" class="btn btn-outline-danger ml-1">Delete Trail</button>
+        <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/trails/edit/${trailId}`)}>Edit Trail </button>
+        <button type="button" class="btn btn-outline-danger ml-1" onClick={handleDelete}>Delete Trail</button>
         
     <h2 className="text-center">{trail.name}</h2> 
     <hr></hr>
@@ -75,11 +82,9 @@ function TrailDetails() {
     <h5 style={{marginLeft:180}}>Difficulty - {trail.rating} </h5> 
     <h5 style={{marginLeft:180}}>Lenght - {trail.trailLength} miles </h5> 
     <br></br>
-    <h2 style={{marginLeft:180}}>Description:</h2>
+    <h3 style={{marginLeft:180}}>Description:</h3>
     <h5 style={{marginLeft:180}}>{trail.description} </h5>
-
-    <hr></hr>
-
+    <h3 style={{marginLeft:180}}>Location:</h3>
   
 
    <div className="container">
@@ -121,18 +126,6 @@ function TrailDetails() {
          
          </div>
          </div> );
-    
-
-    
-    
-
-   
- 
-
-    
-
-
-
 
 
          </div> );

@@ -33,6 +33,7 @@ function Trails() {
     return(<div className="container">
     <h2 className="text-center">Trails</h2> 
     <hr></hr>
+    <button type="button" class="btn btn-outline-info ml-1" onClick={() => navigate(`/trails/add`)}>Add Trail </button>
     <br></br>
    
          <div className="mt-2">
