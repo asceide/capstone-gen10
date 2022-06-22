@@ -1,5 +1,7 @@
-const api_url = process.env.REACT_APP_API_URL + 'api/user/';
-const register_url = process.env.REACT_APP_API_URL + 'register';
+import { apiurl } from "../helpers/url";
+
+const api_url = apiurl + 'api/user/';
+const register_url = apiurl+ 'register';
 
 
 export async function findByEmail(email){
