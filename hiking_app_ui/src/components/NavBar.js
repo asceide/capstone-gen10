@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import UserContext from "../context/UserContext";
 import { AppBar, Avatar, Box, Button, Menu, MenuItem, Toolbar, Tooltip, IconButton, ListItemIcon, Typography } from "@mui/material";
-import { Logout } from "@mui/icons-material"
+import {  Logout } from "@mui/icons-material"
 import { stringAvatar } from "../helpers/stringcolors";
 
 
@@ -112,7 +112,7 @@ export default function NavBar() {
                         <Typography variant="h6" color="#38761d" sx={{ flexGrow: 1 }} component={Link} to="/trails">
                             Trails
                         </Typography>
-                        <Typography variant="h6" color="#38761d" sx={{ flexGrow: 1 }} component={Link} to="/">
+                        <Typography variant="h6" color="#38761d" sx={{ flexGrow: 1 }} component={Link} to="/" style={ {color: "#38761d", textDecoration: 'none' }} >
                             Hiking App
                         </Typography>{
                             user? menu() : <><Link to="/login"><Button color="success">Login</Button></Link><Link to="/register"><Button color="success">Register</Button></Link></>

@@ -118,7 +118,7 @@ public class TrailJdbcTemplateRepository implements TrailRepository {
     public boolean deleteById(int trailId) {
 
         jdbcTemplate.update("delete from trail_spot where trail_id = ?;", trailId);
-        //jdbcTemplate.update("delete from trail_photo where trail_id = ?;", trailId);
+        jdbcTemplate.update("delete from trail_photo where trail_id = ?;", trailId);
         return jdbcTemplate.update("delete from trail where trail_id = ?;", trailId) > 0;
     }
 

@@ -1,15 +1,16 @@
-import React, {  useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import UserContext from '../context/UserContext';
 import { authenticate } from '../services/authentication';
 import { findByEmail } from '../services/users';
+import { useForm } from 'react-hook-form';
+import { Button, InputLabel, Typography, Input } from '@mui/material';
 
 
 
 export default function Login() {
-    const [username, setUsername] = useState('');
-    const [uepassword, setUepassword] = useState('');
+
     const [errors, setErrors] = useState(false);
 
     const navigate = useNavigate();
@@ -17,53 +18,54 @@ export default function Login() {
     const { login, pkey, encryption } = useContext(AuthContext);
     const { userInfo } = useContext(UserContext);
 
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = (data, evt) => {
+        evt.preventDefault();
+
+        let password = encryption(pkey, data.password);
+        let username = data.username.toLowerCase();
 
 
-    const handleUsername = (ev) => {
-        setUsername(ev.target.value);
-    };
-
-    const handlePassword = (ev) => {
-        setUepassword(ev.target.value);
-    ;}
-
-    const handleSubmit = (ev) => {
-        // As always, to prevent reloading
-        ev.preventDefault();
-
-        // The reason we named the password gotten from the user as uepassword (short for unencrypted password) is because when we sent the authentication request, we need the
-        // credentials object to have that key called password.
-        let password = encryption(pkey, uepassword);
-
-        // Sent, Authenticate, and Navigate home.
         authenticate({ username, password })
-        .then(user => {
-            login(user);
-            findByEmail(username).then(info => {
-                userInfo(info);
-            }).catch(() => {setErrors(true)});
-            navigate('/');
-        })
-        .catch(() => {setErrors(true);});
+            .then(user => {
+                login(user);
+                findByEmail(username).then(info => {
+                    userInfo(info);
+                }).catch(() => { setErrors(true) });
+                navigate('/');
+            })
+            .catch(() => { setErrors(true); });
+
     };
+
+
+
+
 
 
     return (
-        <div>
-            <h1>Login</h1>
-            <div>
-                <label htmlFor='username' className='form-label'>Username</label>
-                <input type='email' className='form-control' id='username' name='username' value={username} onChange={handleUsername} />
+        <>
+            <div className='container mt-3 mb-3'>
+                <Typography variant='h3'>Login</Typography>
             </div>
-            <div>
-                <label htmlFor='password' className='form-label'>Password</label>
-                <input type='password' className='form-control' id='password' name='password' value={uepassword} onChange={handlePassword} />
+            <div className='container'>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className='mb-2'>
+                        <InputLabel htmlFor="username" >Username</InputLabel>
+                        <Input id="username" name="username" type="email" {...register("username")} />
+                    </div>
+                    <div className='mb-3'>
+                        <InputLabel htmlFor="password" >Password</InputLabel>
+                        <Input id="password" name="password" type="password" {...register("password")} />
+                    </div>
+                    <div className>
+                        <Button type="submit" variant="contained" color="inherit" className='mr-2'>Login</Button>
+                        <Link to="/"><Button variant='contained' color='warning'>Cancel</Button></Link>
+                    </div>
+                </form>
+                {errors && <p>Invalid username or password</p>}
             </div>
-            <div>
-                <button type='submit' className='btn btn-primary-outline' onClick={handleSubmit}>Login</button>
-                <Link to="/" className='btn btn-warning-outline'>Cancel</Link>
-            </div>
-            {errors && <p>Invalid username or password</p>}
-        </div>
+        </>
     )
 }
