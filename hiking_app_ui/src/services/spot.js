@@ -1,4 +1,6 @@
-const url = "http://localhost:8080/api/spot";
+import { apiurl } from "../helpers/url";
+
+const url = apiurl + "api/spot";
 
 export async function findById(id) {
     const response = await fetch(`${url}/${id}`);

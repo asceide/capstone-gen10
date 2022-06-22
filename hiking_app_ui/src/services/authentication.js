@@ -1,5 +1,6 @@
-const url = process.env.REACT_APP_API_URL + 'authenticate';
-const refreshURL = process.env.REACT_APP_API_URL + 'refresh_token';
+import { apiurl } from "../helpers/url";
+const url = apiurl + 'authenticate';
+const refreshURL = apiurl + 'refresh_token';
 
 // In this function we create a user by using the jwt_token to gather some information.
 function makeUser(body) {

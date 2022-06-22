@@ -1,4 +1,5 @@
-const url = "http://localhost:8080/api/photo";
+import { apiurl } from "../helpers/url";
+const url = apiurl + "api/photo";
 
 
 export async function findBySpot(spotId) {
