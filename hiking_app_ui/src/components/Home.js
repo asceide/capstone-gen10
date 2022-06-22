@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { findAll } from "../services/trail";
 import TrailMini from "./TrailMini";
+import { stateList as states } from "../helpers/states";
+import { useForm } from "react-hook-form";
+import { Select, MenuItem, InputLabel, Button } from "@mui/material";
+
 
 export default function Home(){
 
@@ -16,21 +20,30 @@ export default function Home(){
 
     }, [])
 
+    const { register, handleSubmit } = useForm();
 
-    const handleChange = (evt) => {
-        setInput(evt.target.value);
-    }
-
-    const handleSearch = (evt) => {
+    const onSubmit = (data, evt) => {
         evt.preventDefault();
-        setSearched(true);
-        setFiltered(trails.filter(i => i.state === input));
-    }
 
-    const handleClear = () => {
-        setInput("");
-        setSearched(false);
-    }
+        console.log(data.state)
+    };
+
+    // const handleChange = (evt) => {
+    //     setInput(evt.target.value);
+    // }
+
+    // const handleSearch = (evt) => {
+    //     evt.preventDefault();
+    //     setSearched(true);
+    //     setFiltered(trails.filter(i => i.state === input));
+    // }
+
+    // const handleClear = () => {
+    //     setInput("");
+    //     setSearched(false);
+    // }
+
+
 
     return(
         <div className="container">
@@ -40,7 +53,7 @@ export default function Home(){
                 </div> 
             </div>
 
-            <form onSubmit={handleSearch}>
+            {/* <form onSubmit={handleSearch}>
             <div className="form-row">
                 <div className="col">
                     <div className="float-right">
@@ -53,7 +66,29 @@ export default function Home(){
                     <button className="btn btn-outline-danger" onClick={handleClear}>Clear</button>
                 </div>
             </div>
+            </form> */}
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="form-row justify-content-center">
+                    <div className="col-2 d-flex align-self-center">
+                        <InputLabel htmlFor="state" className="p-1">State</InputLabel>
+                        <Select id="state" name="state" defaultValue={states[0].key} {...register("state")}>
+                            {states.map( state => {
+                                return (
+                                    <MenuItem key={state.key+'h'} value={state.value} >
+                                        {state.text}
+                                    </MenuItem>
+                                );
+                            }
+                            )}
+                        </Select>
+                    </div>
+                    <div className="col-1 d-flex align-self-center">
+                        <Button type="submit" variant="contained" color="inherit">Search</Button>
+                    </div>
+                </div>
             </form>
+            
 
             <div>
                 {searched && <div>{filtered.map(i => {
