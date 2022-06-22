@@ -117,7 +117,5 @@ export async function editUserInfo(user){
             return Promise.reject(errors);
         }
 
-        return updateInfoResponse.json();
-
-
+        return Promise.resolve();
 }
