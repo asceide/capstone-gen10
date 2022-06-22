@@ -141,17 +141,20 @@ export default function Spot() {
 
             <div className="row" style={{ marginTop: 2 }}>
                 <div className="col-5">
-                    <div className="float-left">
+                    {user && <div className="float-left">
                         <button className="btn btn-outline-secondary" onClick={toggleEdit}>Edit spot</button>
-                    </div>
-                </div>
-                {(user && photoForm) ?
-                    <div className="row" style={{ marginTop: 2 }}>
-                        <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
-                    </div> :
-                    <div className="col-5">
-                        <button className="btn btn-outline-dark" onClick={toggleForm}>Add photo</button>
                     </div>}
+                    
+                </div>
+                {user && <div>{
+                    photoForm ? <div className="row" style={{ marginTop: 2 }}>
+                    <PhotoSubmit spotId={spot.spotId} toggleForm={toggleForm} photos={photos} setPhotos={setPhotos} />
+                </div> :
+                <div className="col-5">
+                    <button className="btn btn-outline-dark" onClick={toggleForm}>Add photo</button>
+                </div>
+                } </div>
+                    }
 
                 {photos.length > 5 &&
                     <div className="col">
