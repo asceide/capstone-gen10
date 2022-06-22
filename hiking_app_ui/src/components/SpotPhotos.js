@@ -62,7 +62,7 @@ export default function SpotPhotos() {
         <div className="row">
             <div className="col-10"></div>
             <div className="col-2">
-                {!user && <button className="btn btn-outline-dark">Add Photo</button>}
+                {user && <button className="btn btn-outline-dark" onClick={toggleForm}>Add Photo</button>}
             </div>
         </div>
         <div className="row">
