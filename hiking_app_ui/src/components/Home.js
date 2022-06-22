@@ -10,7 +10,6 @@ export default function Home() {
 
     const [trails, setTrails] = useState([]);
     const [searched, setSearched] = useState(false);
-    const [input, setInput] = useState("");
     const [filtered, setFiltered] = useState([]);
 
     useEffect(() => {
@@ -26,12 +25,15 @@ export default function Home() {
         evt.preventDefault();
 
         console.log(data.state)
+        setFiltered(trails.filter(i => i.state === data.state));
+        setSearched(true);
     };
 
 
 
     return (
         <div className="container">
+            <br></br>
             <div className="row">
                 <div className="col" style={{ textAlign: "center" }}>
                     <h1>Hiking Home / ハイキングホーム</h1>

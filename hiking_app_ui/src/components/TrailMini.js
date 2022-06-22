@@ -8,19 +8,17 @@ export default function TrailMini(trail) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(trail);
-        console.log(trail?.trail?.trailId)
         findByTrail(trail?.trail?.trailId)
             .then(setPhotos)
             .catch(console.error);
-    }, [])
+    }, [trail])
 
     return(
         <div className="row border mt-md-4" onClick={() => navigate(`/trails/${trail?.trail?.trailId}`)}>
             <div className="col-auto ">
             <div className="card-header"> </div>
 
-            <img className="card-img-left" src={photos[0]?.photoUrl}  /> 
+            <img className="card-img-left" height="200" width="300" src={photos[0]?.photoUrl}  /> 
             </div>
             <div className="col">
             <div className="card-body">

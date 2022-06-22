@@ -93,13 +93,13 @@ export default function Spot() {
 
             <div className="row align-items-center" style={{ marginBottom: 7 }}>
                 <div className="col-6" style={{ marginTop: 2, padding: 10, border: "2px solid black" }}>
-                    <h1>{spot.name}</h1>
-                    <h3>{spot.description}</h3>
-                    <h3>On trail: {spot.trails[0]?.name}</h3>
-                    <p>Coordinates: {spot.gpsLat} X {spot.gpsLong}</p>
+                    <h1>{spot?.name}</h1>
+                    <h3>{spot?.description}</h3>
+                    <h3>On trail: {spot?.trails[0]?.name}</h3>
+                    <p>Coordinates: {spot?.gpsLat} X {spot?.gpsLong}</p>
 
-                    <h3>User rating: {spot.rating}/5</h3>
-                    <p>Based on {spot.ratingCount} ratings</p>
+                    <h3>User rating: {spot?.rating}/5</h3>
+                    <p>Based on {spot?.ratingCount} ratings</p>
                     {user &&
                         <div>{rateMode ?
                             <form onSubmit={handleRateSubmit}>
@@ -118,7 +118,7 @@ export default function Spot() {
                 </div>
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
                     {photos[0] &&
-                        <img src={photos[0].photoUrl}
+                        <img src={photos[0]?.photoUrl}
                             className="shadow-1-strong rounded mb-4" height="400" width="100%" 
                             alt={`Spot ${spotId}`} />}
                 </div>
@@ -201,12 +201,6 @@ export default function Spot() {
 
             </div>
             </div>}
-
-            {errs.length > 0 && <div className="alert alert-danger mt-2">
-                        <ul>
-                            {errs.map(err => <li key={err}>{err}</li>)}
-                        </ul>
-                    </div>}
 
 
     </div>);

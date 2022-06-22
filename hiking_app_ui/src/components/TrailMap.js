@@ -18,6 +18,7 @@ export default function TrailMap({trailMarkers, onMapClicked}) {
 
     return (
         <div className="container">
+            
             <div className="map">
             <GoogleMap 
                 zoom={5} 
@@ -40,6 +41,8 @@ export default function TrailMap({trailMarkers, onMapClicked}) {
              
             </GoogleMap>
             </div>
+            
+            
         </div>
     )
 }
