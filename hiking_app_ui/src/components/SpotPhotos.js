@@ -37,14 +37,6 @@ export default function SpotPhotos() {
             <div className="col"  style={{textAlign: "center"}}>
                 <h1>{spot?.name}: Photos</h1>
             </div>
-           
-            {user && 
-                <div className="col-1">
-                    <div className="float-right">
-                        <button className="btn btn-outline-dark" onClick={toggleForm}>Add Photo</button>
-                    </div>
-                </div>
-            }
             
             
         </div>
@@ -62,7 +54,7 @@ export default function SpotPhotos() {
         <div className="row">
             <div className="col-10"></div>
             <div className="col-2">
-                {user && <button className="btn btn-outline-dark" onClick={toggleForm}>Add Photo</button>}
+                {(user && !photoForm) && <button className="btn btn-outline-dark" onClick={toggleForm}>Add Photo</button>}
             </div>
         </div>
         <div className="row">
