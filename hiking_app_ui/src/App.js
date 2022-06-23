@@ -59,6 +59,9 @@ function App() {
   }
 
   return (
+
+
+    
     <AuthContext.Provider value={context}>
       <UserContext.Provider value={userContext}>
       <Router>
