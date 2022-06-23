@@ -99,7 +99,7 @@ function TrailDetails() {
         <br></br>
         <h3 style={{ marginLeft: 180 }}>Description:</h3>
         <h5 style={{ marginLeft: 180 }}>{trail.description} </h5>
-        <h3 style={{ marginLeft: 180 }}>Location:</h3>
+        
 
 
         <div className="container">
