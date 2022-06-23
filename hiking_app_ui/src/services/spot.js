@@ -63,7 +63,7 @@ export async function deleteSpot(spotId) {
     const init = {
         method: "DELETE",
         headers: {
-            "Authoirzation": `Bearer ${localStorage.getItem("jwt")}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     };
 

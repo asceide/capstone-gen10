@@ -64,7 +64,7 @@ function TrailDetails() {
             .catch(() => navigate("/"));
         findPhotos(trailId)
             .then(setPhotos)
-            .catch(console.error);
+            .catch(setPhotos([]));
     }, []);
 
     const togglePhotoForm = () => {
@@ -87,11 +87,15 @@ function TrailDetails() {
         <h2 className="text-center">{trail.name}</h2>
         <hr></hr>
 
+        {photos?.length < 1 ? <div className="text-center">
+            <img src="https://hiking-app-photos.s3.amazonaws.com/5661.png" width="250" height="250" className="rounded" alt="Responsive image" />
+            <p>Placeholder image: upload your own to show off this trail.</p>
+            <h3>{trail.city}, {trail.state}</h3>
+        </div> :
         <div className="text-center">
             <img src={photos[0]?.photoUrl} width="400" height="450" className="rounded" alt="Responsive image" />
-        </div>
-        <h3 style={{ marginLeft: 180 }} >{trail.city}, {trail.state}</h3>
-
+            <h3>{trail.city}, {trail.state}</h3>
+        </div>}
         <br></br>
 
         <h5 style={{ marginLeft: 180 }}>Difficulty - {trail.rating} </h5>

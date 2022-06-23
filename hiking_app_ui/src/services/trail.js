@@ -64,7 +64,7 @@ export async function deleteTrail(trailId) {
     const init = {
         method: "DELETE",
         headers: {
-            "Authoirzation": `Bearer ${localStorage.getItem("jwt")}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     };
     const response = await fetch(`${url}/${trailId}`, init);

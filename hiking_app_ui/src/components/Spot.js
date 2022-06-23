@@ -44,7 +44,7 @@ export default function Spot() {
 
         findBySpot(spotId)
             .then(setPhotos)
-            .catch(err => setErrs([err]));
+            .catch(setPhotos([]));
     }, [spotId, navigate]);
 
     const toggleRate = () => {
@@ -117,7 +117,11 @@ export default function Spot() {
                     <small>Added by {spot.uploader?.firstName} from {spot.uploader?.city}, {spot.uploader?.state}</small>
                 </div>
                 <div className="col" style={{ marginTop: 2, padding: 10 }}>
-                    {photos[0] &&
+                    {photos.length < 1 ?
+                        <img src="https://hiking-app-photos.s3.amazonaws.com/5661.png"
+                            className="shadow-1-strong rounded mb-4" height="400" width="100%"
+                            alt={`Spot ${spotId}`} /> 
+                        :
                         <img src={photos[0]?.photoUrl}
                             className="shadow-1-strong rounded mb-4" height="400" width="100%"
                             alt={`Spot ${spotId}`} />}

@@ -10,7 +10,7 @@ export default function TrailMini(trail) {
     useEffect(() => {
         findByTrail(trail?.trail?.trailId)
             .then(setPhotos)
-            .catch(console.error);
+            .catch(setPhotos([]));
     }, [trail])
 
     return(
@@ -18,7 +18,8 @@ export default function TrailMini(trail) {
             <div className="col-auto ">
             <div className="card-header"> </div>
 
-            <img className="card-img-left" height="200" width="300" src={photos[0]?.photoUrl}  /> 
+            {photos?.length < 1 ? <img className="card-img-left" height="200" width="300" src="https://hiking-app-photos.s3.amazonaws.com/5661.png"  />
+                : <img className="card-img-left" height="200" width="300" src={photos[0]?.photoUrl}  />}
             </div>
             <div className="col">
             <div className="card-body">

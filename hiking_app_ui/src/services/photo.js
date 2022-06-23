@@ -4,6 +4,9 @@ const url = apiurl + "api/photo";
 
 export async function findBySpot(spotId) {
     const response = await fetch(`${url}?spot-id=${spotId}`);
+    if(response.status === 404) {
+        return [];
+    }
     if(response.status === 200) {
         return response.json();
     }
@@ -12,6 +15,9 @@ export async function findBySpot(spotId) {
 
 export async function findByTrail(trailId) {
     const response = await fetch(`${url}?trail-id=${trailId}`);
+    if(response.status === 404) {
+        return [];
+    }
     if(response.status === 200) {
         return response.json();
     }
