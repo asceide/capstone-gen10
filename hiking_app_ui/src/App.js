@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthContext, UserContext } from './context';
 import { refresh } from './services/authentication';
 import { findByEmail } from './services/users';
-import { Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, SpotForm } from './components';
+import { Administration, Home, Login, NavBar, CreateAccount, EditUser, Spot, SpotPhotos, Trails, TrailDetails, SpotForm } from './components';
 import { encrypt as encryption } from './helpers/encryption';
 import SpotConfirmDelete from './components/SpotConfirmDelete';
 import NotFound from './components/NotFound';
@@ -21,6 +21,7 @@ function App() {
   const [pkey, setPkey] = useState();
 
   useEffect(() => {
+  
     // Try to refresh the token. If it fails, then clear out the user by logging out.
     refresh().then(setUser).catch(logout);
     // Get the public key for encryption
@@ -78,7 +79,8 @@ function App() {
           <Route path="/spot/:spotId" element={<Spot />} />
           <Route path="/spot/photo/:spotId" element={<SpotPhotos />} />
           <Route path="/spot/add/:trailId" element={user ? <SpotForm /> : <Login />} />
-          <Route path="/spot/delete/:spotId" element={user?.authorities === "ADMIN" ? <SpotConfirmDelete />: <Home />} />
+          <Route path="/spot/delete/:spotId" element={user?.authorities?.includes("ROLE_ADMIN") ? <SpotConfirmDelete />: <Home />} />
+          <Route path="/user/administration" element={user?.authorities?.includes("ROLE_ADMIN") ? <Administration />: <Home />} />
           <Route path="*" element={<NotFound />} />
           </Routes>
       </Router>

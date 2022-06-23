@@ -9,3 +9,4 @@ export { default as SpotPhotos } from './SpotPhotos';
 export { default as PhotoSubmit } from './PhotoSubmit';
 export { default as EditUser } from './EditUser';
 export { default as SpotForm } from './SpotForm';
+export {default as Administration} from './Administration';
