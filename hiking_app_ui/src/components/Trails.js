@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import TrailMini from './TrailMini';
+import {findAll} from "../services/trail";
 
 function Trails() {
     const [trails, setTrails] = useState([]);
 
     useEffect(() => {
         //make a get all request
-        fetch("http://localhost:8080/api/trail")
-            .then(resp => resp.json())
-            .then(data => {
-
-                setTrails(data);
-            })
+        findAll()
+            .then(setTrails)
+            .catch(setTrails([]));
     }, []);
 
     const navigate = useNavigate();
