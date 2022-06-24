@@ -23,6 +23,7 @@ export default function Administration() {
             .catch(setUserInfo([]));
     }, []);
 
+    // IF there are errors, conditionally render them
     useEffect(() => {
         if(err){
             setTimeout(() => {
@@ -32,8 +33,10 @@ export default function Administration() {
         }
     }, [err]);
 
+    // If there is an updated, fetch the users and then set the updated to false
     useEffect(() => {
         if(updated){
+            findAll().then(setUserInfo);
             setTimeout(() => {
                 setUpdated(false);
             }, 5000);
@@ -59,7 +62,6 @@ export default function Administration() {
         // Pass in the new data, no need to navigate since we are assuming that the user may do multiple edits.
         updateRoles(newData)
             .then(() => {
-                findAll().then(setUserInfo);
                 setShowSpinner(false);
                 setUpdated(true);
             }).catch();
