@@ -6,7 +6,7 @@
 
     <groupId>dev10.cohort23.capstone</groupId>
     <artifactId>hiking_app_api</artifactId>
-    <version>3.0.2</version>
+    <version>4.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
