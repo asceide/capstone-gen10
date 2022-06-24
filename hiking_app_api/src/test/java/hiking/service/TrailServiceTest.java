@@ -1,7 +1,7 @@
 package hiking.service;
 
 
-import hiking.models.Spot;
+
 import hiking.models.Trail;
 
 import hiking.repository.TrailRepository;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

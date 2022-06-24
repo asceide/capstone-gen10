@@ -1,9 +1,7 @@
 package hiking.controller;
 
-import hiking.models.Spot;
 import hiking.models.Trail;
 import hiking.service.Result;
-import hiking.service.SpotService;
 import hiking.service.TrailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,6 @@ import hiking.models.Trail;
 import hiking.repository.TrailRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service

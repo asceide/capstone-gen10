@@ -53,7 +53,7 @@ public class AppUserService implements UserDetailsService {
         AppUser appUser;
 
         if(repository.findAllUsers().isEmpty() || repository.findAllUsers() == null){
-             appUser = new AppUser(0, email, password, true, List.of("USER", "ADMIN"));
+             appUser = new AppUser(0, email, password, true, List.of("ADMIN"));
         }else{
              appUser = new AppUser(0, email, password, true, List.of("USER"));
         }

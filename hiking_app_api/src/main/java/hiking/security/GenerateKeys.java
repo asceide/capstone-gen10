@@ -1,21 +1,17 @@
 package hiking.security;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
+
+// import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+// import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.*;
-import java.net.JarURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.*;
 import java.security.*;
-import java.security.interfaces.RSAKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
-import java.security.spec.X509EncodedKeySpec;
+// import java.security.interfaces.RSAKey;
+// import java.security.interfaces.RSAPublicKey;
+// import java.security.spec.InvalidKeySpecException;
+// import java.security.spec.RSAPublicKeySpec;
+// import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 
 /*
@@ -120,7 +116,7 @@ public class GenerateKeys {
             }
 
         }catch(Exception e){
-            ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            // Just catching an exception.
         }
         // To be used to see if a file exists alongside the classpath (Works for jars and normal FS)
 

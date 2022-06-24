@@ -1,7 +1,6 @@
 package hiking.repository;
 
 import hiking.models.SpotPhoto;
-import hiking.models.Trail;
 import hiking.models.TrailPhoto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

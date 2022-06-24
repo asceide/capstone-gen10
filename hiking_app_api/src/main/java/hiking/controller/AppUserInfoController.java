@@ -1,10 +1,8 @@
 package hiking.controller;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import hiking.models.AppUserInfo;
 import hiking.service.AppUserInfoService;
 import hiking.service.Result;
-import org.json.JSONObject;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
