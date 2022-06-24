@@ -28,4 +28,6 @@ export async function updateRoles(user) {
     }else if (!response.status!==202) {
         return Promise.reject([`Request failed. ${response.status}`])
     }
+
+    return
 }
