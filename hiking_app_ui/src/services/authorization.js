@@ -22,6 +22,9 @@ export async function updateRoles(user) {
 
     const response = await fetch(`${url}`, init);
 
+    if(response.status === 202) {
+        return Promise.resolve();
+    }
     if (response.status === 400) {
         const errors = await response.json();
         return Promise.reject(errors);
@@ -29,5 +32,4 @@ export async function updateRoles(user) {
         return Promise.reject([`Request failed. ${response.status}`])
     }
 
-    return
 }

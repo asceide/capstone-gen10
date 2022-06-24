@@ -3,7 +3,7 @@ import { AuthContext } from '../context';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { findAll, updateRoles } from "../services/authorization";
-import { RadioGroup, Typography, Radio, Button, FormControl, FormLabel, FormControlLabel } from '@mui/material';
+import { RadioGroup, Typography, Radio, Button, FormControl, FormLabel, FormControlLabel, CircularProgress } from '@mui/material';
 
 export default function Administration() {
 
@@ -12,6 +12,8 @@ export default function Administration() {
     const { user } = useContext(AuthContext);
     const [err, setErr] = useState(false);
     const [errInfo, setErrInfo] = useState([]);
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [updated, setUpdated] = useState(false);
     const navigate = useNavigate();
 
 
@@ -21,9 +23,28 @@ export default function Administration() {
             .catch(setUserInfo([]));
     }, []);
 
+    useEffect(() => {
+        if(err){
+            setTimeout(() => {
+                setErr(false);
+                setErrInfo([]);
+            }, 5000);
+        }
+    }, [err]);
+
+    useEffect(() => {
+        if(updated){
+            setTimeout(() => {
+                setUpdated(false);
+            }, 5000);
+        }   
+    }, [updated]);
+
     // Three paramaters -> Data from the register, the event, and the data from that list item.
     const onSubmit = (data, evt, otherData) => {
         evt.preventDefault();
+
+        setShowSpinner(true);
 
         // Check if the roles are the same. No need to update if they are.
         if (otherData.role === data.role) {
@@ -37,7 +58,11 @@ export default function Administration() {
 
         // Pass in the new data, no need to navigate since we are assuming that the user may do multiple edits.
         updateRoles(newData)
-            .then().catch();
+            .then(() => {
+                findAll().then(setUserInfo);
+                setShowSpinner(false);
+                setUpdated(true);
+            }).catch();
     }
     const userlist = () => {
         return userInfo.map(a => {
@@ -65,10 +90,9 @@ export default function Administration() {
                             row
                             aria-labelledby='role-label'
                             name="role"
-                            defaultValue={a.role}
                         >
-                            <FormControlLabel value="ADMIN" control={<Radio />} label="Admin" {...register("role")} />
-                            <FormControlLabel value="USER" control={<Radio />} label="User" {...register("role")} />
+                            <FormControlLabel value="ADMIN" control={<Radio />} label='Admin' {...register("role")} disabled={a.role==='ADMIN'? true:false}/>
+                            <FormControlLabel value="USER" control={<Radio />} label="User" {...register("role")} disabled={a.role==='USER'? true:false} />
                         </RadioGroup>
                     </FormControl>
                     </div>
@@ -86,7 +110,7 @@ export default function Administration() {
         <>
         <div className='container mt-3'>
             {
-                userInfo ? userlist() : <p>Loading...</p>
+                userInfo ? <>{userlist()}<div>{showSpinner? <CircularProgress /> : <>{updated? <Typography variant='h7'>Updated user!</Typography>: <></>}</>}</div></>: <p>Loading...</p>
             }
         </div>
         <div className='container mt-2'>
